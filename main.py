@@ -1,5 +1,8 @@
-#Das ist ein Test-Kommentar :)
+import maze_generator as mg
+
 if __name__ == '__main__':
-    print("Hello world")
+    testGen = mg.MazeGenerator()
+    testMaze = testGen.generateMaze()
+    testMaze.toString()
 
 
