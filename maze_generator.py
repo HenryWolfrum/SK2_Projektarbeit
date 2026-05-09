@@ -52,6 +52,7 @@ class MazeGenerator:
         counter=0
         end = (-1,-1)
         while frontier:
+
             counter+=1
 
             current = frontier.pop()

@@ -1,0 +1,7 @@
+class FitnessEvaluator:
+
+    SHORTEST_PATH_WEIGHT = 2
+    PROPORTION_DEAD_END_WEIGHT=3
+    DENSITY_WEIGHT = 0.5
+
+ 
