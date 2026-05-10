@@ -13,5 +13,5 @@ class Maze:
         for j in range(len(self.matrix)-1,-1,-1):
             print("")
             for i in range(len(self.matrix)):
-                print(" "+str(self.matrix[i][j]),end="")
+                print(str(self.matrix[i][j]),end="")
 

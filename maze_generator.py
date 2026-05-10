@@ -5,10 +5,10 @@ class MazeGenerator:
 
     DEFAULT_SIZE = 25
 
-    VALUE_EMPTY = "*"
-    VALUE_WALL = "X"
-    VALUE_START = "S"
-    VALUE_END = "Z"
+    VALUE_EMPTY = "\033[42m  \033[0m"
+    VALUE_WALL = "\033[41m  \033[0m"
+    VALUE_START = "\033[43m  \033[0m"
+    VALUE_END = "\033[44m  \033[0m"
 
     def __init__(self,mode="DEFAULT"):
         self.mode = mode
@@ -51,6 +51,7 @@ class MazeGenerator:
 
         counter=0
         end = (-1,-1)
+
         while frontier:
 
             counter+=1
