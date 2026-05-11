@@ -4,8 +4,8 @@ class Maze:
 
     def __init__(self,matrix,startPos=(-1,-1),endPos=(-1,-1)):
         self.matrix = matrix
-        self.startPos = startPos
-        self.endPos = endPos
+        self.start = startPos
+        self.end = endPos
 
     #Gibt die Matrix des Labyrinth aus, wobei die linke Ecke den Koordinatenursprung (0,0) definiert
     def toString(self):

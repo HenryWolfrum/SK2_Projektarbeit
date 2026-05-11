@@ -14,6 +14,8 @@ class MazeGenerator:
         self.mode = mode
 
 
+
+
     def generateMaze(self,size=DEFAULT_SIZE,mode="DEFAULT"):
 
         matrix = [[self.VALUE_WALL for _ in range(size)] for _ in range(size)]
@@ -39,7 +41,7 @@ class MazeGenerator:
 
 
 
-
+#Implementierung von RandomizedDFS für Labyrinthgenerierung
 
     def randomizedDFSMaze(self,matrix):
 
