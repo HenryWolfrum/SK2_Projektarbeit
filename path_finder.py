@@ -5,7 +5,6 @@ class PathFinder:
 
     DEFAULT_MODE = "BFS"
     VALUE_EMPTY = "\033[42m  \033[0m"
-    PATH_COLOR= "\033[45m  \033[0m"
     VALUE_END = "\033[44m  \033[0m"
 
 
@@ -62,29 +61,29 @@ class PathFinder:
             size = len(matrix)
             # oben
             if pos[0] > 0 and (
-                    matrix[pos[0] - 1][pos[1]] == self.VALUE_EMPTY or
-                    matrix[pos[0] - 1][pos[1]] == self.VALUE_END
+                    matrix[pos[0] - 1][pos[1]] == maze.Maze.VALUE_EMPTY or
+                    matrix[pos[0] - 1][pos[1]] == maze.Maze.VALUE_END
             ):
                 neighbors.append((pos[0] - 1, pos[1]))
 
             # unten
             if pos[0] < size - 1 and (
-                    matrix[pos[0] + 1][pos[1]] == self.VALUE_EMPTY or
-                    matrix[pos[0] + 1][pos[1]] == self.VALUE_END
+                    matrix[pos[0] + 1][pos[1]] == maze.Maze.VALUE_EMPTY or
+                    matrix[pos[0] + 1][pos[1]] == maze.Maze.VALUE_END
             ):
                 neighbors.append((pos[0] + 1, pos[1]))
 
             # links
             if pos[1] > 0 and (
-                    matrix[pos[0]][pos[1] - 1] == self.VALUE_EMPTY or
-                    matrix[pos[0]][pos[1] - 1] == self.VALUE_END
+                    matrix[pos[0]][pos[1] - 1] == maze.Maze.VALUE_EMPTY or
+                    matrix[pos[0]][pos[1] - 1] == maze.Maze.VALUE_END
             ):
                 neighbors.append((pos[0], pos[1] - 1))
 
             # rechts
             if pos[1] < size - 1 and (
-                    matrix[pos[0]][pos[1] + 1] == self.VALUE_EMPTY or
-                    matrix[pos[0]][pos[1] + 1] == self.VALUE_END
+                    matrix[pos[0]][pos[1] + 1] == maze.Maze.VALUE_EMPTY or
+                    matrix[pos[0]][pos[1] + 1] == maze.Maze.VALUE_END
             ):
                 neighbors.append((pos[0], pos[1] + 1))
 
@@ -95,13 +94,5 @@ class PathFinder:
 
 
 
-    def printPath(self,maze,path):
-        matrix= maze.matrix
-        for j in range(len(matrix) - 1, -1, -1):
-            print("")
-            for i in range(len(matrix)):
-                if (i,j) in path and maze.start!=(i,j) and maze.end!=(i,j):
-                    matrix[i][j] = self.PATH_COLOR
-                print(str(matrix[i][j]), end="")
 
 
