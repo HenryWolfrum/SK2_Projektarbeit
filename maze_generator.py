@@ -4,7 +4,7 @@ import random
 class MazeGenerator:
 
     DEFAULT_SIZE = 25
-
+    DEFAULT_MODE = "RANDOM_DFS"
 
 
     def __init__(self,mode="DEFAULT"):
@@ -13,7 +13,7 @@ class MazeGenerator:
 
 
 
-    def generateMaze(self,size=DEFAULT_SIZE,mode="DEFAULT"):
+    def generateMaze(self,size=DEFAULT_SIZE,mode=DEFAULT_MODE):
 
         matrix = [[maze.Maze.VALUE_WALL for _ in range(size)] for _ in range(size)]
 

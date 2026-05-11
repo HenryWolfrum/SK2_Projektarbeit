@@ -9,7 +9,7 @@ class PathFinder:
          self.mode = mode
 
 
-    def generatePath(self, maze,mode):
+    def generatePath(self, maze,mode=DEFAULT_MODE):
         if mode == "BFS":
             return self.BFS(maze)
 
