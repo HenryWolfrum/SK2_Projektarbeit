@@ -4,7 +4,7 @@ import maze_renderer as mr
 
 if __name__ == '__main__':
     testGen = mg.MazeGenerator()
-    testMaze = testGen.generateMaze(50,"RANDOM_DFS")
+    testMaze = testGen.generateMaze(25,"RANDOM_DFS")
 
     testRenderer = mr.MazeRenderer()
     testRenderer.renderMaze(testMaze)
@@ -19,7 +19,7 @@ if __name__ == '__main__':
     testRenderer.renderPathInMaze(testMaze,path)
 
     print("")
-    print(len(path))
+    print("Die kürzeste Pfadlänge beträgt: "+str(len(path)))
 
 
     while True:
