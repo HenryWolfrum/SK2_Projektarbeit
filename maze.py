@@ -14,3 +14,33 @@ class Maze:
         self.matrix = matrix
         self.start = startPos
         self.end = endPos
+
+
+
+    #Sammelt alle horizontalen Nachbarn, welche dist Einheiten von pos entfernt sind und nicht compareValue entsprechen
+    def checkForNeighbors(self, pos, dist, compareValue):
+
+            matrix = self.matrix
+
+            neighbors = []
+            size = len(matrix)
+
+            # oben
+            if pos[0] > dist-1 and not matrix[pos[0] - dist][pos[1]] == compareValue:
+                neighbors.append((pos[0] - dist, pos[1]))
+
+            # unten
+            if pos[0] < size - dist and not matrix[pos[0] + dist][pos[1]] == compareValue:
+                neighbors.append((pos[0] +dist, pos[1]))
+
+            # links
+            if pos[1] > dist-1 and not matrix[pos[0]][pos[1] - dist] == compareValue:
+                neighbors.append((pos[0], pos[1] - dist))
+
+            # rechts
+            if pos[1] < size - dist and not matrix[pos[0]][pos[1] + dist] == compareValue:
+                neighbors.append((pos[0], pos[1] + dist))
+
+            return neighbors
+
+

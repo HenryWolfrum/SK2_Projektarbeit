@@ -35,7 +35,7 @@ class PathFinder:
                 continue
 
             visited.add(current)
-            neighbors = self.checkForNeighbors(current,matrix)
+            neighbors = maze.checkForNeighbors(current,1,maze.VALUE_WALL)
 
 
             for neighbor in neighbors:
@@ -46,34 +46,8 @@ class PathFinder:
                     frontier.append(new_path)
 
 
-
-
         return []
 
-
-
-    def checkForNeighbors(self, pos, matrix):
-
-            neighbors = []
-            size = len(matrix)
-
-            # oben
-            if pos[0] > 0 and not matrix[pos[0] - 1][pos[1]] == maze.Maze.VALUE_WALL:
-                neighbors.append((pos[0] - 1, pos[1]))
-
-            # unten
-            if pos[0] < size - 1 and not matrix[pos[0] + 1][pos[1]] == maze.Maze.VALUE_WALL:
-                neighbors.append((pos[0] + 1, pos[1]))
-
-            # links
-            if pos[1] > 0 and not matrix[pos[0]][pos[1] - 1] == maze.Maze.VALUE_WALL:
-                neighbors.append((pos[0], pos[1] - 1))
-
-            # rechts
-            if pos[1] < size - 1 and not matrix[pos[0]][pos[1] + 1] == maze.Maze.VALUE_WALL:
-                neighbors.append((pos[0], pos[1] + 1))
-
-            return neighbors
 
 
 

@@ -15,32 +15,21 @@ class MazeGenerator:
 
     def generateMaze(self,size=DEFAULT_SIZE,mode=DEFAULT_MODE):
 
-        matrix = [[maze.Maze.VALUE_WALL for _ in range(size)] for _ in range(size)]
 
         if(mode=="RANDOM_DFS"):
-            result = self.randomizedDFSMaze(matrix)
-            matrix = result[0]
+            result = self.randomizedDFSMaze(size)
 
-            #Start setzen
-            start = result[1]
-            matrix[start[0]][start[1]] = maze.Maze.VALUE_START
-
-            #Ende setzen
-            end = result[2]
-            matrix[end[0]][end[1]] = maze.Maze.VALUE_END
-
-            return maze.Maze(matrix, start, end)
-
-        return maze.Maze(matrix,(0,0),(7,7))
-
-
+            return result
 
 
 
 
 #Implementierung von RandomizedDFS für Labyrinthgenerierung
 
-    def randomizedDFSMaze(self,matrix):
+    def randomizedDFSMaze(self,size=DEFAULT_SIZE):
+
+        #Start Matrix
+        matrix = [[maze.Maze.VALUE_WALL for _ in range(size)] for _ in range(size)]
 
         #Zufälligen Start wählen
         start = (random.randint(0, len(matrix) - 1), random.randint(0, len(matrix) - 1))
@@ -59,13 +48,13 @@ class MazeGenerator:
 
             if counter == (len(matrix)**2)//3:
                 end=(current[0],current[1])
-
-
+                matrix[end[0]][end[1]] = maze.Maze.VALUE_END
 
             visited.add(current)
+
             matrix[current[0]][current[1]] = maze.Maze.VALUE_EMPTY
 
-            neighbors = self.checkForNeighbors(current, matrix)
+            neighbors = maze.Maze.checkForNeighbors(maze.Maze(matrix),current,2,maze.Maze.VALUE_EMPTY)
 
             candidates = []
 
@@ -85,31 +74,11 @@ class MazeGenerator:
                 frontier.append(current)
                 frontier.append(next_cell)
 
-        return (matrix,start,end)
+        #Start und Ziel als Werte setzen
+        matrix[start[0]][start[1]] = maze.Maze.VALUE_START
+        matrix[end[0]][end[1]] = maze.Maze.VALUE_END
 
-    def checkForNeighbors(self, pos, matrix):
-
-        neighbors = []
-        size = len(matrix)
-
-        # oben
-        if pos[0] > 1 and matrix[pos[0] - 2][pos[1]] != maze.Maze.VALUE_EMPTY:
-            neighbors.append((pos[0] - 2, pos[1]))
-
-        # unten
-        if pos[0] < size - 2 and matrix[pos[0] + 2][pos[1]] != maze.Maze.VALUE_EMPTY:
-            neighbors.append((pos[0] + 2, pos[1]))
-
-        # links
-        if pos[1] > 1 and matrix[pos[0]][pos[1] - 2] != maze.Maze.VALUE_EMPTY:
-            neighbors.append((pos[0], pos[1] - 2))
-
-        # rechts
-        if pos[1] < size - 2 and matrix[pos[0]][pos[1] + 2] != maze.Maze.VALUE_EMPTY:
-            neighbors.append((pos[0], pos[1] + 2))
-
-        return neighbors
-
+        return maze.Maze(matrix, start, end)
 
 
 

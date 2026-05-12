@@ -9,8 +9,6 @@ if __name__ == '__main__':
     testRenderer = mr.MazeRenderer()
     testRenderer.renderMaze(testMaze)
 
-
-
     pathFinder = pf.PathFinder()
     path =pathFinder.generatePath(testMaze,"BFS")
 
