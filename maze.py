@@ -44,3 +44,16 @@ class Maze:
             return neighbors
 
 
+    #Berechnet die Anzahl an Sackgassen im Labyrinth
+    def countDeadEnds(self):
+
+        deadEnds = 0
+
+        for i in range(len(self.matrix)):
+            for j in range(len(self.matrix)):
+
+                if self.matrix[i][j] == Maze.VALUE_EMPTY or self.matrix[i][j] == Maze.VALUE_START or self.matrix[i][j] == Maze.VALUE_END:
+                    if len(self.checkForNeighbors((i,j),1,self.VALUE_WALL))==1:
+                        deadEnds += 1
+
+        return deadEnds

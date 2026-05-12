@@ -2,23 +2,37 @@ import maze_generator as mg
 import path_finder as pf
 import maze_renderer as mr
 
-if __name__ == '__main__':
-    testGen = mg.MazeGenerator()
-    testMaze = testGen.generateMaze(25,"RANDOM_DFS")
 
+
+def testMethod():
+
+    #Ein Labyrinth generieren
+    testGen = mg.MazeGenerator()
+    testMaze = testGen.generateMaze(25, "RANDOM_DFS")
+
+    #Ein Labyrinth visualisieren
     testRenderer = mr.MazeRenderer()
     testRenderer.renderMaze(testMaze)
 
+    #Eine Pfadsuche auf Labyrinth ausfürhen
     pathFinder = pf.PathFinder()
-    path =pathFinder.generatePath(testMaze,"BFS")
+    path = pathFinder.generatePath(testMaze, "BFS")
 
     print("")
     print("")
-    testRenderer.renderPathInMaze(testMaze,path)
+
+    #Einen Pfad in Labyrinth visualisieren
+    testRenderer.renderPathInMaze(testMaze, path)
 
     print("")
-    print("Die kürzeste Pfadlänge beträgt: "+str(len(path)))
+    print(testMaze.countDeadEnds())
 
+
+
+#Programmeinstiegspunkt
+if __name__ == '__main__':
+
+    testMethod()
 
     while True:
         pass
