@@ -8,7 +8,7 @@ def testMethod():
 
     #Ein Labyrinth generieren
     testGen = mg.MazeGenerator()
-    testMaze = testGen.generateMaze(25, "RANDOM_DFS")
+    testMaze = testGen.generateMaze(2, "RANDOM_DFS")
 
     #Ein Labyrinth visualisieren
     testRenderer = mr.MazeRenderer()
@@ -27,7 +27,7 @@ def testMethod():
     print("")
     print(testMaze.countDeadEnds())
 
-
+    print(testMaze.calcDensity())
 
 #Programmeinstiegspunkt
 if __name__ == '__main__':

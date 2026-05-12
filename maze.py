@@ -46,7 +46,6 @@ class Maze:
 
     #Berechnet die Anzahl an Sackgassen im Labyrinth
     def countDeadEnds(self):
-
         deadEnds = 0
 
         for i in range(len(self.matrix)):
@@ -57,3 +56,16 @@ class Maze:
                         deadEnds += 1
 
         return deadEnds
+
+    def calcDensity(self):
+        wallCount=0
+
+        for i in range(len(self.matrix)):
+            for j in range(len(self.matrix)):
+
+                if self.matrix[i][j] == Maze.VALUE_WALL:
+                    wallCount+=1
+
+        nonWallCount=(len(self.matrix)*len(self.matrix))-wallCount
+
+        return wallCount/nonWallCount
