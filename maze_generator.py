@@ -1,5 +1,6 @@
 import maze
 import random
+import path_finder
 
 class MazeGenerator:
 
@@ -15,9 +16,13 @@ class MazeGenerator:
 
     def generateMaze(self,size=DEFAULT_SIZE,mode=DEFAULT_MODE):
 
-
         if(mode=="RANDOM_DFS"):
             result = self.randomizedDFSMaze(size)
+
+            return result
+
+        elif(mode=="RANDOM"):
+            result = self.randomizedMaze(size)
 
             return result
 
@@ -81,4 +86,70 @@ class MazeGenerator:
         return maze.Maze(matrix, start, end)
 
 
+#Generierte einen zufälligen Pfad von Start->Ziel. Der Rest des Labyrinths ist randomisiert
+    def randomizedMaze(self,size=DEFAULT_SIZE):
 
+        # Start Matrix
+        matrix = [[maze.Maze.VALUE_WALL for _ in range(size)] for _ in range(size)]
+
+        #Zufälligen Start und Ziel wählen
+        start = (random.randint(0,size-1), random.randint(0,size-1))
+        end = (random.randint(0,size-1), random.randint(0,size-1))
+
+        while end==start:
+            end = (random.randint(0,size-1), random.randint(0,size-1))
+
+
+        #Zufällige Pfad Generierung
+
+        visited = set()
+        frontier = [start]
+        current = (-1,-1)
+
+        while current != end:
+
+            current = frontier.pop()
+
+
+
+            visited.add(current)
+
+            matrix[current[0]][current[1]] = maze.Maze.VALUE_EMPTY
+
+            neighbors=[]
+
+            #Nachbarn prüfen (simpel)
+            if current[0]!=size-1:
+                neighbors.append((current[0]+1, current[1]))
+            if current[0]!=0:
+                neighbors.append((current[0]-1, current[1]))
+            if current[1]!=size-1:
+                neighbors.append((current[0], current[1]+1))
+            if current[1]!=0:
+                neighbors.append((current[0], current[1]-1))
+
+            random.shuffle(neighbors)
+
+            for neighbor in neighbors:
+                if neighbor not in visited:
+                    frontier.append(neighbor)
+
+        #Start und Ziel setzen
+        matrix[start[0]][start[1]] = maze.Maze.VALUE_START
+        matrix[end[0]][end[1]] = maze.Maze.VALUE_END
+
+        #Pfad herausfinden
+        helperObject = maze.Maze(matrix, start, end)
+        path = path_finder.PathFinder().generatePath(helperObject)
+
+        #Restliches Labyrinth randomisieren
+        for i in range(len(matrix)):
+            for j in range(len(matrix[i])):
+                if (i,j) not in path:
+                    if random.random()<0.5:
+                        matrix[i][j] = maze.Maze.VALUE_EMPTY
+                    else:
+                        matrix[i][j] = maze.Maze.VALUE_WALL
+
+
+        return maze.Maze(matrix, start, end)
