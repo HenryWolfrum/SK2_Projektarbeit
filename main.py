@@ -9,47 +9,38 @@ def testMethod():
 
     #Ein Labyrinth generieren
     testGen = mg.MazeGenerator()
-    testMaze = testGen.generateMaze(25, "RANDOM_DFS")
-
 
     testRenderer = mr.MazeRenderer()
 
+    testGO = genetic_operator.GeneticOperator()
 
     #Eine Pfadsuche auf Labyrinth ausfürhen
     pathFinder = pf.PathFinder()
-    path = pathFinder.generatePath(testMaze, "BFS")
 
+    testMaze2 = mg.MazeGenerator().generateMaze(25, "RANDOM_DFS")
+    testMaze3 = mg.MazeGenerator().generateMaze(25, "RANDOM_DFS")
 
-    #Einen Pfad in Labyrinth visualisieren
-    testRenderer.renderPathInMaze(testMaze, path)
-
-    print("")
-    print("Pfadlänge: "+str(testMaze.shortestPath))
-    print("Sackgassen: "+str(testMaze.deadEndCount))
-    print("Dichte: "+str(testMaze.density))
+    path1=pathFinder.generatePath(testMaze2, "BFS")
+    testRenderer.renderPathInMaze(testMaze2,path1)
 
     print("")
+    path2=pathFinder.generatePath(testMaze3, "BFS")
+    testRenderer.renderPathInMaze(testMaze3,path2)
+    print("")
 
-    testFE = fitness_evaluator.FitnessEvaluator()
-    fitness = testFE.calcFitness(testMaze)
-    print("Fitness: "+str(fitness))
+    cross = testGO.crossover(testMaze2,testMaze3)
 
-    testGO = genetic_operator.GeneticOperator()
-    testGO.mutate(testMaze)
+    child1=cross[0]
+    child2=cross[1]
+
+    path3=pathFinder.generatePath(child1, "BFS")
+    path4=pathFinder.generatePath(child2, "BFS")
 
     print("")
-    path = pathFinder.generatePath(testMaze, "BFS")
-    testRenderer.renderPathInMaze(testMaze, path)
-
     print("")
-    print("Pfadlänge: " + str(testMaze.shortestPath))
-    print("Sackgassen: " + str(testMaze.deadEndCount))
-    print("Dichte: " + str(testMaze.density))
-
+    testRenderer.renderPathInMaze(child1,path3)
     print("")
-    fitness = testFE.calcFitness(testMaze)
-    print("Fitness: " + str(fitness))
-
+    testRenderer.renderPathInMaze(child2,path4)
 
 #Programmeinstiegspunkt
 if __name__ == '__main__':
