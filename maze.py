@@ -1,3 +1,5 @@
+import path_finder
+
 class Maze:
 
 
@@ -10,10 +12,16 @@ class Maze:
 
     matrix=[]
 
+
+
     def __init__(self,matrix,startPos=(-1,-1),endPos=(-1,-1)):
         self.matrix = matrix
         self.start = startPos
         self.end = endPos
+
+        self.shortestPath = len(path_finder.PathFinder().generatePath(self))
+        self.deadEndCount = self.countDeadEnds()
+        self.density = self.calcDensity()
 
 
 

@@ -1,3 +1,4 @@
+import fitness_evaluator
 import maze_generator as mg
 import path_finder as pf
 import maze_renderer as mr
@@ -8,7 +9,7 @@ def testMethod():
 
     #Ein Labyrinth generieren
     testGen = mg.MazeGenerator()
-    testMaze = testGen.generateMaze(2, "RANDOM_DFS")
+    testMaze = testGen.generateMaze(25, "RANDOM_DFS")
 
     #Ein Labyrinth visualisieren
     testRenderer = mr.MazeRenderer()
@@ -25,9 +26,16 @@ def testMethod():
     testRenderer.renderPathInMaze(testMaze, path)
 
     print("")
-    print(testMaze.countDeadEnds())
+    print("Pfadlänge: "+str(testMaze.shortestPath))
+    print("Sackgassen: "+str(testMaze.deadEndCount))
+    print("Dichte: "+str(testMaze.density))
 
-    print(testMaze.calcDensity())
+    print("")
+
+    testFE = fitness_evaluator.FitnessEvaluator()
+    fitness = testFE.calcFitness(testMaze)
+    print("Fitness: "+str(fitness))
+
 
 #Programmeinstiegspunkt
 if __name__ == '__main__':
