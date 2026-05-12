@@ -52,6 +52,9 @@ class Maze:
             return neighbors
 
 
+    def getShortestPathLength(self):
+        return len(path_finder.PathFinder().generatePath(self))
+
     #Berechnet die Anzahl an Sackgassen im Labyrinth
     def countDeadEnds(self):
         deadEnds = 0
@@ -77,3 +80,9 @@ class Maze:
         nonWallCount=(len(self.matrix)*len(self.matrix))-wallCount
 
         return wallCount/nonWallCount
+
+
+    def updateMetrics(self):
+        self.shortestPath = self.getShortestPathLength()
+        self.deadEndCount = self.countDeadEnds()
+        self.density = self.calcDensity()
