@@ -9,7 +9,7 @@ import population_manager as pm
 def testMethod():
 
     testPopM = pm.PopulationManager(25,"RANDOM")
-    testPopM.runPopulation(7)
+    testPopM.runPopulation(10)
     pop=testPopM.getPopulation()
 
 

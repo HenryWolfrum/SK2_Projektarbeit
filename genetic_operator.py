@@ -44,28 +44,29 @@ class GeneticOperator:
         childMatrix2= copy.deepcopy(maze2.matrix)
 
         for i in range(0,len(maze1.matrix)):
-            for j in range(0,len(maze1.matrix[i])):
-
 
                 if i%2==0:
-                    currentValue1 = maze1.matrix[i][j]
-                    currentValue2 = maze2.matrix[i][j]
 
-                    if currentValue1!=maze.Maze.VALUE_START and currentValue1!=maze.Maze.VALUE_END and currentValue2!=maze.Maze.VALUE_START and currentValue2!=maze.Maze.VALUE_END:
+                    for j in range(0, len(maze1.matrix[i])):
 
-                        childMatrix1[i][j] = currentValue2
-                        childMatrix2[i][j] = currentValue1
+                        currentValue1 = maze1.matrix[i][j]
+                        currentValue2 = maze2.matrix[i][j]
 
-                        helperObject1=maze.Maze(childMatrix1,maze1.start,maze1.end)
-                        helperObject2=maze.Maze(childMatrix2,maze2.start,maze2.end)
+                        if currentValue1!=maze.Maze.VALUE_START and currentValue1!=maze.Maze.VALUE_END and currentValue2!=maze.Maze.VALUE_START and currentValue2!=maze.Maze.VALUE_END:
+
+                            childMatrix1[i][j] = currentValue2
+                            childMatrix2[i][j] = currentValue1
+
+                    helperObject1=maze.Maze(childMatrix1,maze1.start,maze1.end)
+                    helperObject2=maze.Maze(childMatrix2,maze2.start,maze2.end)
 
 
-                        if helperObject1.shortestPath==0:
+                    if helperObject1.shortestPath==0:
 
-                            childMatrix1[i][j] = maze1.matrix[i][j]
+                        childMatrix1[i][j] = maze1.matrix[i][j]
 
-                        if helperObject2.shortestPath==0:
-                            childMatrix2[i][j] = maze2.matrix[i][j]
+                    if helperObject2.shortestPath==0:
+                        childMatrix2[i][j] = maze2.matrix[i][j]
 
         return maze.Maze(childMatrix1,maze1.start,maze1.end),maze.Maze(childMatrix2,maze2.start,maze2.end)
 
