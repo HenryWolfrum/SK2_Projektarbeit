@@ -1,6 +1,5 @@
 import genetic_operator
 import maze_generator
-import maze
 import fitness_evaluator
 import random
 import maze_renderer
@@ -16,7 +15,12 @@ class PopulationManager:
 
     MUTATION_PROB = 0.1
 
-    REPRODUCTION_SHARE = 0.8
+    MUTATION_CELLS_MAX=0.05
+    MUTATION_CELLS_MIN=0.03
+
+    SELECTION_SHARE = 0.5
+
+    TOURNAMENT_SHARE = 0.05
 
     def __init__(self,size_maze,generating_mode,size_pop=DEFAULT_POPULATION_SIZE):
         self.size_pop = size_pop
@@ -84,10 +88,10 @@ class PopulationManager:
 
         selected=[]
 
-        for i in range(round(self.size_pop*self.REPRODUCTION_SHARE)):
+        for i in range(round(self.size_pop*self.SELECTION_SHARE)):
 
             #Wähle Teilmenge
-            subset_size = random.randint(self.size_pop//6,self.size_pop//5)
+            subset_size = round(self.size_pop*self.TOURNAMENT_SHARE)
 
             #Subset
             subset=random.sample(self.population,subset_size)
@@ -131,7 +135,9 @@ class PopulationManager:
 
         for i in range(len(selected)):
             if random.random() < self.MUTATION_PROB:
-                genetic_operator.GeneticOperator().mutate(selected[i])
+                totalCells = len(selected[i].matrix)**2
+                mutateCount = round(random.uniform(self.MUTATION_CELLS_MIN,self.MUTATION_CELLS_MIN)*totalCells)
+                genetic_operator.GeneticOperator().mutate(selected[i],mutateCount)
 
     #Aktualisiert die Population
     def updatePopulation(self,selected):

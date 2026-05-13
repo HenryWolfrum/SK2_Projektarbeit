@@ -12,29 +12,31 @@ class GeneticOperator:
         pass
 
 
-    def mutate(self,maze):
+    def mutate(self,maze,count):
 
-        randomRow = random.randint(0,len(maze.matrix)-1)
-        randomColumn = random.randint(0,len(maze.matrix)-1)
+       for i in range(count):
 
-        randomCell = maze.matrix[randomRow][randomColumn]
+           randomRow = random.randint(0, len(maze.matrix) - 1)
+           randomColumn = random.randint(0, len(maze.matrix) - 1)
 
-        if randomCell == maze.VALUE_EMPTY:
+           randomCell = maze.matrix[randomRow][randomColumn]
 
-            maze.matrix[randomRow][randomColumn] = maze.VALUE_WALL
+           if randomCell == maze.VALUE_EMPTY:
 
-            pathFinder = path_finder.PathFinder()
+               maze.matrix[randomRow][randomColumn] = maze.VALUE_WALL
 
-            #Ein gültiger Pfad muss weiterhin existieren
-            if len(pathFinder.generatePath(maze))==0:
-                maze.matrix[randomRow][randomColumn] = maze.VALUE_EMPTY
+               pathFinder = path_finder.PathFinder()
 
-        elif randomCell == maze.VALUE_WALL:
-            maze.matrix[randomRow][randomColumn] = maze.VALUE_EMPTY
+               # Ein gültiger Pfad muss weiterhin existieren
+               if len(pathFinder.generatePath(maze)) == 0:
+                   maze.matrix[randomRow][randomColumn] = maze.VALUE_EMPTY
+
+           elif randomCell == maze.VALUE_WALL:
+               maze.matrix[randomRow][randomColumn] = maze.VALUE_EMPTY
 
 
-        #NeuBerechnungen der Labyrinth Metriken
-        maze.updateMetrics()
+       #NeuBerechnungen der Labyrinth Metriken
+       maze.updateMetrics()
 
 
 
