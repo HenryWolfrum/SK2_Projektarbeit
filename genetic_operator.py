@@ -43,9 +43,10 @@ class GeneticOperator:
         childMatrix1= copy.deepcopy(maze1.matrix)
         childMatrix2= copy.deepcopy(maze2.matrix)
 
+
         for i in range(0,len(maze1.matrix)):
 
-                if i%2==0:
+                if random.random()<0.5:
 
                     for j in range(0, len(maze1.matrix[i])):
 
@@ -63,10 +64,12 @@ class GeneticOperator:
 
                     if helperObject1.shortestPath==0:
 
-                        childMatrix1[i][j] = maze1.matrix[i][j]
+                        for j in range(0, len(maze1.matrix)):
+                            childMatrix1[i][j] = maze1.matrix[i][j]
 
                     if helperObject2.shortestPath==0:
-                        childMatrix2[i][j] = maze2.matrix[i][j]
+                        for j in range(0, len(maze2.matrix)):
+                            childMatrix2[i][j] = maze2.matrix[i][j]
 
         return maze.Maze(childMatrix1,maze1.start,maze1.end),maze.Maze(childMatrix2,maze2.start,maze2.end)
 

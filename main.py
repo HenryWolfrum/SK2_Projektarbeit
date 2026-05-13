@@ -9,16 +9,10 @@ import population_manager as pm
 def testMethod():
 
     testPopM = pm.PopulationManager(25,"RANDOM")
-    testPopM.runPopulation(10)
+    testPopM.runPopulation(100)
     pop=testPopM.getPopulation()
 
 
-
-    for i in range(len(pop)):
-        path=path_finder.PathFinder().generatePath(pop[i])
-        maze_renderer.MazeRenderer().renderPathInMaze(pop[i],path)
-
-        print("")
 
 #Programmeinstiegspunkt
 if __name__ == '__main__':

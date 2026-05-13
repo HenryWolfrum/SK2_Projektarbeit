@@ -1,7 +1,7 @@
 class FitnessEvaluator:
 
-    SHORTEST_PATH_WEIGHT = 1
-    DEAD_END_WEIGHT= 1
+    SHORTEST_PATH_WEIGHT = 10
+    DEAD_END_WEIGHT= 2.5
     DENSITY_WEIGHT = 0.5
 
     def __init__(self):
