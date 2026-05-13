@@ -23,6 +23,8 @@ class Maze:
         self.deadEndCount = self.countDeadEnds()
         self.density = self.calcDensity()
 
+        self.fitness = -1
+
 
 
     #Sammelt alle horizontalen Nachbarn, welche dist Einheiten von pos entfernt sind und nicht compareValue entsprechen
@@ -86,3 +88,11 @@ class Maze:
         self.shortestPath = self.getShortestPathLength()
         self.deadEndCount = self.countDeadEnds()
         self.density = self.calcDensity()
+
+    def setFitness(self,fitness_value):
+
+        if(fitness_value<0):
+            self.fitness = -1
+            print("FEHLER: Negative Fitness zugewiesen!")
+        else:
+            self.fitness = fitness_value

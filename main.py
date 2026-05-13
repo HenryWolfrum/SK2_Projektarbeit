@@ -1,25 +1,25 @@
 import fitness_evaluator
 import maze_generator as mg
-import path_finder as pf
+import maze_renderer
+import path_finder
 import maze_renderer as mr
 import genetic_operator
-
+import population_manager as pm
 
 def testMethod():
 
-    testGen = mg.MazeGenerator()
-    testRenderer = mr.MazeRenderer()
-    pathFinder = pf.PathFinder()
-    testGO = genetic_operator.GeneticOperator()
+    testPopM = pm.PopulationManager(25,"RANDOM")
+    testPopM.runPopulation(7)
+    pop=testPopM.getPopulation()
 
-    for i in range(100):
 
-        testMaze = testGen.generateMaze(25, "RANDOM")
-        path = pathFinder.generatePath(testMaze)
 
-        print(f"Labyrinth {i+1}/100 - Pfadlänge: {testMaze.shortestPath}")
+    for i in range(len(pop)):
+        path=path_finder.PathFinder().generatePath(pop[i])
+        maze_renderer.MazeRenderer().renderPathInMaze(pop[i],path)
 
-        testRenderer.renderPathInMaze(testMaze, path)
+        print("")
+
 #Programmeinstiegspunkt
 if __name__ == '__main__':
 
