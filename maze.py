@@ -1,4 +1,5 @@
 import path_finder
+from collections import deque
 
 class Maze:
 
@@ -12,9 +13,11 @@ class Maze:
 
     matrix=[]
 
+    startPos=(-1,-1)
+    endPos=(-1,-1)
 
 
-    def __init__(self,matrix,startPos=(-1,-1),endPos=(-1,-1)):
+    def __init__(self,matrix,startPos,endPos):
         self.matrix = matrix
         self.start = startPos
         self.end = endPos
@@ -22,6 +25,7 @@ class Maze:
         self.shortestPath = len(path_finder.PathFinder().generatePath(self))
         self.deadEndCount = self.countDeadEnds()
         self.density = self.calcDensity()
+        self.unreachableCells = self.countUnreachableCells()
 
         self.fitness = -1
 
@@ -84,6 +88,44 @@ class Maze:
         return wallCount/nonWallCount
 
 
+    def countUnreachableCells(self):
+        reachableCells = 0
+
+        wallCells = 0
+        totalCells = len(self.matrix)**2
+
+        visited = set()
+        frontier = deque([self.start])
+
+        while frontier:
+
+            current = deque.popleft(frontier)
+
+
+            if current in visited:
+                continue
+
+            reachableCells += 1
+
+            visited.add(current)
+            neighbors = self.checkForNeighbors(current, 1, self.VALUE_WALL)
+
+            for neighbor in neighbors:
+                if neighbor not in visited:
+                    frontier.append(neighbor)
+
+        for i in range(len(self.matrix)):
+            for j in range(len(self.matrix)):
+                if self.matrix[i][j] == Maze.VALUE_WALL:
+                    wallCells+=1
+
+        return totalCells - (reachableCells+wallCells)
+
+
+
+
+
+
     def updateMetrics(self):
         self.shortestPath = self.getShortestPathLength()
         self.deadEndCount = self.countDeadEnds()
@@ -91,8 +133,8 @@ class Maze:
 
     def setFitness(self,fitness_value):
 
-        if(fitness_value<0):
-            self.fitness = -1
-            print("FEHLER: Negative Fitness zugewiesen!")
+        if fitness_value ==None:
+            print("FEHLER: Wertzuweisung für Fitness ist NONE!")
         else:
             self.fitness = fitness_value
+

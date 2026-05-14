@@ -9,39 +9,50 @@ import path_finder
 class PopulationManager:
 
     DEFAULT_POPULATION_SIZE = 100
+
+    #Standard Selektionsalgorithmus
     DEFAULT_SELECTION_MODE = "TOURNAMENT"
+
 
     MAX_GENERATION=100
 
     MUTATION_PROB = 0.1
 
+    #Maximale Anzahl an Zellmutationen pro Mutation
     MUTATION_CELLS_MAX=0.05
+    #Minimale Anzahl an Zellmutationen pro Mutation
     MUTATION_CELLS_MIN=0.03
 
+    #Anteil der Population der selektiert wird für die nächste Generation
     SELECTION_SHARE = 0.5
 
+    #Größenanteil einer Teilmenge bei Turnierselektion
     TOURNAMENT_SHARE = 0.05
 
-    def __init__(self,size_maze,generating_mode,size_pop=DEFAULT_POPULATION_SIZE):
+    def __init__(self,size_maze,generating_mode,size_pop=DEFAULT_POPULATION_SIZE,fitness_function=None):
         self.size_pop = size_pop
         self.size_maze = size_maze
         self.generating_mode = generating_mode
 
+        if fitness_function == None:
+            self.fitness_function=fitness_evaluator.FitnessEvaluator().DEFAULT_FUNCTION
+        else:
+            self.fitness_function = fitness_function
+
         self.population = []
 
 
+    #Generiert eine Startpopulation
     def initializePopulation(self):
 
         for i in range(self.size_pop):
             genome = maze_generator.MazeGenerator().generateMaze(self.size_maze,self.generating_mode)
             self.population.append(genome)
 
-
+    #Hauptschleife des genetischen Algorithmus
     def runPopulation(self,generationCount=MAX_GENERATION):
 
         self.initializePopulation()
-
-
 
         generation = 1
 
@@ -68,12 +79,13 @@ class PopulationManager:
             generation += 1
 
 
+
     def gradePopulation(self):
         fitnessEv = fitness_evaluator.FitnessEvaluator()
 
         for i in range(self.size_pop):
 
-            fitness=fitnessEv.calcFitness(self.population[i])
+            fitness=fitnessEv.calcFitness(self.population[i],self.fitness_function)
 
             self.population[i].setFitness(fitness)
 
@@ -90,10 +102,10 @@ class PopulationManager:
 
         for i in range(round(self.size_pop*self.SELECTION_SHARE)):
 
-            #Wähle Teilmenge
+            #Wähle Teilmengengröße
             subset_size = round(self.size_pop*self.TOURNAMENT_SHARE)
 
-            #Subset
+            #Teilmenge
             subset=random.sample(self.population,subset_size)
 
             fittestGenome = None
@@ -117,6 +129,7 @@ class PopulationManager:
     #Rekombination der ausgewählten Individuen
     def recombineSelected(self,selected):
 
+        #Rekombinieren bis Population voll
         while(len(selected)<self.size_pop):
 
             #Zufällige Elternwahl
@@ -126,11 +139,11 @@ class PopulationManager:
             #Kinder erzeugen
             children = genetic_operator.GeneticOperator().crossover(parent1,parent2)
 
-            #Kinder in selected aufnehmen
             selected.append(children[0])
             selected.append(children[1])
 
-    #Ausgewählte neue Population zufällig mutieren lassen
+
+    #Ausgewählte Individuen mutieren
     def mutateSelected(self,selected):
 
         for i in range(len(selected)):
@@ -139,7 +152,7 @@ class PopulationManager:
                 mutateCount = round(random.uniform(self.MUTATION_CELLS_MIN,self.MUTATION_CELLS_MIN)*totalCells)
                 genetic_operator.GeneticOperator().mutate(selected[i],mutateCount)
 
-    #Aktualisiert die Population
+    #Aktualisieren der Population
     def updatePopulation(self,selected):
         self.population = selected
 
@@ -153,7 +166,6 @@ class PopulationManager:
         minFitness=self.population[0].fitness
 
         sumFintess=0
-        averageFitness=0
 
         for i in range(self.size_pop):
 

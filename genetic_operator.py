@@ -6,12 +6,6 @@ import copy
 class GeneticOperator:
 
 
-
-
-    def __init__(self):
-        pass
-
-
     def mutate(self,maze,count):
 
        for i in range(count):

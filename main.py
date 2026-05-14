@@ -1,4 +1,6 @@
 import fitness_evaluator
+import maze
+import maze_generator
 import maze_generator as mg
 import maze_renderer
 import path_finder
@@ -6,18 +8,18 @@ import maze_renderer as mr
 import genetic_operator
 import population_manager as pm
 
-def testMethod():
+def testPopulation():
 
-    testPopM = pm.PopulationManager(25,"RANDOM")
-    testPopM.runPopulation(100)
-    pop=testPopM.getPopulation()
+    popM=pm.PopulationManager(25,"RANDOM",100,"IMPROVED")
+    popM.runPopulation(100)
+
 
 
 
 #Programmeinstiegspunkt
 if __name__ == '__main__':
 
-    testMethod()
+    testPopulation()
 
     while True:
         pass
