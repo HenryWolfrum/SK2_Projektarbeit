@@ -15,8 +15,6 @@ class PathFinder:
 
 
     def BFS(self,maze):
-
-        matrix = maze.matrix
         start = maze.start
         end = maze.end
 

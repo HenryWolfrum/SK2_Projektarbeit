@@ -2,6 +2,7 @@ import random
 import maze
 import path_finder
 import copy
+import metric_analyzer
 
 class GeneticOperator:
 
@@ -29,11 +30,6 @@ class GeneticOperator:
                maze.matrix[randomRow][randomColumn] = maze.VALUE_EMPTY
 
 
-       #NeuBerechnungen der Labyrinth Metriken
-       maze.updateMetrics()
-
-
-
     def crossover(self,maze1,maze2):
 
         childMatrix1= copy.deepcopy(maze1.matrix)
@@ -58,12 +54,12 @@ class GeneticOperator:
                     helperObject2=maze.Maze(childMatrix2,maze2.start,maze2.end)
 
 
-                    if helperObject1.shortestPath==0:
+                    if metric_analyzer.MetricAnalyzer().calcShortestPathMetric(helperObject1)==0:
 
                         for j in range(0, len(maze1.matrix)):
                             childMatrix1[i][j] = maze1.matrix[i][j]
 
-                    if helperObject2.shortestPath==0:
+                    if metric_analyzer.MetricAnalyzer().calcShortestPathMetric(helperObject2)==0:
                         for j in range(0, len(maze2.matrix)):
                             childMatrix2[i][j] = maze2.matrix[i][j]
 
