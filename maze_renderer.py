@@ -3,17 +3,17 @@ import maze
 
 class MazeRenderer:
 
-    RENDER_EMPTY ="\033[42m  \033[0m"
-    RENDER_WALL = "\033[41m  \033[0m"
-    RENDER_START = "\033[43m  \033[0m"
-    RENDER_END = "\033[44m  \033[0m"
+    RENDER_WALL = "\033[40m  \033[0m"
+    RENDER_EMPTY = "\033[47m  \033[0m"
+    RENDER_START = "\033[41;1m  \033[0m"
 
-    RENDER_PATH= "\033[45m  \033[0m"
+
+    RENDER_END = "\033[42;1m  \033[0m"
+
+    RENDER_PATH = "\033[45m  \033[0m"
 
     RENDER_ERROR = "\033[35m??\033[0m"
 
-    def __init__(self):
-        pass
 
     def renderMaze(self,maze):
         matrix=maze.matrix

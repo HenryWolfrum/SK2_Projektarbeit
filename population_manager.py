@@ -184,7 +184,9 @@ class PopulationManager:
 
         if fittest != None and weakest != None:
             print("")
+            print("")
             maze_renderer.MazeRenderer().renderPathInMaze(fittest, path_finder.PathFinder().generatePath(fittest))
+            print("")
             print("")
             maze_renderer.MazeRenderer().renderPathInMaze(weakest, path_finder.PathFinder().generatePath(weakest))
 

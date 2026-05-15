@@ -8,12 +8,9 @@ class FitnessEvaluator:
 
     SHORTEST_PATH_WEIGHT = 1
     DEAD_END_WEIGHT= 0.5
-    DENSITY_WEIGHT = -0.5
+    DENSITY_WEIGHT = -0.3
 
-    CONNECTIVITY_WEIGHT = 1
-
-    def __init__(self):
-        pass
+    CONNECTIVITY_WEIGHT = 1.5
 
     def calcFitness(self,maze,function=DEFAULT_FUNCTION):
 
