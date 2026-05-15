@@ -193,13 +193,26 @@ class PopulationManager:
 
         averageFitness = sumFintess / self.size_pop
 
+        #Anteil an unterschiedlichen Labyrinth-strukturen berechnen
+        unique_ratio = self.calcUniqueMazeRatio()
 
         #Daten an Observer geben
-        package=generation_data.GenerationData(generation,maxFitness,averageFitness,minFitness,fittest_maze,weakest_maze)
+        package=generation_data.GenerationData(generation,maxFitness,averageFitness,minFitness,fittest_maze,weakest_maze,unique_ratio)
 
         package.printData()
 
         self.notifyObservers(package)
+
+    def calcUniqueMazeRatio(self):
+
+        unique = set()
+
+        for maze in self.population:
+            hashable_matrix = tuple(tuple(row)for row in maze.matrix)
+
+            unique.add(hashable_matrix)
+
+        return len(unique) / self.size_pop
 
 
     #Gibt die aktuelle Population zurück

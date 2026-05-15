@@ -3,13 +3,14 @@ import path_finder
 
 class GenerationData:
 
-    def __init__(self,generation,max_fitness,average_fitness,min_fitness,fittest_maze,weakest_maze):
+    def __init__(self,generation,max_fitness,average_fitness,min_fitness,fittest_maze,weakest_maze,unique_ratio):
         self.generation = generation
         self.max_fitness = max_fitness
         self.average_fitness = average_fitness
         self.min_fitness = min_fitness
         self.fittest_maze=fittest_maze
         self.weakest_maze=weakest_maze
+        self.unique_ratio = unique_ratio
 
 
     def printData(self):

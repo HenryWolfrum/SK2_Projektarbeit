@@ -9,18 +9,20 @@ class PopulationAnalyzer:
         self.max_fitnesses = []
         self.average_fitnesses = []
         self.min_fitnesses = []
+        self.unique_ratios =[]
 
     def update(self,data):
         self.max_fitnesses.append(data.max_fitness)
         self.average_fitnesses.append(data.average_fitness)
         self.min_fitnesses.append(data.min_fitness)
+        self.unique_ratios.append(data.unique_ratio)
 
 
     def plot_fitness_convergence(self):
 
         plt.plot(self.max_fitnesses,label="Max Fitness")
         plt.plot(self.average_fitnesses,label="Average Fitness")
-        plt.plot(self.min_fitnesses,label="Min Fitness")
+        plt.plot(self.unique_ratios,label="Unique Ratio")
 
         plt.xlabel("Generation")
         plt.ylabel("Fitness")
