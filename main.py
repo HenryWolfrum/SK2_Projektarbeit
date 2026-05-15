@@ -13,10 +13,11 @@ def testPopulation():
 
 
     testAnalyzer = ap.PopulationAnalyzer()
-    popM=pm.PopulationManager(testAnalyzer,25,"RANDOM",100,"IMPROVED")
+    popM=pm.PopulationManager(25,"RANDOM",100,"IMPROVED")
+    popM.addObserver(testAnalyzer)
     popM.runPopulation(200)
 
-    testAnalyzer.plot_analysis()
+    testAnalyzer.plot_fitness_convergence()
 
 
 #Programmeinstiegspunkt

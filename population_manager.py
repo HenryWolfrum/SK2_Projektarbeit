@@ -1,9 +1,11 @@
+import generation_data
 import genetic_operator
 import maze_generator
 import fitness_evaluator
 import random
 import maze_renderer
 import path_finder
+import generation_data
 import population_analyzer
 
 class PopulationManager:
@@ -29,7 +31,7 @@ class PopulationManager:
     #Größenanteil einer Teilmenge bei Turnierselektion
     TOURNAMENT_SHARE = 0.05
 
-    def __init__(self,populationAnalyzer,size_maze,generating_mode,size_pop=DEFAULT_POPULATION_SIZE,fitness_function=None):
+    def __init__(self,size_maze,generating_mode,size_pop=DEFAULT_POPULATION_SIZE,fitness_function=None):
         self.size_pop = size_pop
         self.size_maze = size_maze
         self.generating_mode = generating_mode
@@ -40,8 +42,17 @@ class PopulationManager:
             self.fitness_function = fitness_function
 
         self.population = []
-        self.populationAnalyzer = populationAnalyzer
+        self.observers = []
 
+
+    #Fügt einen Beobachter (wie Analysetool) hinzu
+    def addObserver(self,observer):
+        self.observers.append(observer)
+
+    #Benachrichtig die Beobachter für Änderungen
+    def notifyObservers(self,data):
+        for observer in self.observers:
+            observer.update(data)
 
     #Generiert eine Startpopulation
     def initializePopulation(self):
@@ -61,11 +72,8 @@ class PopulationManager:
             #Bewerten
             self.gradePopulation()
 
-            #In Analyse aufnehmen
-            self.populationAnalyzer.take_population_snapshot(self)
-
-            # Informationen ausgeben
-            self.printInformationOnPopulation(generation)
+            #Datenpaket erstellen
+            self.createGenerationDataPackage(generation)
 
             #Auswählen
             selected=self.selectNextPopulation()
@@ -160,34 +168,15 @@ class PopulationManager:
     def updatePopulation(self,selected):
         self.population = selected
 
-    #Gibt Informationen über Population aus
-    def printInformationOnPopulation(self,generation):
 
-        individuals = self.getInformationOnPopulation()
-
-        fittest=individuals[0]
-        weakest=individuals[1]
-
-        maxFitness=fittest.fitness
-        minFitness=weakest.fitness
-        averageFitness=individuals[2]
-
-        print("Generation:",generation,"Max:",maxFitness,"Min:",minFitness,"Average:",averageFitness)
-
-        print("")
-        print("")
-        maze_renderer.MazeRenderer().renderPathInMaze(fittest, path_finder.PathFinder().generatePath(fittest))
-        print("")
-        print("")
-        maze_renderer.MazeRenderer().renderPathInMaze(weakest, path_finder.PathFinder().generatePath(weakest))
-
-
-    def getInformationOnPopulation(self):
-        fittest = self.population[0]
-        weakest = self.population[0]
+    #Erstellt ein Informationspaket für die Generation
+    def createGenerationDataPackage(self,generation):
 
         maxFitness = self.population[0].fitness
         minFitness = self.population[0].fitness
+
+        fittest_maze = self.population[0]
+        weakest_maze = self.population[0]
 
         sumFintess = 0
 
@@ -195,16 +184,23 @@ class PopulationManager:
 
             if self.population[i].fitness > maxFitness:
                 maxFitness = self.population[i].fitness
-                fittest = self.population[i]
+                fittest_maze=self.population[i]
             elif self.population[i].fitness < minFitness:
                 minFitness = self.population[i].fitness
-                weakest = self.population[i]
+                weakest_maze=self.population[i]
 
             sumFintess = sumFintess + self.population[i].fitness
 
         averageFitness = sumFintess / self.size_pop
 
-        return fittest,weakest,averageFitness
+
+        #Daten an Observer geben
+        package=generation_data.GenerationData(generation,maxFitness,averageFitness,minFitness,fittest_maze,weakest_maze)
+
+        package.printData()
+
+        self.notifyObservers(package)
+
 
     #Gibt die aktuelle Population zurück
     def getPopulation(self):
