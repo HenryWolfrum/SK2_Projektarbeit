@@ -1,7 +1,4 @@
 import matplotlib.pyplot as plt
-import maze
-import population_manager
-import generation_data
 
 class PopulationAnalyzer:
 
@@ -22,10 +19,17 @@ class PopulationAnalyzer:
 
         plt.plot(self.max_fitnesses,label="Max Fitness")
         plt.plot(self.average_fitnesses,label="Average Fitness")
-        plt.plot(self.unique_ratios,label="Unique Ratio")
+        plt.plot(self.min_fitnesses,label="Min Fitness")
 
         plt.xlabel("Generation")
         plt.ylabel("Fitness")
 
         plt.show()
 
+    def plot_diversity(self):
+        plt.plot(self.unique_ratios,label="Diversity")
+
+        plt.xlabel("Generation")
+        plt.ylabel("Diversity")
+
+        plt.show()

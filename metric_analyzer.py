@@ -1,11 +1,10 @@
-import maze
 import path_finder
 import math
 from collections import deque
 
 class MetricAnalyzer:
 
-
+    #Berechnet das Verhältnis kürzester Pfad zu Manhattan Distanz
     def calcShortestPathMetric(self,maze):
 
         #Berechnet den aktuell kürzesten Pfad
@@ -18,6 +17,7 @@ class MetricAnalyzer:
         return shortest_path_length/manhattan_distance
 
 
+    #Berechnet absolute Anzahl an Sackgassen
     def countDeadEnds(self,maze):
             deadEnds = 0
 
@@ -32,8 +32,8 @@ class MetricAnalyzer:
 
             return deadEnds
 
-
-    def calcDensity(self,maze):
+    #Berechnet die Abweichung des Wand/Freifläche Verhältnis von 1
+    def calcDensityMetric(self,maze):
         wallCount = 0
 
         matrix=maze.matrix
@@ -46,9 +46,10 @@ class MetricAnalyzer:
 
         nonWallCount = (len(matrix)**2) - wallCount
 
-        return wallCount / nonWallCount
+        return math.fabs(1-(wallCount / nonWallCount))
 
-    def calcConnectivity(self,maze):
+    #Berechnet das Verhältnis Erreichbare Freifläche / Freifläche
+    def calcConnectivityMetric(self,maze):
         result = self.compareReachableSpace(maze)
 
         reachableCells = result[0]
@@ -63,6 +64,8 @@ class MetricAnalyzer:
 
         return connectivity
 
+
+    #Hilfsfunktion für Connectivity Metrik Berechnung
     def compareReachableSpace(self,maze):
         matrix = maze.matrix
         start = maze.start

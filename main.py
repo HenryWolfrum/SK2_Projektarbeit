@@ -1,28 +1,11 @@
-import fitness_evaluator
-import maze
-import maze_generator
-import maze_generator as mg
-import maze_renderer
-import path_finder
-import maze_renderer as mr
-import genetic_operator
-import population_manager as pm
-import population_analyzer as ap
-
-def testPopulation():
-
-
-    testAnalyzer = ap.PopulationAnalyzer()
-    popM=pm.PopulationManager(25,"RANDOM",100,"IMPROVED")
-    popM.addObserver(testAnalyzer)
-    popM.runPopulation(200)
-
-    testAnalyzer.plot_fitness_convergence()
-
+import tester
 
 #Programmeinstiegspunkt
 if __name__ == '__main__':
-    testPopulation()
+
+    tester=tester.Tester()
+
+    tester.createPopulation()
 
     while True:
         pass

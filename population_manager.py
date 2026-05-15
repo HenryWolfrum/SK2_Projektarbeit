@@ -1,12 +1,8 @@
-import generation_data
 import genetic_operator
 import maze_generator
 import fitness_evaluator
 import random
-import maze_renderer
-import path_finder
 import generation_data
-import population_analyzer
 
 class PopulationManager:
 

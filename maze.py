@@ -1,8 +1,4 @@
-import path_finder
-from collections import deque
-
 class Maze:
-
 
 
     VALUE_EMPTY = "EMPTY"
