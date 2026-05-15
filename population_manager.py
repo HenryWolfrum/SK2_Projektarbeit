@@ -4,7 +4,7 @@ import fitness_evaluator
 import random
 import maze_renderer
 import path_finder
-
+import population_analyzer
 
 class PopulationManager:
 
@@ -29,7 +29,7 @@ class PopulationManager:
     #Größenanteil einer Teilmenge bei Turnierselektion
     TOURNAMENT_SHARE = 0.05
 
-    def __init__(self,size_maze,generating_mode,size_pop=DEFAULT_POPULATION_SIZE,fitness_function=None):
+    def __init__(self,populationAnalyzer,size_maze,generating_mode,size_pop=DEFAULT_POPULATION_SIZE,fitness_function=None):
         self.size_pop = size_pop
         self.size_maze = size_maze
         self.generating_mode = generating_mode
@@ -40,6 +40,7 @@ class PopulationManager:
             self.fitness_function = fitness_function
 
         self.population = []
+        self.populationAnalyzer = populationAnalyzer
 
 
     #Generiert eine Startpopulation
@@ -60,8 +61,11 @@ class PopulationManager:
             #Bewerten
             self.gradePopulation()
 
+            #In Analyse aufnehmen
+            self.populationAnalyzer.take_population_snapshot(self)
+
             # Informationen ausgeben
-            self.getInformationOnPopulation(generation)
+            self.printInformationOnPopulation(generation)
 
             #Auswählen
             selected=self.selectNextPopulation()
@@ -157,38 +161,50 @@ class PopulationManager:
         self.population = selected
 
     #Gibt Informationen über Population aus
-    def getInformationOnPopulation(self,generation):
+    def printInformationOnPopulation(self,generation):
 
-        fittest=self.population[0]
-        weakest=self.population[0]
+        individuals = self.getInformationOnPopulation()
 
-        maxFitness=self.population[0].fitness
-        minFitness=self.population[0].fitness
+        fittest=individuals[0]
+        weakest=individuals[1]
 
-        sumFintess=0
-
-        for i in range(self.size_pop):
-
-            if self.population[i].fitness>maxFitness:
-                maxFitness=self.population[i].fitness
-                fittest=self.population[i]
-            elif self.population[i].fitness<minFitness:
-                minFitness=self.population[i].fitness
-                weakest=self.population[i]
-
-            sumFintess=sumFintess + self.population[i].fitness
-
-        averageFitness=sumFintess/self.size_pop
+        maxFitness=fittest.fitness
+        minFitness=weakest.fitness
+        averageFitness=individuals[2]
 
         print("Generation:",generation,"Max:",maxFitness,"Min:",minFitness,"Average:",averageFitness)
 
-        if fittest != None and weakest != None:
-            print("")
-            print("")
-            maze_renderer.MazeRenderer().renderPathInMaze(fittest, path_finder.PathFinder().generatePath(fittest))
-            print("")
-            print("")
-            maze_renderer.MazeRenderer().renderPathInMaze(weakest, path_finder.PathFinder().generatePath(weakest))
+        print("")
+        print("")
+        maze_renderer.MazeRenderer().renderPathInMaze(fittest, path_finder.PathFinder().generatePath(fittest))
+        print("")
+        print("")
+        maze_renderer.MazeRenderer().renderPathInMaze(weakest, path_finder.PathFinder().generatePath(weakest))
+
+
+    def getInformationOnPopulation(self):
+        fittest = self.population[0]
+        weakest = self.population[0]
+
+        maxFitness = self.population[0].fitness
+        minFitness = self.population[0].fitness
+
+        sumFintess = 0
+
+        for i in range(self.size_pop):
+
+            if self.population[i].fitness > maxFitness:
+                maxFitness = self.population[i].fitness
+                fittest = self.population[i]
+            elif self.population[i].fitness < minFitness:
+                minFitness = self.population[i].fitness
+                weakest = self.population[i]
+
+            sumFintess = sumFintess + self.population[i].fitness
+
+        averageFitness = sumFintess / self.size_pop
+
+        return fittest,weakest,averageFitness
 
     #Gibt die aktuelle Population zurück
     def getPopulation(self):

@@ -7,18 +7,20 @@ import path_finder
 import maze_renderer as mr
 import genetic_operator
 import population_manager as pm
+import population_analyzer as ap
 
 def testPopulation():
 
-    popM=pm.PopulationManager(25,"RANDOM",100,"IMPROVED")
-    popM.runPopulation(100)
 
+    testAnalyzer = ap.PopulationAnalyzer()
+    popM=pm.PopulationManager(testAnalyzer,25,"RANDOM",100,"IMPROVED")
+    popM.runPopulation(200)
 
+    testAnalyzer.plot_analysis()
 
 
 #Programmeinstiegspunkt
 if __name__ == '__main__':
-
     testPopulation()
 
     while True:
