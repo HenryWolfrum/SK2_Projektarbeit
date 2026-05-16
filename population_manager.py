@@ -11,8 +11,9 @@ class PopulationManager:
     #Standard Selektionsalgorithmus
     DEFAULT_SELECTION_MODE = "TOURNAMENT"
 
+    DEFAULT_GENERATING_MODE = "RANDOM"
 
-    MAX_GENERATION=100
+    MAX_GENERATION=200
 
     MUTATION_PROB = 0.1
 
@@ -27,7 +28,7 @@ class PopulationManager:
     #Größenanteil einer Teilmenge bei Turnierselektion
     TOURNAMENT_SHARE = 0.05
 
-    def __init__(self,size_maze,generating_mode,size_pop=DEFAULT_POPULATION_SIZE,fitness_function=None):
+    def __init__(self,size_maze,generating_mode=DEFAULT_GENERATING_MODE,size_pop=DEFAULT_POPULATION_SIZE,fitness_function=None):
         self.size_pop = size_pop
         self.size_maze = size_maze
         self.generating_mode = generating_mode
@@ -195,7 +196,8 @@ class PopulationManager:
         #Daten an Observer geben
         package=generation_data.GenerationData(generation,maxFitness,averageFitness,minFitness,fittest_maze,weakest_maze,unique_ratio)
 
-        package.printData()
+
+        #package.printData()
 
         self.notifyObservers(package)
 

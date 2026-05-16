@@ -3,7 +3,10 @@ import metric_analyzer
 
 class FitnessEvaluator:
 
-    DEFAULT_FUNCTION = "BASE"
+    FUNCTION_BASE = "BASE"
+    FUNCTION_IMPROVED = "IMPROVED"
+
+    DEFAULT_FUNCTION = FUNCTION_IMPROVED
 
 
     SHORTEST_PATH_WEIGHT = 1
@@ -14,9 +17,9 @@ class FitnessEvaluator:
 
     def calcFitness(self,maze,function=DEFAULT_FUNCTION):
 
-        if function=="BASE":
+        if function==self.FUNCTION_BASE:
             return self.BaseFitnessFunction(maze)
-        elif function=="IMPROVED":
+        elif function==self.FUNCTION_IMPROVED:
             return self.ImprovedFitnessFuction(maze)
 
     #Standard Fitnessfunktion aus Aufgabenstellung

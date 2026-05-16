@@ -1,31 +1,33 @@
 import maze
 import random
 import path_finder
+import population_manager
+import population_analyzer
 
 class MazeGenerator:
+    MODE_RANDOM = "RANDOM"
+    MODE_RANDOM_DFS = "RANDOM_DFS"
+    MODE_GENETIC_ALGORITHM = "GENETIC_ALGORITHM"
 
     DEFAULT_SIZE = 25
-    DEFAULT_MODE = "RANDOM_DFS"
+    DEFAULT_MODE = MODE_RANDOM
 
 
-    def __init__(self,mode="DEFAULT"):
+
+    def __init__(self,mode=DEFAULT_MODE):
         self.mode = mode
-
-
 
 
     def generateMaze(self,size=DEFAULT_SIZE,mode=DEFAULT_MODE):
 
-        if(mode=="RANDOM_DFS"):
-            result = self.randomizedDFSMaze(size)
+        if(mode==self.MODE_RANDOM_DFS):
+            return self.randomizedDFSMaze(size)
 
-            return result
+        elif(mode==self.MODE_RANDOM):
+            return self.randomizedMaze(size)
 
-        elif(mode=="RANDOM"):
-            result = self.randomizedMaze(size)
-
-            return result
-
+        elif(mode==self.MODE_GENETIC_ALGORITHM):
+            return self.geneticAlgorithmMaze()
 
 
 
@@ -153,3 +155,14 @@ class MazeGenerator:
 
 
         return maze.Maze(matrix, start, end)
+
+    #Generiert ein Labyrinth mithilfe des genetischen Algorithmus
+    def geneticAlgorithmMaze(self):
+        pop = population_manager.PopulationManager(self.DEFAULT_SIZE)
+        analyzer = population_analyzer.PopulationAnalyzer()
+
+        pop.addObserver(analyzer)
+
+        pop.runPopulation()
+
+        return analyzer.get_fittest_maze()

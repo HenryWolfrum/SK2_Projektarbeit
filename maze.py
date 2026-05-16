@@ -14,7 +14,7 @@ class Maze:
 
     fitness=-1
 
-    def __init__(self,matrix,startPos,endPos):
+    def __init__(self,matrix,startPos=(-1,-1),endPos=(-1,-1)):
         self.matrix = matrix
         self.start = startPos
         self.end = endPos

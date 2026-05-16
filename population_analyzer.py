@@ -3,16 +3,22 @@ import matplotlib.pyplot as plt
 class PopulationAnalyzer:
 
     def __init__(self):
+        self.generation_data_packages=[]
         self.max_fitnesses = []
         self.average_fitnesses = []
         self.min_fitnesses = []
         self.unique_ratios =[]
 
     def update(self,data):
+        self.generation_data_packages.append(data)
+
         self.max_fitnesses.append(data.max_fitness)
         self.average_fitnesses.append(data.average_fitness)
         self.min_fitnesses.append(data.min_fitness)
         self.unique_ratios.append(data.unique_ratio)
+
+    def get_fittest_maze(self):
+        return self.generation_data_packages[len(self.generation_data_packages)-1].fittest_maze
 
 
     def plot_fitness_convergence(self):
