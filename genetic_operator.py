@@ -6,62 +6,63 @@ import metric_analyzer
 
 class GeneticOperator:
 
+    def mutate(self, maze, count):
+        # PathFinder einmal instanziieren, nicht pro Iteration
+        pathFinder = path_finder.PathFinder()
 
-    def mutate(self,maze,count):
+        for i in range(count):
+            randomRow = random.randint(0, len(maze.matrix) - 1)
+            randomColumn = random.randint(0, len(maze.matrix) - 1)
+            randomCell = maze.matrix[randomRow][randomColumn]
 
-       for i in range(count):
+            if randomCell == maze.VALUE_EMPTY:
+                maze.matrix[randomRow][randomColumn] = maze.VALUE_WALL
 
-           randomRow = random.randint(0, len(maze.matrix) - 1)
-           randomColumn = random.randint(0, len(maze.matrix) - 1)
+                # Nur prüfen wenn Wand gesetzt wird (Entfernen kann Pfad nie blockieren)
+                if len(pathFinder.generatePath(maze)) == 0:
+                    maze.matrix[randomRow][randomColumn] = maze.VALUE_EMPTY
 
-           randomCell = maze.matrix[randomRow][randomColumn]
+            elif randomCell == maze.VALUE_WALL:
+                # Kein Check nötig: Wand entfernen blockiert nie den Pfad
+                maze.matrix[randomRow][randomColumn] = maze.VALUE_EMPTY
 
-           if randomCell == maze.VALUE_EMPTY:
+    def crossover(self, maze1, maze2):
+        childMatrix1 = copy.deepcopy(maze1.matrix)
+        childMatrix2 = copy.deepcopy(maze2.matrix)
 
-               maze.matrix[randomRow][randomColumn] = maze.VALUE_WALL
+        analyzer = metric_analyzer.MetricAnalyzer()  # Einmal instanziieren
 
-               pathFinder = path_finder.PathFinder()
+        # Alle Zeilen-Swaps sammeln, DANN einmal validieren
+        swapped_rows = []
 
-               # Ein gültiger Pfad muss weiterhin existieren
-               if len(pathFinder.generatePath(maze)) == 0:
-                   maze.matrix[randomRow][randomColumn] = maze.VALUE_EMPTY
+        for i in range(len(maze1.matrix)):
+            if random.random() < 0.5:
+                for j in range(len(maze1.matrix[i])):
+                    v1 = maze1.matrix[i][j]
+                    v2 = maze2.matrix[i][j]
 
-           elif randomCell == maze.VALUE_WALL:
-               maze.matrix[randomRow][randomColumn] = maze.VALUE_EMPTY
+                    if (v1 != maze.Maze.VALUE_START and v1 != maze.Maze.VALUE_END and
+                            v2 != maze.Maze.VALUE_START and v2 != maze.Maze.VALUE_END):
+                        childMatrix1[i][j] = v2
+                        childMatrix2[i][j] = v1
 
+                swapped_rows.append(i)
 
-    def crossover(self,maze1,maze2):
+        # Einmaliger Validierungs-Check am Ende statt nach jeder Zeile
+        if swapped_rows:
+            helper1 = maze.Maze(childMatrix1, maze1.start, maze1.end)
+            helper2 = maze.Maze(childMatrix2, maze2.start, maze2.end)
 
-        childMatrix1= copy.deepcopy(maze1.matrix)
-        childMatrix2= copy.deepcopy(maze2.matrix)
+            if analyzer.calcShortestPathMetric(helper1) == 0:
+                # Nur getauschte Zeilen zurücksetzen, nicht die gesamte Matrix
+                for i in swapped_rows:
+                    for j in range(len(maze1.matrix[i])):
+                        childMatrix1[i][j] = maze1.matrix[i][j]
 
+            if analyzer.calcShortestPathMetric(helper2) == 0:
+                for i in swapped_rows:
+                    for j in range(len(maze2.matrix[i])):
+                        childMatrix2[i][j] = maze2.matrix[i][j]
 
-        for i in range(0,len(maze1.matrix)):
-
-                if random.random()<0.5:
-
-                    for j in range(0, len(maze1.matrix[i])):
-
-                        currentValue1 = maze1.matrix[i][j]
-                        currentValue2 = maze2.matrix[i][j]
-
-                        if currentValue1!=maze.Maze.VALUE_START and currentValue1!=maze.Maze.VALUE_END and currentValue2!=maze.Maze.VALUE_START and currentValue2!=maze.Maze.VALUE_END:
-
-                            childMatrix1[i][j] = currentValue2
-                            childMatrix2[i][j] = currentValue1
-
-                    helperObject1=maze.Maze(childMatrix1,maze1.start,maze1.end)
-                    helperObject2=maze.Maze(childMatrix2,maze2.start,maze2.end)
-
-
-                    if metric_analyzer.MetricAnalyzer().calcShortestPathMetric(helperObject1)==0:
-
-                        for j in range(0, len(maze1.matrix)):
-                            childMatrix1[i][j] = maze1.matrix[i][j]
-
-                    if metric_analyzer.MetricAnalyzer().calcShortestPathMetric(helperObject2)==0:
-                        for j in range(0, len(maze2.matrix)):
-                            childMatrix2[i][j] = maze2.matrix[i][j]
-
-        return maze.Maze(childMatrix1,maze1.start,maze1.end),maze.Maze(childMatrix2,maze2.start,maze2.end)
-
+        return maze.Maze(childMatrix1, maze1.start, maze1.end), \
+               maze.Maze(childMatrix2, maze2.start, maze2.end)

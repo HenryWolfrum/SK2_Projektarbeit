@@ -3,6 +3,7 @@ import maze_generator
 import fitness_evaluator
 import random
 import generation_data
+import time
 
 class PopulationManager:
 
@@ -65,25 +66,34 @@ class PopulationManager:
 
         generation = 1
 
-        while generation<generationCount:
-            #Bewerten
+        while generation < generationCount:
+            t0 = time.perf_counter()
             self.gradePopulation()
+            t1 = time.perf_counter()
 
-            #Datenpaket erstellen
             self.createGenerationDataPackage(generation)
+            t2 = time.perf_counter()
 
-            #Auswählen
-            selected=self.selectNextPopulation()
+            selected = self.selectNextPopulation()
+            t3 = time.perf_counter()
 
-            #Rekombinieren
             self.recombineSelected(selected)
+            t4 = time.perf_counter()
 
-            #Mutieren
             self.mutateSelected(selected)
+            t5 = time.perf_counter()
 
-            #Aktualisieren
             self.updatePopulation(selected)
+            t6 = time.perf_counter()
 
+           # print(f"""
+           # Grade:     {t1 - t0:.4f}s
+            #Package:   {t2 - t1:.4f}s
+            #Select:    {t3 - t2:.4f}s
+            #Crossover: {t4 - t3:.4f}s
+           # Mutation:  {t5 - t4:.4f}s
+            #Update:    {t6 - t5:.4f}s
+            #""")
             #Generation erhöhen
             generation += 1
 
@@ -158,7 +168,7 @@ class PopulationManager:
         for i in range(len(selected)):
             if random.random() < self.MUTATION_PROB:
                 totalCells = len(selected[i].matrix)**2
-                mutateCount = round(random.uniform(self.MUTATION_CELLS_MIN,self.MUTATION_CELLS_MIN)*totalCells)
+                mutateCount = round(random.uniform(self.MUTATION_CELLS_MIN,self.MUTATION_CELLS_MAX)*totalCells)
                 genetic_operator.GeneticOperator().mutate(selected[i],mutateCount)
 
     #Aktualisieren der Population
@@ -197,7 +207,6 @@ class PopulationManager:
         package=generation_data.GenerationData(generation,maxFitness,averageFitness,minFitness,fittest_maze,weakest_maze,unique_ratio)
 
 
-        #package.printData()
 
         self.notifyObservers(package)
 

@@ -38,6 +38,7 @@ class AlgorithmComparer:
 
     #Führt einen Durchlauf in jeder Algorithmus Kategorie durch
     def doRun(self):
+        print("RUN")
         run_results = []
         for algorithm in self.compare_set:
             if algorithm != maze_generator.MazeGenerator().MODE_GENETIC_ALGORITHM:

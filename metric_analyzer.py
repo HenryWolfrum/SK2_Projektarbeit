@@ -4,49 +4,83 @@ from collections import deque
 
 class MetricAnalyzer:
 
+    def __init__(self):
+        self._pathFinder = path_finder.PathFinder()
+
     #Berechnet das Verhältnis kürzester Pfad zu Manhattan Distanz
-    def calcShortestPathMetric(self,maze):
+    def calcShortestPathMetric(self, maze):
 
-        #Berechnet den aktuell kürzesten Pfad
-        shortest_path_length = len(path_finder.PathFinder().generatePath(maze))
+        shortest_path_length = len(self._pathFinder.generatePath(maze))
+        manhattan_distance = (math.fabs(maze.start[0] - maze.end[0])
+                              + math.fabs(maze.start[1] - maze.end[1]))
 
-        #Manhattan Distanz
-        manhattan_distance = math.fabs(maze.start[0]-maze.end[0])+math.fabs(maze.start[1]-maze.end[1])
+        if manhattan_distance == 0:
+            return 0
 
-        #Gib Verhältnis zurück um Wert relativ auszudrücken
-        return shortest_path_length/manhattan_distance
+        # Maximale denkbare Ratio: Schlange die gesamtes Maze füllt
+        maxPossiblePath = (len(maze.matrix) ** 2)
+        maxRatio = maxPossiblePath / manhattan_distance
 
+        return (shortest_path_length / manhattan_distance) / maxRatio
 
-    #Berechnet absolute Anzahl an Sackgassen
-    def countDeadEnds(self,maze):
-            deadEnds = 0
-
-            matrix=maze.matrix
-
-            for i in range(len(matrix)):
-                for j in range(len(matrix)):
-
-                    if matrix[i][j] != maze.VALUE_EMPTY:
-                        if len(maze.checkForNeighbors((i, j), 1, maze.VALUE_WALL)) == 1:
-                            deadEnds += 1
-
-            return deadEnds
 
     #Berechnet die Abweichung des Wand/Freifläche Verhältnis von 1
     def calcDensityMetric(self,maze):
-        wallCount = 0
 
-        matrix=maze.matrix
+        # Gemeinsame Hilfsfunktion vermeidet doppelten Loop mit calcConnectivityMetric
+        wallCount = self._countWalls(maze)
+
+        nonWallCount = (len(maze.matrix)**2) - wallCount
+
+        return math.fabs(1-(wallCount / nonWallCount))
+
+    # Belohnt zusammenhängende Wände (0 = alle isoliert, 1 = alle verbunden)
+    def calcWallCohesionMetric(self, maze):
+        matrix = maze.matrix
+        wallCells = 0
+        connectedWallCells = 0
+
+        for i in range(len(matrix)):
+            for j in range(len(matrix)):
+
+                if matrix[i][j] != maze.VALUE_WALL:
+                    continue
+
+                wallCells += 1
+
+                # Wand gilt als verbunden wenn min. ein Wand-Nachbar existiert
+                wallNeighbors = maze.checkForNeighbors((i, j), 1, maze.VALUE_EMPTY)
+                if len(wallNeighbors) < 4:
+                    connectedWallCells += 1
+
+        if wallCells == 0:
+            return 0
+
+        return connectedWallCells / wallCells
+
+    # Berechnet den Anteil der Sackgassen an allen freien Zellen (0 = keine, 1 = alle)
+    def calcDeadEndMetric(self, maze):
+        matrix = maze.matrix
+        deadEnds = 0
+        freeCells = 0
 
         for i in range(len(matrix)):
             for j in range(len(matrix)):
 
                 if matrix[i][j] == maze.VALUE_WALL:
-                    wallCount += 1
+                    continue
 
-        nonWallCount = (len(matrix)**2) - wallCount
+                freeCells += 1
 
-        return math.fabs(1-(wallCount / nonWallCount))
+                # Sackgasse = freie Zelle mit genau einem freien Nachbarn
+                if len(maze.checkForNeighbors((i, j), 1, maze.VALUE_WALL)) == 1:
+                    deadEnds += 1
+
+        if freeCells == 0:
+            return 0
+
+        return deadEnds / freeCells
+
 
     #Berechnet das Verhältnis Erreichbare Freifläche / Freifläche
     def calcConnectivityMetric(self,maze):
@@ -64,22 +98,23 @@ class MetricAnalyzer:
 
         return connectivity
 
-
     #Hilfsfunktion für Connectivity Metrik Berechnung
     def compareReachableSpace(self,maze):
         matrix = maze.matrix
         start = maze.start
 
         reachableCells = 0
-        wallCells = 0
         totalCells = len(matrix) ** 2
+
+        # Gemeinsame Hilfsfunktion vermeidet doppelten Loop mit calcDensityMetric
+        wallCells = self._countWalls(maze)
 
         visited = set()
         frontier = deque([start])
 
         while frontier:
 
-            current = deque.popleft(frontier)
+            current = frontier.popleft()  # Fix: war deque.popleft(frontier)
 
             if current in visited:
                 continue
@@ -93,9 +128,19 @@ class MetricAnalyzer:
                 if neighbor not in visited:
                     frontier.append(neighbor)
 
+        return reachableCells,totalCells,wallCells
+
+    # Hilfsfunktion: vermeidet doppelten Wall-Loop in calcDensityMetric und compareReachableSpace
+    def _countWalls(self,maze):
+        wallCount = 0
+
+        matrix = maze.matrix
+
         for i in range(len(matrix)):
             for j in range(len(matrix)):
-                if matrix[i][j] == maze.VALUE_WALL:
-                    wallCells += 1
 
-        return reachableCells,totalCells,wallCells
+                if matrix[i][j] == maze.VALUE_WALL:
+                    wallCount += 1
+
+        return wallCount
+

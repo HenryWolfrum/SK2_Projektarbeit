@@ -1,5 +1,9 @@
 import matplotlib.pyplot as plt
 
+import maze_renderer
+import path_finder
+
+
 class PopulationAnalyzer:
 
     def __init__(self):
@@ -39,3 +43,7 @@ class PopulationAnalyzer:
         plt.ylabel("Diversity")
 
         plt.show()
+
+    def render_fittest(self):
+        path = path_finder.PathFinder().generatePath(self.get_fittest_maze())
+        maze_renderer.MazeRenderer().renderPathInMaze(self.get_fittest_maze(), path)

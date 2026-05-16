@@ -21,6 +21,9 @@ class Tester:
         #Labyrinth visualisieren mit Pfad
         maze_renderer.MazeRenderer().renderPathInMaze(maze,path)
 
+        fitenss = fitness_evaluator.FitnessEvaluator().calcFitness(maze,"IMPROVED")
+        print("fitenss:",fitenss)
+
     #Ertellt eine Beispiel Population und wertet die Daten aus
     def createPopulation(self,size_maze=25,generating_mode="RANDOM",size_pop=100,fitness_function="IMPROVED",generations=200):
         #Analyse-Beobachter erstellen
@@ -35,9 +38,11 @@ class Tester:
         popM.runPopulation(generations)
 
         #Analyseergebnisse darstellen
+        testAnalyzer.render_fittest()
         testAnalyzer.plot_fitness_convergence()
         testAnalyzer.plot_diversity()
 
+
     def createComparer(self):
-        ac = algorithm_comparer.AlgorithmComparer()
+        ac = algorithm_comparer.AlgorithmComparer(30,100,[maze_generator.MazeGenerator().MODE_RANDOM,maze_generator.MazeGenerator().MODE_RANDOM_DFS])
         ac.plot_compare_results(ac.compareSet())
