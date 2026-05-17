@@ -17,6 +17,9 @@ class FitnessEvaluator:
 
     WALL_COHESION_WEIGHT = 0.3
 
+    def __init__(self):
+        self.metric_analyzer = metric_analyzer.MetricAnalyzer()
+
     def calcFitness(self,maze,function=DEFAULT_FUNCTION):
 
         if function==self.FUNCTION_BASE:
@@ -25,19 +28,19 @@ class FitnessEvaluator:
             return self.ImprovedFitnessFuction(maze)
 
     #Standard Fitnessfunktion aus Aufgabenstellung
-    def BaseFitnessFunction(self,maze,metricAnalyzer=metric_analyzer.MetricAnalyzer()):
-        shortestPath = metricAnalyzer.calcShortestPathMetric(maze)
-        deadEndCount = metricAnalyzer.calcDeadEndMetric(maze)
-        density = metricAnalyzer.calcDensityMetric(maze)
+    def BaseFitnessFunction(self,maze):
+        shortestPath = self.metric_analyzer.calcShortestPathMetric(maze)
+        deadEndCount = self.metric_analyzer.calcDeadEndMetric(maze)
+        density = self.metric_analyzer.calcDensityMetric(maze)
 
         return shortestPath * self.SHORTEST_PATH_WEIGHT + deadEndCount * self.DEAD_END_WEIGHT + density * self.DENSITY_WEIGHT
 
     #Erweiterte bzw. abgeänderte Fitnessfunktion
-    def ImprovedFitnessFuction(self,maze,metricAnalyzer=metric_analyzer.MetricAnalyzer()):
-        shortestPath = metricAnalyzer.calcShortestPathMetric(maze)
-        densityMetric = metricAnalyzer.calcDensityMetric(maze)
-        connectivity = metricAnalyzer.calcConnectivityMetric(maze)
-        deadEndCount = metricAnalyzer.calcDeadEndMetric(maze)
-        wallcohesion = metricAnalyzer.calcWallCohesionMetric(maze)
+    def ImprovedFitnessFuction(self,maze):
+        shortestPath = self.metric_analyzer.calcShortestPathMetric(maze)
+        densityMetric = self.metric_analyzer.calcDensityMetric(maze)
+        connectivity = self.metric_analyzer.calcConnectivityMetric(maze)
+        deadEndCount = self.metric_analyzer.calcDeadEndMetric(maze)
+        wallcohesion = self.metric_analyzer.calcWallCohesionMetric(maze)
 
         return shortestPath*self.SHORTEST_PATH_WEIGHT +densityMetric*self.DENSITY_WEIGHT+ connectivity * self.CONNECTIVITY_WEIGHT+deadEndCount * self.DEAD_END_WEIGHT+wallcohesion * self.WALL_COHESION_WEIGHT

@@ -13,6 +13,9 @@ class PopulationAnalyzer:
         self.min_fitnesses = []
         self.unique_ratios =[]
 
+        self.path_finder = path_finder.PathFinder()
+        self.maze_renderer = maze_renderer.MazeRenderer()
+
     def update(self,data):
         self.generation_data_packages.append(data)
 
@@ -45,5 +48,5 @@ class PopulationAnalyzer:
         plt.show()
 
     def render_fittest(self):
-        path = path_finder.PathFinder().generatePath(self.get_fittest_maze())
-        maze_renderer.MazeRenderer().renderPathInMaze(self.get_fittest_maze(), path)
+        path = self.path_finder.generatePath(self.get_fittest_maze())
+        self.maze_renderer.renderPathInMaze(self.get_fittest_maze(), path)

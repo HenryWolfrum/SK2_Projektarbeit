@@ -1,7 +1,8 @@
 from collections import deque
-import maze
 
 class PathFinder:
+
+    MODE_BFS = "BFS"
 
     DEFAULT_MODE = "BFS"
 
@@ -10,8 +11,10 @@ class PathFinder:
 
 
     def generatePath(self, maze,mode=DEFAULT_MODE):
-        if mode == "BFS":
+        if mode == self.MODE_BFS:
             return self.BFS(maze)
+
+        return self.BFS(maze)
 
 
     def BFS(self,maze):

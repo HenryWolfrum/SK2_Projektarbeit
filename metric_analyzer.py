@@ -5,12 +5,12 @@ from collections import deque
 class MetricAnalyzer:
 
     def __init__(self):
-        self._pathFinder = path_finder.PathFinder()
+        self.path_finder = path_finder.PathFinder()
 
     #Berechnet das Verhältnis kürzester Pfad zu Manhattan Distanz
     def calcShortestPathMetric(self, maze):
 
-        shortest_path_length = len(self._pathFinder.generatePath(maze))
+        shortest_path_length = len(self.path_finder.generatePath(maze))
         manhattan_distance = (math.fabs(maze.start[0] - maze.end[0])
                               + math.fabs(maze.start[1] - maze.end[1]))
 
@@ -28,7 +28,7 @@ class MetricAnalyzer:
     def calcDensityMetric(self,maze):
 
         # Gemeinsame Hilfsfunktion vermeidet doppelten Loop mit calcConnectivityMetric
-        wallCount = self._countWalls(maze)
+        wallCount = self.countWalls(maze)
 
         nonWallCount = (len(maze.matrix)**2) - wallCount
 
@@ -107,7 +107,7 @@ class MetricAnalyzer:
         totalCells = len(matrix) ** 2
 
         # Gemeinsame Hilfsfunktion vermeidet doppelten Loop mit calcDensityMetric
-        wallCells = self._countWalls(maze)
+        wallCells = self.countWalls(maze)
 
         visited = set()
         frontier = deque([start])
@@ -131,7 +131,7 @@ class MetricAnalyzer:
         return reachableCells,totalCells,wallCells
 
     # Hilfsfunktion: vermeidet doppelten Wall-Loop in calcDensityMetric und compareReachableSpace
-    def _countWalls(self,maze):
+    def countWalls(self,maze):
         wallCount = 0
 
         matrix = maze.matrix
