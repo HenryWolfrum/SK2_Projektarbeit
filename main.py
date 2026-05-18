@@ -5,7 +5,7 @@ if __name__ == '__main__':
 
     tester=tester.Tester()
 
-    tester.createMaze(25,"GENETIC_ALGORITHM")
+    tester.createPopulation()
 
     while True:
         pass

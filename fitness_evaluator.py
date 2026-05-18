@@ -1,4 +1,3 @@
-import math
 import metric_analyzer
 
 class FitnessEvaluator:
@@ -9,13 +8,13 @@ class FitnessEvaluator:
     DEFAULT_FUNCTION = FUNCTION_IMPROVED
 
 
-    SHORTEST_PATH_WEIGHT = 0.5
+    SHORTEST_PATH_WEIGHT = 0.8
     DEAD_END_WEIGHT= 0.2
     DENSITY_WEIGHT = -0.1
 
-    CONNECTIVITY_WEIGHT = 0.3
+    CONNECTIVITY_WEIGHT = 0.8
 
-    WALL_COHESION_WEIGHT = 0.3
+    WALL_COHESION_WEIGHT = 0.4
 
     def __init__(self):
         self.metric_analyzer = metric_analyzer.MetricAnalyzer()

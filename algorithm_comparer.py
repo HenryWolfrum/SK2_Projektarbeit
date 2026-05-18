@@ -19,7 +19,7 @@ class AlgorithmComparer:
         self.maze_generator = maze_generator.MazeGenerator()
         self.fitness_evaluator = fitness_evaluator.FitnessEvaluator()
 
-        self.DEFAULT_COMPARE_SET=[self.maze_generator.RANDOM,self.maze_generator.MODE_RANDOM_DFS,self.maze_generator.MODE_GENETIC_ALGORITHM]
+        self.DEFAULT_COMPARE_SET=[self.maze_generator.MODE_RANDOM,self.maze_generator.MODE_RANDOM_DFS,self.maze_generator.MODE_GENETIC_ALGORITHM]
         self.DEFAULT_COMPARE_FUNCTION=self.fitness_evaluator.FUNCTION_IMPROVED
 
     #Vergleicht Algorithmen im compare_set, wobei experiment_runs Durchläufe mit jeweils sample_size generierten Mazes durchgeführt werden. Das Ergebnis sind die besten erreichten fitness Werte
@@ -46,19 +46,10 @@ class AlgorithmComparer:
         print("RUN")
         run_results = []
         for algorithm in self.compare_set:
-            if algorithm != self.maze_generator.MODE_GENETIC_ALGORITHM:
                 run_results.append((algorithm, self.evaluateSample(algorithm, self.sample_size)))
-            else:
-                run_results.append((algorithm, self.evaluateGA()))
 
         return run_results
 
-    def evaluateGA(self):
-        maze = self.maze_generator.generateMaze(self.maze_generator.DEFAULT_SIZE,self.maze_generator.MODE_GENETIC_ALGORITHM)
-
-        fitness = self.fitness_evaluator.calcFitness(maze,self.compare_function)
-
-        return fitness
 
     #Wertet die beste Fitness von sample_size generierten Labyrinthen
     def evaluateSample(self,algorithm,sample_size):
