@@ -10,9 +10,9 @@ class FitnessEvaluator:
 
     SHORTEST_PATH_WEIGHT = 0.8
     DEAD_END_WEIGHT= 0.2
-    DENSITY_WEIGHT = -0.1
+    DENSITY_WEIGHT = -0.2
 
-    CONNECTIVITY_WEIGHT = 0.8
+    CONNECTIVITY_WEIGHT = 0.6
 
     WALL_COHESION_WEIGHT = 0.4
 
@@ -24,6 +24,8 @@ class FitnessEvaluator:
         if function==self.FUNCTION_BASE:
             return self.BaseFitnessFunction(maze)
         elif function==self.FUNCTION_IMPROVED:
+            return self.ImprovedFitnessFuction(maze)
+        else:
             return self.ImprovedFitnessFuction(maze)
 
     #Standard Fitnessfunktion aus Aufgabenstellung
@@ -42,4 +44,4 @@ class FitnessEvaluator:
         deadEndCount = self.metric_analyzer.calcDeadEndMetric(maze)
         wallcohesion = self.metric_analyzer.calcWallCohesionMetric(maze)
 
-        return shortestPath*self.SHORTEST_PATH_WEIGHT +densityMetric*self.DENSITY_WEIGHT+ connectivity * self.CONNECTIVITY_WEIGHT+deadEndCount * self.DEAD_END_WEIGHT+wallcohesion * self.WALL_COHESION_WEIGHT
+        return shortestPath*self.SHORTEST_PATH_WEIGHT +densityMetric*self.DENSITY_WEIGHT+ connectivity * self.CONNECTIVITY_WEIGHT+deadEndCount * self.DEAD_END_WEIGHT+wallcohesion * self.WALL_COHESION_WEIGHT+wallcohesion*self.WALL_COHESION_WEIGHT

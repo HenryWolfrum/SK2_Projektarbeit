@@ -1,68 +1,45 @@
 import random
+from copy import deepcopy
 import maze
 import path_finder
-import copy
-import metric_analyzer
+
 
 class GeneticOperator:
 
-    def mutate(self, maze, count):
-        # PathFinder einmal instanziieren, nicht pro Iteration
-        pathFinder = path_finder.PathFinder()
+    def mutate(self, m, count):
+        for _ in range(count):
+            row = random.randint(0, len(m.matrix) - 1)
+            col = random.randint(0, len(m.matrix[0]) - 1)
+            value = m.matrix[row][col]
 
-        for i in range(count):
-            randomRow = random.randint(0, len(maze.matrix) - 1)
-            randomColumn = random.randint(0, len(maze.matrix) - 1)
-            randomCell = maze.matrix[randomRow][randomColumn]
+            if value == maze.Maze.VALUE_EMPTY:
+                m.change_matrix(row, col, maze.Maze.VALUE_WALL)
+                if len(m.solution_path) == 0:
+                    m.matrix[row][col] = value  # Matrix direkt setzen...
+                    m.solution_path = path_finder.PathFinder().generatePath(m)  # ...und Pfad erzwingen
+            else:
+                m.change_matrix(row, col, maze.Maze.VALUE_EMPTY)
 
-            if randomCell == maze.VALUE_EMPTY:
-                maze.matrix[randomRow][randomColumn] = maze.VALUE_WALL
+    def crossover(self, m1, m2):
+        child1 = maze.Maze(deepcopy(m1.matrix), m1.start, m1.end)
+        child2 = maze.Maze(deepcopy(m2.matrix), m2.start, m2.end)
 
-                # Nur prüfen wenn Wand gesetzt wird (Entfernen kann Pfad nie blockieren)
-                if len(pathFinder.generatePath(maze)) == 0:
-                    maze.matrix[randomRow][randomColumn] = maze.VALUE_EMPTY
-
-            elif randomCell == maze.VALUE_WALL:
-                # Kein Check nötig: Wand entfernen blockiert nie den Pfad
-                maze.matrix[randomRow][randomColumn] = maze.VALUE_EMPTY
-
-    def crossover(self, maze1, maze2):
-        childMatrix1 = copy.deepcopy(maze1.matrix)
-        childMatrix2 = copy.deepcopy(maze2.matrix)
-
-        analyzer = metric_analyzer.MetricAnalyzer()  # Einmal instanziieren
-
-        # Alle Zeilen-Swaps sammeln, DANN einmal validieren
-        swapped_rows = []
-
-        for i in range(len(maze1.matrix)):
+        for i in range(len(m1.matrix)):
             if random.random() < 0.5:
-                for j in range(len(maze1.matrix[i])):
-                    v1 = maze1.matrix[i][j]
-                    v2 = maze2.matrix[i][j]
+                for j in range(len(m1.matrix[i])):
+                    v1 = m1.matrix[i][j]
+                    v2 = m2.matrix[i][j]
+                    if v1 == v2:
+                        continue
 
-                    if (v1 != maze.Maze.VALUE_START and v1 != maze.Maze.VALUE_END and
-                            v2 != maze.Maze.VALUE_START and v2 != maze.Maze.VALUE_END):
-                        childMatrix1[i][j] = v2
-                        childMatrix2[i][j] = v1
+                    child1.change_matrix(i, j, v2)
+                    if len(child1.solution_path) == 0:
+                        child1.matrix[i][j] = v1
+                        child1.solution_path = path_finder.PathFinder().generatePath(child1)
 
-                swapped_rows.append(i)
+                    child2.change_matrix(i, j, v1)
+                    if len(child2.solution_path) == 0:
+                        child2.matrix[i][j] = v2
+                        child2.solution_path = path_finder.PathFinder().generatePath(child2)
 
-        # Einmaliger Validierungs-Check am Ende statt nach jeder Zeile
-        if swapped_rows:
-            helper1 = maze.Maze(childMatrix1, maze1.start, maze1.end)
-            helper2 = maze.Maze(childMatrix2, maze2.start, maze2.end)
-
-            if analyzer.calcShortestPathMetric(helper1) == 0:
-                # Nur getauschte Zeilen zurücksetzen, nicht die gesamte Matrix
-                for i in swapped_rows:
-                    for j in range(len(maze1.matrix[i])):
-                        childMatrix1[i][j] = maze1.matrix[i][j]
-
-            if analyzer.calcShortestPathMetric(helper2) == 0:
-                for i in swapped_rows:
-                    for j in range(len(maze2.matrix[i])):
-                        childMatrix2[i][j] = maze2.matrix[i][j]
-
-        return maze.Maze(childMatrix1, maze1.start, maze1.end), \
-               maze.Maze(childMatrix2, maze2.start, maze2.end)
+        return child1, child2

@@ -16,18 +16,18 @@ class PopulationManager:
 
     MAX_GENERATION=200
 
-    MUTATION_PROB = 0.1
+    MUTATION_PROB = 0.3
 
     #Maximale Anzahl an Zellmutationen pro Mutation
-    MUTATION_CELLS_MAX=0.05
+    MUTATION_CELLS_MAX=0.06
     #Minimale Anzahl an Zellmutationen pro Mutation
     MUTATION_CELLS_MIN=0.03
 
     #Anteil der Population der selektiert wird für die nächste Generation
-    SELECTION_SHARE = 0.5
+    SELECTION_SHARE = 0.25
 
     #Größenanteil einer Teilmenge bei Turnierselektion
-    TOURNAMENT_SHARE = 0.05
+    TOURNAMENT_SHARE = 0.03
 
     def __init__(self,size_maze,generating_mode=DEFAULT_GENERATING_MODE,size_pop=DEFAULT_POPULATION_SIZE,fitness_function=None):
         self.size_pop = size_pop
@@ -108,52 +108,39 @@ class PopulationManager:
 
     #Teilmengenbildung und Auswahl des fittesten Genoms
     def tournamentSelection(self):
+        selected = []
+        alreadySelected = set()
 
-        selected=[]
-
-        for i in range(round(self.size_pop*self.SELECTION_SHARE)):
-
-            #Wähle Teilmengengröße
-            subset_size = round(self.size_pop*self.TOURNAMENT_SHARE)
-
-            #Teilmenge
-            subset=random.sample(self.population,subset_size)
+        for i in range(round(self.size_pop * self.SELECTION_SHARE)):
+            subset_size = round(self.size_pop * self.TOURNAMENT_SHARE)
+            subset = random.sample(self.population, subset_size)
 
             fittestGenome = None
-
             for j in range(subset_size):
                 randomGenome = subset[j]
-
-                if fittestGenome == None:
+                if fittestGenome is None:
+                    fittestGenome = randomGenome
+                elif randomGenome.fitness > fittestGenome.fitness:
                     fittestGenome = randomGenome
 
-                elif randomGenome.fitness>fittestGenome.fitness:
-                    fittestGenome = randomGenome
-
-
-            selected.append(fittestGenome)
-
-
+            # Klon vermeiden
+            if id(fittestGenome) not in alreadySelected:
+                selected.append(fittestGenome)
+                alreadySelected.add(id(fittestGenome))
 
         return selected
-
     #Rekombination der ausgewählten Individuen
-    def recombineSelected(self,selected):
+    def recombineSelected(self, selected):
+        while len(selected) < self.size_pop:
+            parent1 = selected[random.randint(0, len(selected) - 1)]
+            parent2 = selected[random.randint(0, len(selected) - 1)]
 
-        #Rekombinieren bis Population voll
-        while(len(selected)<self.size_pop):
-
-            #Zufällige Elternwahl
-            parent1 = selected[random.randint(0,len(selected)-1)]
-            parent2 = selected[random.randint(0,len(selected)-1)]
-
-            #Kinder erzeugen
-            children = genetic_operator.GeneticOperator().crossover(parent1,parent2)
+            children = genetic_operator.GeneticOperator().crossover(parent1, parent2)
 
             selected.append(children[0])
-            selected.append(children[1])
-
-
+            # Bug-Fix: nicht überschießen
+            if len(selected) < self.size_pop:
+                selected.append(children[1])
     #Ausgewählte Individuen mutieren
     def mutateSelected(self,selected):
 
@@ -164,9 +151,14 @@ class PopulationManager:
                 genetic_operator.GeneticOperator().mutate(selected[i],mutateCount)
 
     #Aktualisieren der Population
-    def updatePopulation(self,selected):
+    def updatePopulation(self, selected):
+        # Bestes Individuum der alten Population immer übernehmen
+        bestMaze = self.population[0]
+        for i in range(self.size_pop):
+            if self.population[i].fitness > bestMaze.fitness:
+                bestMaze = self.population[i]
+        selected[-1] = bestMaze
         self.population = selected
-
 
     #Erstellt ein Informationspaket für die Generation
     def createGenerationDataPackage(self,generation):

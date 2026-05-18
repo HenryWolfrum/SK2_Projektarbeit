@@ -1,7 +1,6 @@
 import fitness_evaluator
 import maze_generator
 import maze_renderer
-import path_finder
 import population_manager
 import population_analyzer
 import algorithm_comparer
@@ -11,7 +10,6 @@ class Tester:
     def __init__(self):
         self.maze_generator = maze_generator.MazeGenerator()
         self.maze_renderer = maze_renderer.MazeRenderer()
-        self.path_finder = path_finder.PathFinder()
         self.fitness_evaluator = fitness_evaluator.FitnessEvaluator()
 
 
@@ -20,11 +18,11 @@ class Tester:
         #Labyrinth generieren
         maze=self.maze_generator.generateMaze(size,mode)
 
-        #Lösungspfad generieren
-        path=self.path_finder.generatePath(maze)
-
         #Labyrinth visualisieren mit Pfad
-        self.maze_renderer.renderPathInMaze(maze,path)
+        self.maze_renderer.renderPathInMaze(maze,maze.solution_path)
+
+        print(maze.solution_path)
+        print(len(maze.solution_path))
 
         fitness = self.fitness_evaluator.calcFitness(maze,"IMPROVED")
         print("Fitness:",fitness)

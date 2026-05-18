@@ -1,28 +1,24 @@
-import path_finder
 import math
 from collections import deque
 
 class MetricAnalyzer:
 
-    def __init__(self):
-        self.path_finder = path_finder.PathFinder()
 
     #Berechnet das Verhältnis kürzester Pfad zu Manhattan Distanz
     def calcShortestPathMetric(self, maze):
-
-        shortest_path_length = len(self.path_finder.generatePath(maze))
+        shortest_path_length = len(maze.solution_path)
         manhattan_distance = (math.fabs(maze.start[0] - maze.end[0])
                               + math.fabs(maze.start[1] - maze.end[1]))
 
         if manhattan_distance == 0:
             return 0
 
-        # Maximale denkbare Ratio: Schlange die gesamtes Maze füllt
-        maxPossiblePath = (len(maze.matrix) ** 2)
-        maxRatio = maxPossiblePath / manhattan_distance
+        ratio = shortest_path_length / manhattan_distance
 
-        return (shortest_path_length / manhattan_distance) / maxRatio
-
+        # tanh: Gradient bleibt erhalten, Wert bleibt in [0,1)
+        # scale kontrolliert ab wann die Kurve flach wird
+        scale = 3.0  # ratio=3 → ~0.9, ratio=5 → ~0.99
+        return math.tanh(ratio / scale)
 
     #Berechnet die Abweichung des Wand/Freifläche Verhältnis von 1
     def calcDensityMetric(self,maze):
@@ -30,9 +26,8 @@ class MetricAnalyzer:
         # Gemeinsame Hilfsfunktion vermeidet doppelten Loop mit calcConnectivityMetric
         wallCount = self.countWalls(maze)
 
-        nonWallCount = (len(maze.matrix)**2) - wallCount
 
-        return math.fabs(1-(wallCount / nonWallCount))
+        return math.fabs(1-(wallCount /(len(maze.matrix)**2) ))
 
     # Belohnt zusammenhängende Wände (0 = alle isoliert, 1 = alle verbunden)
     def calcWallCohesionMetric(self, maze):
