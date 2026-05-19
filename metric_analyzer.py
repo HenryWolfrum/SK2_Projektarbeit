@@ -7,15 +7,8 @@ class MetricAnalyzer:
     #Berechnet das Verhältnis kürzester Pfad zu Manhattan Distanz
     def calcShortestPathMetric(self, maze):
         shortest_path_length = len(maze.solution_path)
-        manhattan_distance = (math.fabs(maze.start[0] - maze.end[0])
-                              + math.fabs(maze.start[1] - maze.end[1]))
 
-        if manhattan_distance == 0:
-            return 0
-
-        ratio = shortest_path_length / manhattan_distance
-
-        return min(ratio / 10, 1.0)
+        return shortest_path_length/(len(maze.matrix)**2)
 
     #Berechnet die Abweichung des Wand/Freifläche Verhältnis von 1
     def calcDensityMetric(self,maze):
@@ -24,7 +17,7 @@ class MetricAnalyzer:
         wallCount = self.countWalls(maze)
 
 
-        return math.fabs(1-(wallCount /(len(maze.matrix)**2) ))
+        return 1-math.fabs(1-(wallCount /(len(maze.matrix)**2) ))
 
     # Belohnt zusammenhängende Wände (0 = alle isoliert, 1 = alle verbunden)
     def calcWallCohesionMetric(self, maze):

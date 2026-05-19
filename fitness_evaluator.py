@@ -10,7 +10,7 @@ class FitnessEvaluator:
 
     SHORTEST_PATH_WEIGHT = 0.8
     DEAD_END_WEIGHT= 0.2
-    DENSITY_WEIGHT = -0.2
+    DENSITY_WEIGHT = 0.2
 
     CONNECTIVITY_WEIGHT = 0.6
 

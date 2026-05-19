@@ -190,7 +190,7 @@ class PopulationManager:
         #Daten an Observer geben
         package=generation_data.GenerationData(generation,maxFitness,averageFitness,minFitness,fittest_maze,weakest_maze,unique_ratio)
 
-
+        package.printData()
 
         self.notifyObservers(package)
 
