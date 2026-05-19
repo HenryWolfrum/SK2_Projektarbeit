@@ -4,6 +4,7 @@ import maze_renderer
 import population_manager
 import population_analyzer
 import algorithm_comparer
+import maze_data_storage
 
 class Tester:
 
@@ -11,21 +12,30 @@ class Tester:
         self.maze_generator = maze_generator.MazeGenerator()
         self.maze_renderer = maze_renderer.MazeRenderer()
         self.fitness_evaluator = fitness_evaluator.FitnessEvaluator()
+        self.maze_data_storage = maze_data_storage.MazeDataStorage()
 
 
     #Erstellt ein Beispiel Labyrinth und zeichnet es mit Lösungspfad
     def createMaze(self,size=25,mode="RANDOM"):
         #Labyrinth generieren
-        maze=self.maze_generator.generateMaze(size,mode)
+        maze_obj=self.maze_generator.generateMaze(size,mode)
 
         #Labyrinth visualisieren mit Pfad
-        self.maze_renderer.renderPathInMaze(maze,maze.solution_path)
+        self.maze_renderer.renderPathInMaze(maze_obj,maze_obj.solution_path)
 
-        print(maze.solution_path)
-        print(len(maze.solution_path))
+        print(maze_obj.solution_path)
+        print(len(maze_obj.solution_path))
 
-        fitness = self.fitness_evaluator.calcFitness(maze,"IMPROVED")
+        fitness = self.fitness_evaluator.calcFitness(maze_obj,"IMPROVED")
         print("Fitness:",fitness)
+
+        save_ask = input("Save Maze? (y/n): ")
+        if save_ask == "y":
+             maze_id = input("Maze Name?:")
+
+             self.maze_data_storage.save_maze_data(maze_obj,maze_id)
+
+
 
     #Ertellt eine Beispiel Population und wertet die Daten aus
     def createPopulation(self,size_maze=25,generating_mode="RANDOM",size_pop=100,fitness_function="IMPROVED",generations=200):
@@ -47,5 +57,5 @@ class Tester:
 
 
     def createComparer(self):
-        ac = algorithm_comparer.AlgorithmComparer(30,100,[self.maze_generator.MODE_RANDOM,self.maze_generator.MODE_RANDOM_DFS])
+        ac = algorithm_comparer.AlgorithmComparer(30,100,[self.maze_generator.MODE_RANDOM,self.maze_generator.MODE_RANDOM_DFS,self.maze_generator.MODE_GENETIC_ALGORITHM])
         ac.plot_compare_results(ac.compareSet())

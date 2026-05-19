@@ -46,7 +46,13 @@ class AlgorithmComparer:
         print("RUN")
         run_results = []
         for algorithm in self.compare_set:
-                run_results.append((algorithm, self.evaluateSample(algorithm, self.sample_size)))
+                if algorithm==self.maze_generator.MODE_GENETIC_ALGORITHM:
+                    best_maze = self.maze_generator.generateMaze(self.maze_generator.DEFAULT_SIZE,algorithm)
+                    fitness = self.fitness_evaluator.calcFitness(best_maze,self.compare_function)
+                    run_results.append((algorithm,fitness))
+                else:
+                    run_results.append((algorithm, self.evaluateSample(algorithm, self.sample_size)))
+
 
         return run_results
 
