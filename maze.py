@@ -4,10 +4,10 @@ import path_finder
 class Maze:
 
 
-    VALUE_EMPTY = "EMPTY"
-    VALUE_WALL = "WALL"
-    VALUE_START = "START"
-    VALUE_END = "END"
+    VALUE_EMPTY = 0
+    VALUE_WALL = 1
+    VALUE_START = 2
+    VALUE_END = 3
 
 
     matrix=[]
