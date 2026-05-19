@@ -73,6 +73,8 @@ class AlgorithmComparer:
 
         plt.boxplot(data, tick_labels=labels)
 
+        plt.axhline(y=fitness_evaluator.FitnessEvaluator().maximum_fitness, linestyle="--")
+
         plt.ylabel("Fitness")
         plt.xlabel("Algorithm")
         plt.title("Algorithm Comparison")

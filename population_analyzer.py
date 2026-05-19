@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 
+import fitness_evaluator
 import maze_renderer
 import path_finder
 
@@ -33,6 +34,8 @@ class PopulationAnalyzer:
         plt.plot(self.max_fitnesses,label="Max Fitness")
         plt.plot(self.average_fitnesses,label="Average Fitness")
         plt.plot(self.min_fitnesses,label="Min Fitness")
+
+        plt.axhline(y=fitness_evaluator.FitnessEvaluator().maximum_fitness, linestyle="--")
 
         plt.xlabel("Generation")
         plt.ylabel("Fitness")

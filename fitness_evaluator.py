@@ -18,6 +18,7 @@ class FitnessEvaluator:
 
     def __init__(self):
         self.metric_analyzer = metric_analyzer.MetricAnalyzer()
+        self.maximum_fitness = self.SHORTEST_PATH_WEIGHT+self.DEAD_END_WEIGHT+self.DENSITY_WEIGHT+self.CONNECTIVITY_WEIGHT+self.WALL_COHESION_WEIGHT
 
     def calcFitness(self,maze,function=DEFAULT_FUNCTION):
 
@@ -44,4 +45,4 @@ class FitnessEvaluator:
         deadEndCount = self.metric_analyzer.calcDeadEndMetric(maze)
         wallcohesion = self.metric_analyzer.calcWallCohesionMetric(maze)
 
-        return shortestPath*self.SHORTEST_PATH_WEIGHT +densityMetric*self.DENSITY_WEIGHT+ connectivity * self.CONNECTIVITY_WEIGHT+deadEndCount * self.DEAD_END_WEIGHT+wallcohesion * self.WALL_COHESION_WEIGHT+wallcohesion*self.WALL_COHESION_WEIGHT
+        return shortestPath*self.SHORTEST_PATH_WEIGHT +densityMetric*self.DENSITY_WEIGHT+ connectivity * self.CONNECTIVITY_WEIGHT+deadEndCount * self.DEAD_END_WEIGHT+wallcohesion * self.WALL_COHESION_WEIGHT

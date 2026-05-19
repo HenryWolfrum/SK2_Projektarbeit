@@ -15,10 +15,7 @@ class MetricAnalyzer:
 
         ratio = shortest_path_length / manhattan_distance
 
-        # tanh: Gradient bleibt erhalten, Wert bleibt in [0,1)
-        # scale kontrolliert ab wann die Kurve flach wird
-        scale = 3.0  # ratio=3 → ~0.9, ratio=5 → ~0.99
-        return math.tanh(ratio / scale)
+        return min(ratio / 10, 1.0)
 
     #Berechnet die Abweichung des Wand/Freifläche Verhältnis von 1
     def calcDensityMetric(self,maze):
