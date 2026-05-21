@@ -1,10 +1,10 @@
 class Maze:
 
 
-    VALUE_EMPTY = "EMPTY"
-    VALUE_WALL = "WALL"
-    VALUE_START = "START"
-    VALUE_END = "END"
+    VALUE_EMPTY = "0"
+    VALUE_WALL = "1"
+    VALUE_START = "2"
+    VALUE_END = "3"
 
 
     matrix=[]
@@ -24,7 +24,7 @@ class Maze:
 
 
 
-    #Sammelt alle horizontalen Nachbarn, welche dist Einheiten von pos entfernt sind und nicht compareValue entsprechen
+    #Sammelt alle horizontalen/vertikalen Nachbarn, welche dist Einheiten von pos entfernt sind und nicht compareValue entsprechen
     def checkForNeighbors(self, pos, dist, compareValue):
 
             matrix = self.matrix
@@ -33,19 +33,19 @@ class Maze:
             size = len(matrix)
 
             # oben
-            if pos[0] > dist-1 and not matrix[pos[0] - dist][pos[1]] == compareValue:
+            if pos[0] > dist-1 and matrix[pos[0] - dist][pos[1]] != compareValue:
                 neighbors.append((pos[0] - dist, pos[1]))
 
             # unten
-            if pos[0] < size - dist and not matrix[pos[0] + dist][pos[1]] == compareValue:
+            if pos[0] < size - dist and matrix[pos[0] + dist][pos[1]] != compareValue:
                 neighbors.append((pos[0] +dist, pos[1]))
 
             # links
-            if pos[1] > dist-1 and not matrix[pos[0]][pos[1] - dist] == compareValue:
+            if pos[1] > dist-1 and matrix[pos[0]][pos[1] - dist] != compareValue:
                 neighbors.append((pos[0], pos[1] - dist))
 
             # rechts
-            if pos[1] < size - dist and not matrix[pos[0]][pos[1] + dist] == compareValue:
+            if pos[1] < size - dist and matrix[pos[0]][pos[1] + dist] != compareValue:
                 neighbors.append((pos[0], pos[1] + dist))
 
             return neighbors
