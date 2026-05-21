@@ -109,8 +109,20 @@ class PopulationManager:
 
     def selectNextPopulation(self,mode=DEFAULT_SELECTION_MODE):
 
-        return self.tournamentSelection()
+        tournament_selection = self.tournamentSelection()
 
+        #Fittestes Individuum immer übernehmen
+        fittest_individual=self.population[0]
+        for i in range(self.size_pop):
+            if self.population[i].fitness > fittest_individual.fitness:
+                fittest_individual = self.population[i]
+
+        if len(tournament_selection)==len(self.population):
+            tournament_selection[0]=fittest_individual
+        else:
+            tournament_selection.append(fittest_individual)
+
+        return tournament_selection
 
     #Teilmengenbildung und Auswahl des fittesten Genoms
     def tournamentSelection(self):

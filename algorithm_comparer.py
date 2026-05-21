@@ -7,19 +7,23 @@ class AlgorithmComparer:
     DEFAULT_EXPERIMENT_RUNS = 30
     DEFAULT_SAMPLE_SIZE = 100
 
-    DEFAULT_COMPARE_SET = []
+    DEFAULT_COMPARE_SET = [maze_generator.MazeGenerator().MODE_RANDOM,maze_generator.MazeGenerator().MODE_RANDOM_DFS]
 
     DEFAULT_COMPARE_FUNCTION="IMPROVED"
 
-    def __init__(self,experiment_runs=DEFAULT_EXPERIMENT_RUNS,sample_size=DEFAULT_SAMPLE_SIZE,compare_set=DEFAULT_COMPARE_SET,compare_function=DEFAULT_COMPARE_FUNCTION):
+    def __init__(self,experiment_runs=DEFAULT_EXPERIMENT_RUNS,sample_size=DEFAULT_SAMPLE_SIZE,compare_set=None,compare_function=DEFAULT_COMPARE_FUNCTION):
         self.experiment_runs = experiment_runs
         self.sample_size = sample_size
-        self.compare_set = compare_set
+
+        if compare_set is None:
+            self.compare_set = self.DEFAULT_COMPARE_SET.copy()
+        else:
+            self.compare_set=compare_set.copy()
+
         self.compare_function = compare_function
         self.maze_generator = maze_generator.MazeGenerator()
         self.fitness_evaluator = fitness_evaluator.FitnessEvaluator()
 
-        self.DEFAULT_COMPARE_SET=[self.maze_generator.MODE_RANDOM,self.maze_generator.MODE_RANDOM_DFS,self.maze_generator.MODE_GENETIC_ALGORITHM]
         self.DEFAULT_COMPARE_FUNCTION=self.fitness_evaluator.FUNCTION_IMPROVED
 
     #Vergleicht Algorithmen im compare_set, wobei experiment_runs Durchläufe mit jeweils sample_size generierten Mazes durchgeführt werden. Das Ergebnis sind die besten erreichten fitness Werte
@@ -78,8 +82,6 @@ class AlgorithmComparer:
         labels = list(compare_data.keys())
 
         plt.boxplot(data, tick_labels=labels)
-
-        plt.axhline(y=fitness_evaluator.FitnessEvaluator().maximum_fitness, linestyle="--")
 
         plt.ylabel("Fitness")
         plt.xlabel("Algorithm")

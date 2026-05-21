@@ -58,5 +58,5 @@ class Tester:
 
 
     def createComparer(self):
-        ac = algorithm_comparer.AlgorithmComparer(30,100,[self.maze_generator.MODE_RANDOM,self.maze_generator.MODE_RANDOM_DFS,self.maze_generator.MODE_GENETIC_ALGORITHM])
+        ac = algorithm_comparer.AlgorithmComparer(30,100,[self.maze_generator.MODE_RANDOM,self.maze_generator.MODE_RANDOM_DFS])
         ac.plot_compare_results(ac.compareSet())

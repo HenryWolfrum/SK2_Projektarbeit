@@ -18,7 +18,6 @@ class FitnessEvaluator:
 
     def __init__(self):
         self.metric_analyzer = metric_analyzer.MetricAnalyzer()
-        self.maximum_fitness = self.SHORTEST_PATH_WEIGHT+self.DEAD_END_WEIGHT+self.DENSITY_WEIGHT+self.CONNECTIVITY_WEIGHT+self.WALL_COHESION_WEIGHT
 
     def calcFitness(self,maze,function=DEFAULT_FUNCTION):
 
