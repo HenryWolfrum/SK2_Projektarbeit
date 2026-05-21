@@ -38,7 +38,7 @@ class Tester:
 
 
     #Ertellt eine Beispiel Population und wertet die Daten aus
-    def createPopulation(self,size_maze=25,generating_mode="RANDOM",size_pop=100,fitness_function="IMPROVED",generations=200):
+    def createPopulation(self,size_maze=25,generating_mode="RANDOM",size_pop=100,fitness_function="IMPROVED",generations=300):
         #Analyse-Beobachter erstellen
         testAnalyzer = population_analyzer.PopulationAnalyzer()
 
