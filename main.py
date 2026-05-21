@@ -4,6 +4,7 @@ import maze_renderer
 
 #Programmeinstiegspunkt
 if __name__ == '__main__':
+    print("HAllooo")
 
     tester=tester.Tester()
     tester.createMaze()
