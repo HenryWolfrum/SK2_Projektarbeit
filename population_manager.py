@@ -16,7 +16,7 @@ class PopulationManager:
 
     MAX_GENERATION=200
 
-    MUTATION_PROB = 0.2
+    MUTATION_PROB = 0.1
 
     #Maximale Anzahl an Zellmutationen pro Mutation
     MUTATION_CELLS_MAX=0.05
@@ -67,19 +67,34 @@ class PopulationManager:
         generation = 1
 
         while generation < generationCount:
+            t0 = time.perf_counter()
             self.gradePopulation()
+            t1 = time.perf_counter()
 
             self.createGenerationDataPackage(generation)
+            t2 = time.perf_counter()
 
             selected = self.selectNextPopulation()
+            t3 = time.perf_counter()
 
             self.recombineSelected(selected)
+            t4 = time.perf_counter()
 
             self.mutateSelected(selected)
+            t5 = time.perf_counter()
 
             self.updatePopulation(selected)
+            t6 = time.perf_counter()
 
-
+           # print(f"""
+           # Grade:     {t1 - t0:.4f}s
+            #Package:   {t2 - t1:.4f}s
+            #Select:    {t3 - t2:.4f}s
+            #Crossover: {t4 - t3:.4f}s
+           # Mutation:  {t5 - t4:.4f}s
+            #Update:    {t6 - t5:.4f}s
+            #""")
+            #Generation erhöhen
             generation += 1
 
 
@@ -191,7 +206,7 @@ class PopulationManager:
         #Daten an Observer geben
         package=generation_data.GenerationData(generation,maxFitness,averageFitness,minFitness,fittest_maze,weakest_maze,unique_ratio)
 
-        package.printData()
+
 
         self.notifyObservers(package)
 

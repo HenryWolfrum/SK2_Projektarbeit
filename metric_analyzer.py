@@ -1,38 +1,23 @@
-import path_finder
 import math
 from collections import deque
 
 class MetricAnalyzer:
 
-    def __init__(self):
-        self._pathFinder = path_finder.PathFinder()
 
     #Berechnet das Verhältnis kürzester Pfad zu Manhattan Distanz
     def calcShortestPathMetric(self, maze):
+        shortest_path_length = len(maze.solution_path)
 
-        shortest_path_length = len(self._pathFinder.generatePath(maze))
-        manhattan_distance = (math.fabs(maze.start[0] - maze.end[0])
-                              + math.fabs(maze.start[1] - maze.end[1]))
-
-        if manhattan_distance == 0:
-            return 0
-
-        # Maximale denkbare Ratio: Schlange die gesamtes Maze füllt
-        maxPossiblePath = (len(maze.matrix) ** 2)
-        maxRatio = maxPossiblePath / manhattan_distance
-
-        return (shortest_path_length / manhattan_distance) / maxRatio
-
+        return shortest_path_length/(len(maze.matrix)**2)
 
     #Berechnet die Abweichung des Wand/Freifläche Verhältnis von 1
     def calcDensityMetric(self,maze):
 
         # Gemeinsame Hilfsfunktion vermeidet doppelten Loop mit calcConnectivityMetric
-        wallCount = self._countWalls(maze)
+        wallCount = self.countWalls(maze)
 
-        nonWallCount = (len(maze.matrix)**2) - wallCount
 
-        return math.fabs(1-(wallCount / nonWallCount))
+        return 1-math.fabs(1-(wallCount /(len(maze.matrix)**2) ))
 
     # Belohnt zusammenhängende Wände (0 = alle isoliert, 1 = alle verbunden)
     def calcWallCohesionMetric(self, maze):
@@ -107,7 +92,7 @@ class MetricAnalyzer:
         totalCells = len(matrix) ** 2
 
         # Gemeinsame Hilfsfunktion vermeidet doppelten Loop mit calcDensityMetric
-        wallCells = self._countWalls(maze)
+        wallCells = self.countWalls(maze)
 
         visited = set()
         frontier = deque([start])
@@ -131,7 +116,7 @@ class MetricAnalyzer:
         return reachableCells,totalCells,wallCells
 
     # Hilfsfunktion: vermeidet doppelten Wall-Loop in calcDensityMetric und compareReachableSpace
-    def _countWalls(self,maze):
+    def countWalls(self,maze):
         wallCount = 0
 
         matrix = maze.matrix

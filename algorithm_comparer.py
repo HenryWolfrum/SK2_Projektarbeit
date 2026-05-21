@@ -7,15 +7,20 @@ class AlgorithmComparer:
     DEFAULT_EXPERIMENT_RUNS = 30
     DEFAULT_SAMPLE_SIZE = 100
 
-    DEFAULT_COMPARE_SET = [maze_generator.MazeGenerator().MODE_RANDOM_DFS,maze_generator.MazeGenerator().MODE_RANDOM,maze_generator.MazeGenerator().MODE_GENETIC_ALGORITHM]
+    DEFAULT_COMPARE_SET = []
 
-    DEFAULT_COMPARE_FUNCTION=fitness_evaluator.FitnessEvaluator().FUNCTION_IMPROVED
+    DEFAULT_COMPARE_FUNCTION="IMPROVED"
 
     def __init__(self,experiment_runs=DEFAULT_EXPERIMENT_RUNS,sample_size=DEFAULT_SAMPLE_SIZE,compare_set=DEFAULT_COMPARE_SET,compare_function=DEFAULT_COMPARE_FUNCTION):
         self.experiment_runs = experiment_runs
         self.sample_size = sample_size
         self.compare_set = compare_set
         self.compare_function = compare_function
+        self.maze_generator = maze_generator.MazeGenerator()
+        self.fitness_evaluator = fitness_evaluator.FitnessEvaluator()
+
+        self.DEFAULT_COMPARE_SET=[self.maze_generator.MODE_RANDOM,self.maze_generator.MODE_RANDOM_DFS,self.maze_generator.MODE_GENETIC_ALGORITHM]
+        self.DEFAULT_COMPARE_FUNCTION=self.fitness_evaluator.FUNCTION_IMPROVED
 
     #Vergleicht Algorithmen im compare_set, wobei experiment_runs Durchläufe mit jeweils sample_size generierten Mazes durchgeführt werden. Das Ergebnis sind die besten erreichten fitness Werte
     def compareSet(self):
@@ -24,7 +29,7 @@ class AlgorithmComparer:
         for algorithm in self.compare_set:
             compare_data[algorithm]=[]
 
-        for run in range(self.experiment_runs):
+        for _ in range(self.experiment_runs):
             run_result=self.doRun()
 
             for i in range(len(run_result)):
@@ -41,33 +46,30 @@ class AlgorithmComparer:
         print("RUN")
         run_results = []
         for algorithm in self.compare_set:
-            if algorithm != maze_generator.MazeGenerator().MODE_GENETIC_ALGORITHM:
-                run_results.append((algorithm, self.evaluateSample(algorithm, self.sample_size)))
-            else:
-                run_results.append((algorithm, self.evaluateGA()))
+                if algorithm==self.maze_generator.MODE_GENETIC_ALGORITHM:
+                    best_maze = self.maze_generator.generateMaze(self.maze_generator.DEFAULT_SIZE,algorithm)
+                    fitness = self.fitness_evaluator.calcFitness(best_maze,self.compare_function)
+                    run_results.append((algorithm,fitness))
+                else:
+                    run_results.append((algorithm, self.evaluateSample(algorithm, self.sample_size)))
+
 
         return run_results
 
-    def evaluateGA(self):
-        maze = maze_generator.MazeGenerator().generateMaze(maze_generator.MazeGenerator().DEFAULT_SIZE,maze_generator.MazeGenerator().MODE_GENETIC_ALGORITHM)
-
-        fitness = fitness_evaluator.FitnessEvaluator().calcFitness(maze,self.compare_function)
-
-        return fitness
 
     #Wertet die beste Fitness von sample_size generierten Labyrinthen
     def evaluateSample(self,algorithm,sample_size):
         sample_fitness = []
-        for i in range(self.sample_size):
+        for i in range(sample_size):
             sample_fitness.append(self.evaluateOne(algorithm))
 
         return max(sample_fitness)
 
     #Wertet die Fitness eines mit algorithm generierten Labyrinth aus
     def evaluateOne(self,algorithm):
-           maze = maze_generator.MazeGenerator().generateMaze(maze_generator.MazeGenerator().DEFAULT_SIZE,algorithm)
+           maze = self.maze_generator.generateMaze(self.maze_generator.DEFAULT_SIZE,algorithm)
 
-           fitness = fitness_evaluator.FitnessEvaluator().calcFitness(maze,self.compare_function)
+           fitness = self.fitness_evaluator.calcFitness(maze,self.compare_function)
 
            return fitness
 
@@ -76,6 +78,8 @@ class AlgorithmComparer:
         labels = list(compare_data.keys())
 
         plt.boxplot(data, tick_labels=labels)
+
+        plt.axhline(y=fitness_evaluator.FitnessEvaluator().maximum_fitness, linestyle="--")
 
         plt.ylabel("Fitness")
         plt.xlabel("Algorithm")

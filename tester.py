@@ -1,28 +1,41 @@
 import fitness_evaluator
-import maze
 import maze_generator
-import maze_generator as mg
 import maze_renderer
-import path_finder
 import population_manager
 import population_analyzer
 import algorithm_comparer
+import maze_data_storage
 
 class Tester:
+
+    def __init__(self):
+        self.maze_generator = maze_generator.MazeGenerator()
+        self.maze_renderer = maze_renderer.MazeRenderer()
+        self.fitness_evaluator = fitness_evaluator.FitnessEvaluator()
+        self.maze_data_storage = maze_data_storage.MazeDataStorage()
+
 
     #Erstellt ein Beispiel Labyrinth und zeichnet es mit Lösungspfad
     def createMaze(self,size=25,mode="RANDOM"):
         #Labyrinth generieren
-        maze=maze_generator.MazeGenerator().generateMaze(size,mode)
-
-        #Lösungspfad generieren
-        path=path_finder.PathFinder().generatePath(maze)
+        maze_obj=self.maze_generator.generateMaze(size,mode)
 
         #Labyrinth visualisieren mit Pfad
-        maze_renderer.MazeRenderer().renderPathInMaze(maze,path)
+        self.maze_renderer.renderPathInMaze(maze_obj,maze_obj.solution_path)
 
-        fitenss = fitness_evaluator.FitnessEvaluator().calcFitness(maze,"IMPROVED")
-        print("fitenss:",fitenss)
+        print(maze_obj.solution_path)
+        print(len(maze_obj.solution_path))
+
+        fitness = self.fitness_evaluator.calcFitness(maze_obj,"IMPROVED")
+        print("Fitness:",fitness)
+
+        save_ask = input("Save Maze? (y/n): ")
+        if save_ask == "y":
+             maze_id = input("Maze Name?:")
+
+             self.maze_data_storage.save_maze_data(maze_obj,maze_id)
+
+
 
     #Ertellt eine Beispiel Population und wertet die Daten aus
     def createPopulation(self,size_maze=25,generating_mode="RANDOM",size_pop=100,fitness_function="IMPROVED",generations=300):
@@ -44,5 +57,5 @@ class Tester:
 
 
     def createComparer(self):
-        ac = algorithm_comparer.AlgorithmComparer(30,100,[maze_generator.MazeGenerator().MODE_RANDOM,maze_generator.MazeGenerator().MODE_RANDOM_DFS])
+        ac = algorithm_comparer.AlgorithmComparer(30,100,[self.maze_generator.MODE_RANDOM,self.maze_generator.MODE_RANDOM_DFS,self.maze_generator.MODE_GENETIC_ALGORITHM])
         ac.plot_compare_results(ac.compareSet())
