@@ -23,9 +23,6 @@ class Tester:
         #Labyrinth visualisieren mit Pfad
         self.maze_renderer.renderPathInMaze(maze_obj,maze_obj.solution_path)
 
-        print(maze_obj.solution_path)
-        print(len(maze_obj.solution_path))
-
         fitness = self.fitness_evaluator.calcFitness(maze_obj,"IMPROVED")
         print("Fitness:",fitness)
 

@@ -1,13 +1,11 @@
 import tester
-import maze_data_storage
-import maze_renderer
 
 #Programmeinstiegspunkt
 if __name__ == '__main__':
     print("Halloo")
 
     tester=tester.Tester()
-    tester.createMaze()
+    tester.createPopulation()
 
     while True:
         pass

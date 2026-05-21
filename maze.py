@@ -4,10 +4,10 @@ import path_finder
 class Maze:
 
 
-    VALUE_EMPTY = 0
-    VALUE_WALL = 1
-    VALUE_START = 2
-    VALUE_END = 3
+    VALUE_EMPTY = "0"
+    VALUE_WALL = "1"
+    VALUE_START = "2"
+    VALUE_END = "3"
 
 
     matrix=[]
@@ -57,11 +57,14 @@ class Maze:
 
             return neighbors
 
+    #Zum Ändern von Matrix Werten (inklusive Absicherungen)
     def change_matrix(self, row, col, value):
         if 0 <= row < len(self.matrix) and 0 <= col < len(self.matrix[row]):
+
             if (row, col) == self.start or (row, col) == self.end or value==self.VALUE_START or value==self.VALUE_END:
                 return  # Start/Ziel nie verändern
             self.matrix[row][col] = value
+
             if (row, col) in self.solution_path or len(self.solution_path) == 0:
                 self.solution_path = path_finder.PathFinder().generatePath(self)
 

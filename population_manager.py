@@ -3,7 +3,6 @@ import maze_generator
 import fitness_evaluator
 import random
 import generation_data
-import time
 
 class PopulationManager:
 
@@ -14,33 +13,49 @@ class PopulationManager:
 
     DEFAULT_GENERATING_MODE = "RANDOM"
 
-    MAX_GENERATION=200
+    DEFAULT_MAX_GENERATION=200
 
-    MUTATION_PROB = 0.1
+    DEFAULT_MUTATION_RATE = 0.1
 
     #Maximale Anzahl an Zellmutationen pro Mutation
-    MUTATION_CELLS_MAX=0.05
+    DEFAULT_MUTATION_CELLS_MAX=0.05
     #Minimale Anzahl an Zellmutationen pro Mutation
-    MUTATION_CELLS_MIN=0.03
+    DEFAULT_MUTATION_CELLS_MIN=0.03
 
     #Anteil der Population der selektiert wird für die nächste Generation
-    SELECTION_SHARE = 0.5
+    DEFAULT_SURVIVOR_RATE = 0.5
 
     #Größenanteil einer Teilmenge bei Turnierselektion
-    TOURNAMENT_SHARE = 0.05
+    DEFAULT_TOURNAMENT_SIZE = 5
 
-    def __init__(self,size_maze,generating_mode=DEFAULT_GENERATING_MODE,size_pop=DEFAULT_POPULATION_SIZE,fitness_function=None):
+    DEFAULT_HYPERPARAMETERS={"mutation_rate":DEFAULT_MUTATION_RATE,
+                             "survivor_rate":DEFAULT_SURVIVOR_RATE,
+                             "tournament_size":DEFAULT_TOURNAMENT_SIZE}
+
+    def __init__(self,size_maze,generating_mode=DEFAULT_GENERATING_MODE,size_pop=DEFAULT_POPULATION_SIZE,fitness_function=None,hyperparameters=None):
         self.size_pop = size_pop
         self.size_maze = size_maze
         self.generating_mode = generating_mode
 
-        if fitness_function == None:
+
+        if fitness_function is None:
             self.fitness_function=fitness_evaluator.FitnessEvaluator().DEFAULT_FUNCTION
         else:
             self.fitness_function = fitness_function
 
+        if hyperparameters is None:
+            self.hyperparameters=self.DEFAULT_HYPERPARAMETERS.copy()
+        else:
+            self.hyperparameters = hyperparameters.copy()
+
+
+        self.mutation_rate = self.hyperparameters["mutation_rate"]
+        self.survivor_rate = self.hyperparameters["survivor_rate"]
+        self.tournament_size = self.hyperparameters["tournament_size"]
+
         self.population = []
         self.observers = []
+
 
 
     #Fügt einen Beobachter (wie Analysetool) hinzu
@@ -60,51 +75,38 @@ class PopulationManager:
             self.population.append(genome)
 
     #Hauptschleife des genetischen Algorithmus
-    def runPopulation(self,generationCount=MAX_GENERATION):
+    def runPopulation(self,max_generations=DEFAULT_MAX_GENERATION):
 
         self.initializePopulation()
 
         generation = 1
 
-        while generation < generationCount:
-            t0 = time.perf_counter()
+        while generation < max_generations:
+
             self.gradePopulation()
-            t1 = time.perf_counter()
 
             self.createGenerationDataPackage(generation)
-            t2 = time.perf_counter()
 
             selected = self.selectNextPopulation()
-            t3 = time.perf_counter()
 
             self.recombineSelected(selected)
-            t4 = time.perf_counter()
 
             self.mutateSelected(selected)
-            t5 = time.perf_counter()
 
             self.updatePopulation(selected)
-            t6 = time.perf_counter()
 
-           # print(f"""
-           # Grade:     {t1 - t0:.4f}s
-            #Package:   {t2 - t1:.4f}s
-            #Select:    {t3 - t2:.4f}s
-            #Crossover: {t4 - t3:.4f}s
-           # Mutation:  {t5 - t4:.4f}s
-            #Update:    {t6 - t5:.4f}s
-            #""")
+
             #Generation erhöhen
             generation += 1
 
 
 
     def gradePopulation(self):
-        fitnessEv = fitness_evaluator.FitnessEvaluator()
+        fitness_ev = fitness_evaluator.FitnessEvaluator()
 
         for i in range(self.size_pop):
 
-            fitness=fitnessEv.calcFitness(self.population[i],self.fitness_function)
+            fitness=fitness_ev.calcFitness(self.population[i],self.fitness_function)
 
             self.population[i].setFitness(fitness)
 
@@ -119,27 +121,27 @@ class PopulationManager:
 
         selected=[]
 
-        for i in range(round(self.size_pop*self.SELECTION_SHARE)):
+        for i in range(round(self.size_pop*self.survivor_rate)):
 
             #Wähle Teilmengengröße
-            subset_size = round(self.size_pop*self.TOURNAMENT_SHARE)
+            subset_size = self.tournament_size
 
             #Teilmenge
             subset=random.sample(self.population,subset_size)
 
-            fittestGenome = None
+            fittest_individual = None
 
             for j in range(subset_size):
-                randomGenome = subset[j]
+                random_individual = subset[j]
 
-                if fittestGenome == None:
-                    fittestGenome = randomGenome
+                if fittest_individual is None:
+                    fittest_individual = random_individual
 
-                elif randomGenome.fitness>fittestGenome.fitness:
-                    fittestGenome = randomGenome
+                elif random_individual.fitness>fittest_individual.fitness:
+                    fittest_individual = random_individual
 
 
-            selected.append(fittestGenome)
+            selected.append(fittest_individual)
 
 
 
@@ -149,7 +151,7 @@ class PopulationManager:
     def recombineSelected(self,selected):
 
         #Rekombinieren bis Population voll
-        while(len(selected)<self.size_pop):
+        while len(selected)<self.size_pop:
 
             #Zufällige Elternwahl
             parent1 = selected[random.randint(0,len(selected)-1)]
@@ -159,17 +161,20 @@ class PopulationManager:
             children = genetic_operator.GeneticOperator().crossover(parent1,parent2)
 
             selected.append(children[0])
-            selected.append(children[1])
+
+            #Check ob zweites Kind noch rein passt
+            if len(selected)<self.size_pop:
+                selected.append(children[1])
 
 
     #Ausgewählte Individuen mutieren
     def mutateSelected(self,selected):
 
         for i in range(len(selected)):
-            if random.random() < self.MUTATION_PROB:
-                totalCells = len(selected[i].matrix)**2
-                mutateCount = round(random.uniform(self.MUTATION_CELLS_MIN,self.MUTATION_CELLS_MAX)*totalCells)
-                genetic_operator.GeneticOperator().mutate(selected[i],mutateCount)
+            if random.random() < self.mutation_rate:
+                total_cells = len(selected[i].matrix)**2
+                mutate_count = round(random.uniform(self.DEFAULT_MUTATION_CELLS_MIN,self.DEFAULT_MUTATION_CELLS_MAX)*total_cells)
+                genetic_operator.GeneticOperator().mutate(selected[i],mutate_count)
 
     #Aktualisieren der Population
     def updatePopulation(self,selected):
@@ -179,34 +184,34 @@ class PopulationManager:
     #Erstellt ein Informationspaket für die Generation
     def createGenerationDataPackage(self,generation):
 
-        maxFitness = self.population[0].fitness
-        minFitness = self.population[0].fitness
+        max_fitness = self.population[0].fitness
+        min_fitness = self.population[0].fitness
 
         fittest_maze = self.population[0]
         weakest_maze = self.population[0]
 
-        sumFintess = 0
+        sum_fitness = 0
 
         for i in range(self.size_pop):
 
-            if self.population[i].fitness > maxFitness:
-                maxFitness = self.population[i].fitness
+            if self.population[i].fitness > max_fitness:
+                max_fitness = self.population[i].fitness
                 fittest_maze=self.population[i]
-            elif self.population[i].fitness < minFitness:
-                minFitness = self.population[i].fitness
+            if self.population[i].fitness < min_fitness:
+                min_fitness = self.population[i].fitness
                 weakest_maze=self.population[i]
 
-            sumFintess = sumFintess + self.population[i].fitness
+            sum_fitness = sum_fitness + self.population[i].fitness
 
-        averageFitness = sumFintess / self.size_pop
+        average_fitness = sum_fitness / self.size_pop
 
         #Anteil an unterschiedlichen Labyrinth-strukturen berechnen
         unique_ratio = self.calcUniqueMazeRatio()
 
         #Daten an Observer geben
-        package=generation_data.GenerationData(generation,maxFitness,averageFitness,minFitness,fittest_maze,weakest_maze,unique_ratio)
+        package=generation_data.GenerationData(generation,max_fitness,average_fitness,min_fitness,fittest_maze,weakest_maze,unique_ratio)
 
-
+        package.printData()
 
         self.notifyObservers(package)
 
