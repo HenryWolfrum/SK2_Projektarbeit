@@ -36,6 +36,7 @@ class PopulationManager:
         self.size_pop = size_pop
         self.size_maze = size_maze
         self.generating_mode = generating_mode
+        self.elite = None
 
 
         if fitness_function is None:
@@ -117,6 +118,8 @@ class PopulationManager:
             if self.population[i].fitness > fittest_individual.fitness:
                 fittest_individual = self.population[i]
 
+        self.elite=fittest_individual
+
         if len(tournament_selection)==len(self.population):
             tournament_selection[0]=fittest_individual
         else:
@@ -179,10 +182,11 @@ class PopulationManager:
     def mutateSelected(self,selected):
 
         for i in range(len(selected)):
-            if random.random() < self.hyperparameters["mutation_rate"]:
-                total_cells = len(selected[i].matrix)**2
-                mutate_count = round(random.uniform(self.DEFAULT_MUTATION_CELLS_MIN,self.DEFAULT_MUTATION_CELLS_MAX)*total_cells)
-                genetic_operator.GeneticOperator().mutate(selected[i],mutate_count)
+            if selected[i]!=self.elite:
+                if random.random() < self.hyperparameters["mutation_rate"]:
+                    total_cells = len(selected[i].matrix)**2
+                    mutate_count = round(random.uniform(self.DEFAULT_MUTATION_CELLS_MIN,self.DEFAULT_MUTATION_CELLS_MAX)*total_cells)
+                    genetic_operator.GeneticOperator().mutate(selected[i],mutate_count)
 
     #Aktualisieren der Population
     def updatePopulation(self,selected):
