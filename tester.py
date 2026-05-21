@@ -32,6 +32,10 @@ class Tester:
 
              self.maze_data_storage.save_maze_data(maze_obj,maze_id)
 
+    def createGAMaze(self,size,generating_mode,pop_size,fitness_function,hyperparameters,generations):
+        maze_obj=self.maze_generator.geneticAlgorithmMaze(size,generating_mode,pop_size,fitness_function,hyperparameters,generations)
+
+        self.maze_renderer.renderPathInMaze(maze_obj,maze_obj.solution_path)
 
 
     #Ertellt eine Beispiel Population und wertet die Daten aus

@@ -15,15 +15,15 @@ class PopulationManager:
 
     DEFAULT_MAX_GENERATION=200
 
-    DEFAULT_MUTATION_RATE = 0.1
+    DEFAULT_MUTATION_RATE = 0.2
 
     #Maximale Anzahl an Zellmutationen pro Mutation
-    DEFAULT_MUTATION_CELLS_MAX=0.05
+    DEFAULT_MUTATION_CELLS_MAX=0.06
     #Minimale Anzahl an Zellmutationen pro Mutation
-    DEFAULT_MUTATION_CELLS_MIN=0.03
+    DEFAULT_MUTATION_CELLS_MIN=0.08
 
     #Anteil der Population der selektiert wird für die nächste Generation
-    DEFAULT_SURVIVOR_RATE = 0.5
+    DEFAULT_SURVIVOR_RATE = 0.3
 
     #Größenanteil einer Teilmenge bei Turnierselektion
     DEFAULT_TOURNAMENT_SIZE = 5
@@ -48,10 +48,6 @@ class PopulationManager:
         else:
             self.hyperparameters = hyperparameters.copy()
 
-
-        self.mutation_rate = self.hyperparameters["mutation_rate"]
-        self.survivor_rate = self.hyperparameters["survivor_rate"]
-        self.tournament_size = self.hyperparameters["tournament_size"]
 
         self.population = []
         self.observers = []
@@ -121,10 +117,10 @@ class PopulationManager:
 
         selected=[]
 
-        for i in range(round(self.size_pop*self.survivor_rate)):
+        for i in range(round(self.size_pop*self.hyperparameters["survivor_rate"])):
 
             #Wähle Teilmengengröße
-            subset_size = self.tournament_size
+            subset_size = self.hyperparameters["tournament_size"]
 
             #Teilmenge
             subset=random.sample(self.population,subset_size)
@@ -171,7 +167,7 @@ class PopulationManager:
     def mutateSelected(self,selected):
 
         for i in range(len(selected)):
-            if random.random() < self.mutation_rate:
+            if random.random() < self.hyperparameters["mutation_rate"]:
                 total_cells = len(selected[i].matrix)**2
                 mutate_count = round(random.uniform(self.DEFAULT_MUTATION_CELLS_MIN,self.DEFAULT_MUTATION_CELLS_MAX)*total_cells)
                 genetic_operator.GeneticOperator().mutate(selected[i],mutate_count)

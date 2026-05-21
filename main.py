@@ -5,7 +5,8 @@ if __name__ == '__main__':
     print("Halloo")
 
     tester=tester.Tester()
-    tester.createPopulation()
+    hyperparameters={"mutation_rate":1,"survivor_rate":0.1,"tournament_size":2}
+    tester.createGAMaze(25,"RANDOM",100,"IMPROVED",hyperparameters,200)
 
     while True:
         pass
