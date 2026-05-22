@@ -1,0 +1,1570 @@
+[
+    {
+        "mutation_rate": 0.02,
+        "survivor_rate": 0.05,
+        "tournament_size": 2,
+        "fitness": 1.1919444729143884,
+        "standard_deviation": 0.008947812011127147,
+        "max_fitness": 1.2053024517475222
+    },
+    {
+        "mutation_rate": 0.02,
+        "survivor_rate": 0.05,
+        "tournament_size": 3,
+        "fitness": 1.1800317733605454,
+        "standard_deviation": 0.018616582942559995,
+        "max_fitness": 1.2114719494204425
+    },
+    {
+        "mutation_rate": 0.02,
+        "survivor_rate": 0.05,
+        "tournament_size": 5,
+        "fitness": 1.2100948993923346,
+        "standard_deviation": 0.019767395914197194,
+        "max_fitness": 1.2453244204851752
+    },
+    {
+        "mutation_rate": 0.02,
+        "survivor_rate": 0.05,
+        "tournament_size": 8,
+        "fitness": 1.1952723982860385,
+        "standard_deviation": 0.010087077574312061,
+        "max_fitness": 1.2111475081849483
+    },
+    {
+        "mutation_rate": 0.02,
+        "survivor_rate": 0.1,
+        "tournament_size": 2,
+        "fitness": 1.195140458725284,
+        "standard_deviation": 0.03830610882858127,
+        "max_fitness": 1.2340580543280206
+    },
+    {
+        "mutation_rate": 0.02,
+        "survivor_rate": 0.1,
+        "tournament_size": 3,
+        "fitness": 1.224025344085159,
+        "standard_deviation": 0.0064504044984073,
+        "max_fitness": 1.2330011229575422
+    },
+    {
+        "mutation_rate": 0.02,
+        "survivor_rate": 0.1,
+        "tournament_size": 5,
+        "fitness": 1.2123406497829217,
+        "standard_deviation": 0.013389450354658376,
+        "max_fitness": 1.2313473823791918
+    },
+    {
+        "mutation_rate": 0.02,
+        "survivor_rate": 0.1,
+        "tournament_size": 8,
+        "fitness": 1.2025840818910962,
+        "standard_deviation": 0.023134611906948984,
+        "max_fitness": 1.241003782777872
+    },
+    {
+        "mutation_rate": 0.02,
+        "survivor_rate": 0.2,
+        "tournament_size": 2,
+        "fitness": 1.2253653371705935,
+        "standard_deviation": 0.017945306032286445,
+        "max_fitness": 1.2492798409744545
+    },
+    {
+        "mutation_rate": 0.02,
+        "survivor_rate": 0.2,
+        "tournament_size": 3,
+        "fitness": 1.2254603993587518,
+        "standard_deviation": 0.024553251478660394,
+        "max_fitness": 1.2526919156293221
+    },
+    {
+        "mutation_rate": 0.02,
+        "survivor_rate": 0.2,
+        "tournament_size": 5,
+        "fitness": 1.2153506750444305,
+        "standard_deviation": 0.01190555805671538,
+        "max_fitness": 1.2337541494762547
+    },
+    {
+        "mutation_rate": 0.02,
+        "survivor_rate": 0.2,
+        "tournament_size": 8,
+        "fitness": 1.222974066759341,
+        "standard_deviation": 0.015761784952927918,
+        "max_fitness": 1.253788687978688
+    },
+    {
+        "mutation_rate": 0.02,
+        "survivor_rate": 0.3,
+        "tournament_size": 2,
+        "fitness": 1.232182111404454,
+        "standard_deviation": 0.01989853144356693,
+        "max_fitness": 1.2632533803408041
+    },
+    {
+        "mutation_rate": 0.02,
+        "survivor_rate": 0.3,
+        "tournament_size": 3,
+        "fitness": 1.2418357408476717,
+        "standard_deviation": 0.011836944095211549,
+        "max_fitness": 1.2557408057311785
+    },
+    {
+        "mutation_rate": 0.02,
+        "survivor_rate": 0.3,
+        "tournament_size": 5,
+        "fitness": 1.231926723820372,
+        "standard_deviation": 0.015466490173921625,
+        "max_fitness": 1.2462005727151508
+    },
+    {
+        "mutation_rate": 0.02,
+        "survivor_rate": 0.3,
+        "tournament_size": 8,
+        "fitness": 1.2200143424249457,
+        "standard_deviation": 0.024734614505051943,
+        "max_fitness": 1.2538862620666498
+    },
+    {
+        "mutation_rate": 0.02,
+        "survivor_rate": 0.4,
+        "tournament_size": 2,
+        "fitness": 1.2479088119104103,
+        "standard_deviation": 0.018886406298109157,
+        "max_fitness": 1.2811142640996218
+    },
+    {
+        "mutation_rate": 0.02,
+        "survivor_rate": 0.4,
+        "tournament_size": 3,
+        "fitness": 1.2273458218222388,
+        "standard_deviation": 0.02355784242883694,
+        "max_fitness": 1.2521497682287261
+    },
+    {
+        "mutation_rate": 0.02,
+        "survivor_rate": 0.4,
+        "tournament_size": 5,
+        "fitness": 1.2269798189842904,
+        "standard_deviation": 0.017187974775149165,
+        "max_fitness": 1.252745679509779
+    },
+    {
+        "mutation_rate": 0.02,
+        "survivor_rate": 0.4,
+        "tournament_size": 8,
+        "fitness": 1.2199609605681152,
+        "standard_deviation": 0.008995777225462217,
+        "max_fitness": 1.2339560800842992
+    },
+    {
+        "mutation_rate": 0.02,
+        "survivor_rate": 0.5,
+        "tournament_size": 2,
+        "fitness": 1.2424789589004512,
+        "standard_deviation": 0.011923991799560399,
+        "max_fitness": 1.2627194462958216
+    },
+    {
+        "mutation_rate": 0.02,
+        "survivor_rate": 0.5,
+        "tournament_size": 3,
+        "fitness": 1.2222262399239066,
+        "standard_deviation": 0.029032684787722498,
+        "max_fitness": 1.2579883639772462
+    },
+    {
+        "mutation_rate": 0.02,
+        "survivor_rate": 0.5,
+        "tournament_size": 5,
+        "fitness": 1.2144187773367707,
+        "standard_deviation": 0.023026340446429726,
+        "max_fitness": 1.240670044095618
+    },
+    {
+        "mutation_rate": 0.02,
+        "survivor_rate": 0.5,
+        "tournament_size": 8,
+        "fitness": 1.2198815200840756,
+        "standard_deviation": 0.016163937110628416,
+        "max_fitness": 1.2411569277260135
+    },
+    {
+        "mutation_rate": 0.02,
+        "survivor_rate": 0.7,
+        "tournament_size": 2,
+        "fitness": 1.2300955858463594,
+        "standard_deviation": 0.020977510395595613,
+        "max_fitness": 1.2649072038227054
+    },
+    {
+        "mutation_rate": 0.02,
+        "survivor_rate": 0.7,
+        "tournament_size": 3,
+        "fitness": 1.205596719904079,
+        "standard_deviation": 0.012731423973249043,
+        "max_fitness": 1.2173910595052941
+    },
+    {
+        "mutation_rate": 0.02,
+        "survivor_rate": 0.7,
+        "tournament_size": 5,
+        "fitness": 1.1852976481769208,
+        "standard_deviation": 0.03355749860856924,
+        "max_fitness": 1.220474853166139
+    },
+    {
+        "mutation_rate": 0.02,
+        "survivor_rate": 0.7,
+        "tournament_size": 8,
+        "fitness": 1.211312002013869,
+        "standard_deviation": 0.022987614348533074,
+        "max_fitness": 1.2424987692435372
+    },
+    {
+        "mutation_rate": 0.08,
+        "survivor_rate": 0.05,
+        "tournament_size": 2,
+        "fitness": 1.2306292079976102,
+        "standard_deviation": 0.028877712483296243,
+        "max_fitness": 1.2651739203354297
+    },
+    {
+        "mutation_rate": 0.08,
+        "survivor_rate": 0.05,
+        "tournament_size": 3,
+        "fitness": 1.2241970410564067,
+        "standard_deviation": 0.01573861562319879,
+        "max_fitness": 1.2394683049542228
+    },
+    {
+        "mutation_rate": 0.08,
+        "survivor_rate": 0.05,
+        "tournament_size": 5,
+        "fitness": 1.2334665927660133,
+        "standard_deviation": 0.023820905783771683,
+        "max_fitness": 1.2619699215612055
+    },
+    {
+        "mutation_rate": 0.08,
+        "survivor_rate": 0.05,
+        "tournament_size": 8,
+        "fitness": 1.2311197829971765,
+        "standard_deviation": 0.02133463950305117,
+        "max_fitness": 1.272629153808604
+    },
+    {
+        "mutation_rate": 0.08,
+        "survivor_rate": 0.1,
+        "tournament_size": 2,
+        "fitness": 1.2260479486777798,
+        "standard_deviation": 0.025855649016514066,
+        "max_fitness": 1.251713476881709
+    },
+    {
+        "mutation_rate": 0.08,
+        "survivor_rate": 0.1,
+        "tournament_size": 3,
+        "fitness": 1.253379295511734,
+        "standard_deviation": 0.012163393069020631,
+        "max_fitness": 1.27721430906482
+    },
+    {
+        "mutation_rate": 0.08,
+        "survivor_rate": 0.1,
+        "tournament_size": 5,
+        "fitness": 1.2327230069905788,
+        "standard_deviation": 0.018722422223613994,
+        "max_fitness": 1.2627007855653432
+    },
+    {
+        "mutation_rate": 0.08,
+        "survivor_rate": 0.1,
+        "tournament_size": 8,
+        "fitness": 1.2401861293142722,
+        "standard_deviation": 0.022477538405507997,
+        "max_fitness": 1.2709814084507043
+    },
+    {
+        "mutation_rate": 0.08,
+        "survivor_rate": 0.2,
+        "tournament_size": 2,
+        "fitness": 1.2613302787396976,
+        "standard_deviation": 0.017312158835340586,
+        "max_fitness": 1.2789236363636363
+    },
+    {
+        "mutation_rate": 0.08,
+        "survivor_rate": 0.2,
+        "tournament_size": 3,
+        "fitness": 1.25012437352229,
+        "standard_deviation": 0.023152798601555887,
+        "max_fitness": 1.2802293631436314
+    },
+    {
+        "mutation_rate": 0.08,
+        "survivor_rate": 0.2,
+        "tournament_size": 5,
+        "fitness": 1.233675066613037,
+        "standard_deviation": 0.024825419738963836,
+        "max_fitness": 1.2688091043203373
+    },
+    {
+        "mutation_rate": 0.08,
+        "survivor_rate": 0.2,
+        "tournament_size": 8,
+        "fitness": 1.2422295681181517,
+        "standard_deviation": 0.015738019449393927,
+        "max_fitness": 1.2632220585936675
+    },
+    {
+        "mutation_rate": 0.08,
+        "survivor_rate": 0.3,
+        "tournament_size": 2,
+        "fitness": 1.2555476363768978,
+        "standard_deviation": 0.011539338089786074,
+        "max_fitness": 1.2720691418096983
+    },
+    {
+        "mutation_rate": 0.08,
+        "survivor_rate": 0.3,
+        "tournament_size": 3,
+        "fitness": 1.2635610340847454,
+        "standard_deviation": 0.009424647344810076,
+        "max_fitness": 1.279957505534439
+    },
+    {
+        "mutation_rate": 0.08,
+        "survivor_rate": 0.3,
+        "tournament_size": 5,
+        "fitness": 1.2509603764331425,
+        "standard_deviation": 0.005724923568022904,
+        "max_fitness": 1.2575773086871491
+    },
+    {
+        "mutation_rate": 0.08,
+        "survivor_rate": 0.3,
+        "tournament_size": 8,
+        "fitness": 1.2334822367958052,
+        "standard_deviation": 0.03167956605303509,
+        "max_fitness": 1.2872005870020964
+    },
+    {
+        "mutation_rate": 0.08,
+        "survivor_rate": 0.4,
+        "tournament_size": 2,
+        "fitness": 1.2409957687672903,
+        "standard_deviation": 0.02007610769339536,
+        "max_fitness": 1.2756368415474297
+    },
+    {
+        "mutation_rate": 0.08,
+        "survivor_rate": 0.4,
+        "tournament_size": 3,
+        "fitness": 1.2411802374074838,
+        "standard_deviation": 0.02032738174503698,
+        "max_fitness": 1.2730611936539915
+    },
+    {
+        "mutation_rate": 0.08,
+        "survivor_rate": 0.4,
+        "tournament_size": 5,
+        "fitness": 1.2628445155936898,
+        "standard_deviation": 0.026247852055276015,
+        "max_fitness": 1.3053881296424161
+    },
+    {
+        "mutation_rate": 0.08,
+        "survivor_rate": 0.4,
+        "tournament_size": 8,
+        "fitness": 1.235809897336967,
+        "standard_deviation": 0.012220614347995701,
+        "max_fitness": 1.2533055765199161
+    },
+    {
+        "mutation_rate": 0.08,
+        "survivor_rate": 0.5,
+        "tournament_size": 2,
+        "fitness": 1.2512521689039109,
+        "standard_deviation": 0.01939387436605055,
+        "max_fitness": 1.280494693877551
+    },
+    {
+        "mutation_rate": 0.08,
+        "survivor_rate": 0.5,
+        "tournament_size": 3,
+        "fitness": 1.2553296771549933,
+        "standard_deviation": 0.007621107539991781,
+        "max_fitness": 1.262819314302593
+    },
+    {
+        "mutation_rate": 0.08,
+        "survivor_rate": 0.5,
+        "tournament_size": 5,
+        "fitness": 1.2314076345131946,
+        "standard_deviation": 0.009746532238378692,
+        "max_fitness": 1.2477387330623306
+    },
+    {
+        "mutation_rate": 0.08,
+        "survivor_rate": 0.5,
+        "tournament_size": 8,
+        "fitness": 1.236224152628429,
+        "standard_deviation": 0.02800636156736094,
+        "max_fitness": 1.2721747985347984
+    },
+    {
+        "mutation_rate": 0.08,
+        "survivor_rate": 0.7,
+        "tournament_size": 2,
+        "fitness": 1.2542577450577688,
+        "standard_deviation": 0.013383259569029608,
+        "max_fitness": 1.2775466666666666
+    },
+    {
+        "mutation_rate": 0.08,
+        "survivor_rate": 0.7,
+        "tournament_size": 3,
+        "fitness": 1.2263296924593459,
+        "standard_deviation": 0.020399136348075417,
+        "max_fitness": 1.2471278398314014
+    },
+    {
+        "mutation_rate": 0.08,
+        "survivor_rate": 0.7,
+        "tournament_size": 5,
+        "fitness": 1.2404929020787727,
+        "standard_deviation": 0.016044853939375766,
+        "max_fitness": 1.2619460361428245
+    },
+    {
+        "mutation_rate": 0.08,
+        "survivor_rate": 0.7,
+        "tournament_size": 8,
+        "fitness": 1.2263964199541606,
+        "standard_deviation": 0.01868025093999562,
+        "max_fitness": 1.2519226891477357
+    },
+    {
+        "mutation_rate": 0.1,
+        "survivor_rate": 0.05,
+        "tournament_size": 2,
+        "fitness": 1.2442313782306622,
+        "standard_deviation": 0.022021779903806535,
+        "max_fitness": 1.280248846879268
+    },
+    {
+        "mutation_rate": 0.1,
+        "survivor_rate": 0.05,
+        "tournament_size": 3,
+        "fitness": 1.2382641305032627,
+        "standard_deviation": 0.01793312770361125,
+        "max_fitness": 1.2656066964621362
+    },
+    {
+        "mutation_rate": 0.1,
+        "survivor_rate": 0.05,
+        "tournament_size": 5,
+        "fitness": 1.2256179803993204,
+        "standard_deviation": 0.0293578109077785,
+        "max_fitness": 1.2780238100645596
+    },
+    {
+        "mutation_rate": 0.1,
+        "survivor_rate": 0.05,
+        "tournament_size": 8,
+        "fitness": 1.238414848826131,
+        "standard_deviation": 0.02818605717567968,
+        "max_fitness": 1.2683125885558584
+    },
+    {
+        "mutation_rate": 0.1,
+        "survivor_rate": 0.1,
+        "tournament_size": 2,
+        "fitness": 1.2419031566406513,
+        "standard_deviation": 0.012976560481343479,
+        "max_fitness": 1.259764396276935
+    },
+    {
+        "mutation_rate": 0.1,
+        "survivor_rate": 0.1,
+        "tournament_size": 3,
+        "fitness": 1.2557051466414635,
+        "standard_deviation": 0.014882521205370841,
+        "max_fitness": 1.2786313937466878
+    },
+    {
+        "mutation_rate": 0.1,
+        "survivor_rate": 0.1,
+        "tournament_size": 5,
+        "fitness": 1.2455932674646146,
+        "standard_deviation": 0.0207560349190563,
+        "max_fitness": 1.2715778957818473
+    },
+    {
+        "mutation_rate": 0.1,
+        "survivor_rate": 0.1,
+        "tournament_size": 8,
+        "fitness": 1.2618505337768153,
+        "standard_deviation": 0.005903288685629331,
+        "max_fitness": 1.2698497543515777
+    },
+    {
+        "mutation_rate": 0.1,
+        "survivor_rate": 0.2,
+        "tournament_size": 2,
+        "fitness": 1.247585996831622,
+        "standard_deviation": 0.010621913991033573,
+        "max_fitness": 1.2635705795574288
+    },
+    {
+        "mutation_rate": 0.1,
+        "survivor_rate": 0.2,
+        "tournament_size": 3,
+        "fitness": 1.2573080362740914,
+        "standard_deviation": 0.012104081341985335,
+        "max_fitness": 1.2691580443274806
+    },
+    {
+        "mutation_rate": 0.1,
+        "survivor_rate": 0.2,
+        "tournament_size": 5,
+        "fitness": 1.2550119575865017,
+        "standard_deviation": 0.019630120223293742,
+        "max_fitness": 1.28273794282346
+    },
+    {
+        "mutation_rate": 0.1,
+        "survivor_rate": 0.2,
+        "tournament_size": 8,
+        "fitness": 1.24935009114574,
+        "standard_deviation": 0.02281717584216505,
+        "max_fitness": 1.2897127882599582
+    },
+    {
+        "mutation_rate": 0.1,
+        "survivor_rate": 0.3,
+        "tournament_size": 2,
+        "fitness": 1.2585362470285246,
+        "standard_deviation": 0.022822843130488414,
+        "max_fitness": 1.2876763174523467
+    },
+    {
+        "mutation_rate": 0.1,
+        "survivor_rate": 0.3,
+        "tournament_size": 3,
+        "fitness": 1.2608392820549572,
+        "standard_deviation": 0.011742827373579325,
+        "max_fitness": 1.2787641988950278
+    },
+    {
+        "mutation_rate": 0.1,
+        "survivor_rate": 0.3,
+        "tournament_size": 5,
+        "fitness": 1.2508400953647931,
+        "standard_deviation": 0.02833060723895189,
+        "max_fitness": 1.2937011031494752
+    },
+    {
+        "mutation_rate": 0.1,
+        "survivor_rate": 0.3,
+        "tournament_size": 8,
+        "fitness": 1.253615034934662,
+        "standard_deviation": 0.024958806530828725,
+        "max_fitness": 1.2791144219150872
+    },
+    {
+        "mutation_rate": 0.1,
+        "survivor_rate": 0.4,
+        "tournament_size": 2,
+        "fitness": 1.2789081223736958,
+        "standard_deviation": 0.020882691184227017,
+        "max_fitness": 1.3110819576088548
+    },
+    {
+        "mutation_rate": 0.1,
+        "survivor_rate": 0.4,
+        "tournament_size": 3,
+        "fitness": 1.2642752190959645,
+        "standard_deviation": 0.02323713237707718,
+        "max_fitness": 1.3089210545509147
+    },
+    {
+        "mutation_rate": 0.1,
+        "survivor_rate": 0.4,
+        "tournament_size": 5,
+        "fitness": 1.2415802232510145,
+        "standard_deviation": 0.010770620425128585,
+        "max_fitness": 1.2561973276421234
+    },
+    {
+        "mutation_rate": 0.1,
+        "survivor_rate": 0.4,
+        "tournament_size": 8,
+        "fitness": 1.2460905748892883,
+        "standard_deviation": 0.021407089746361654,
+        "max_fitness": 1.2778972677595628
+    },
+    {
+        "mutation_rate": 0.1,
+        "survivor_rate": 0.5,
+        "tournament_size": 2,
+        "fitness": 1.2706661269466004,
+        "standard_deviation": 0.02076470344466778,
+        "max_fitness": 1.2998105581502504
+    },
+    {
+        "mutation_rate": 0.1,
+        "survivor_rate": 0.5,
+        "tournament_size": 3,
+        "fitness": 1.26399651999651,
+        "standard_deviation": 0.022110262886002315,
+        "max_fitness": 1.2989662214666309
+    },
+    {
+        "mutation_rate": 0.1,
+        "survivor_rate": 0.5,
+        "tournament_size": 5,
+        "fitness": 1.249638334608681,
+        "standard_deviation": 0.012776736596772335,
+        "max_fitness": 1.267398271865121
+    },
+    {
+        "mutation_rate": 0.1,
+        "survivor_rate": 0.5,
+        "tournament_size": 8,
+        "fitness": 1.2351743936822113,
+        "standard_deviation": 0.02091143474176947,
+        "max_fitness": 1.2720653485584505
+    },
+    {
+        "mutation_rate": 0.1,
+        "survivor_rate": 0.7,
+        "tournament_size": 2,
+        "fitness": 1.2818304264750828,
+        "standard_deviation": 0.024842854913999395,
+        "max_fitness": 1.3256343175487464
+    },
+    {
+        "mutation_rate": 0.1,
+        "survivor_rate": 0.7,
+        "tournament_size": 3,
+        "fitness": 1.2339026117885277,
+        "standard_deviation": 0.03235039226849538,
+        "max_fitness": 1.2737511681386435
+    },
+    {
+        "mutation_rate": 0.1,
+        "survivor_rate": 0.7,
+        "tournament_size": 5,
+        "fitness": 1.2426351576456918,
+        "standard_deviation": 0.018404852854449892,
+        "max_fitness": 1.2652833542976938
+    },
+    {
+        "mutation_rate": 0.1,
+        "survivor_rate": 0.7,
+        "tournament_size": 8,
+        "fitness": 1.2068309322595363,
+        "standard_deviation": 0.0322417601112218,
+        "max_fitness": 1.233912825203252
+    },
+    {
+        "mutation_rate": 0.2,
+        "survivor_rate": 0.05,
+        "tournament_size": 2,
+        "fitness": 1.2648239355281872,
+        "standard_deviation": 0.02870763426166559,
+        "max_fitness": 1.3139314917127072
+    },
+    {
+        "mutation_rate": 0.2,
+        "survivor_rate": 0.05,
+        "tournament_size": 3,
+        "fitness": 1.2519683239129067,
+        "standard_deviation": 0.0209609349051345,
+        "max_fitness": 1.28473575651156
+    },
+    {
+        "mutation_rate": 0.2,
+        "survivor_rate": 0.05,
+        "tournament_size": 5,
+        "fitness": 1.263151360629306,
+        "standard_deviation": 0.006374180116568155,
+        "max_fitness": 1.2670476190476192
+    },
+    {
+        "mutation_rate": 0.2,
+        "survivor_rate": 0.05,
+        "tournament_size": 8,
+        "fitness": 1.255924904757348,
+        "standard_deviation": 0.03483298201066264,
+        "max_fitness": 1.2945962823802035
+    },
+    {
+        "mutation_rate": 0.2,
+        "survivor_rate": 0.1,
+        "tournament_size": 2,
+        "fitness": 1.2752456167436044,
+        "standard_deviation": 0.015451277737655388,
+        "max_fitness": 1.2909095652173912
+    },
+    {
+        "mutation_rate": 0.2,
+        "survivor_rate": 0.1,
+        "tournament_size": 3,
+        "fitness": 1.2716700315180387,
+        "standard_deviation": 0.018318161168283838,
+        "max_fitness": 1.3003766876310272
+    },
+    {
+        "mutation_rate": 0.2,
+        "survivor_rate": 0.1,
+        "tournament_size": 5,
+        "fitness": 1.262682925368607,
+        "standard_deviation": 0.020178292573813632,
+        "max_fitness": 1.291676006864752
+    },
+    {
+        "mutation_rate": 0.2,
+        "survivor_rate": 0.1,
+        "tournament_size": 8,
+        "fitness": 1.2566708623877807,
+        "standard_deviation": 0.018381377305135713,
+        "max_fitness": 1.2820526162911325
+    },
+    {
+        "mutation_rate": 0.2,
+        "survivor_rate": 0.2,
+        "tournament_size": 2,
+        "fitness": 1.2869188813582357,
+        "standard_deviation": 0.023034683682801534,
+        "max_fitness": 1.3065167536014344
+    },
+    {
+        "mutation_rate": 0.2,
+        "survivor_rate": 0.2,
+        "tournament_size": 3,
+        "fitness": 1.2727221853819066,
+        "standard_deviation": 0.014593433095288287,
+        "max_fitness": 1.2952977788877789
+    },
+    {
+        "mutation_rate": 0.2,
+        "survivor_rate": 0.2,
+        "tournament_size": 5,
+        "fitness": 1.2483215256171267,
+        "standard_deviation": 0.011470900640502428,
+        "max_fitness": 1.2705201638552193
+    },
+    {
+        "mutation_rate": 0.2,
+        "survivor_rate": 0.2,
+        "tournament_size": 8,
+        "fitness": 1.2584569582561087,
+        "standard_deviation": 0.00954608070390738,
+        "max_fitness": 1.2680347985347984
+    },
+    {
+        "mutation_rate": 0.2,
+        "survivor_rate": 0.3,
+        "tournament_size": 2,
+        "fitness": 1.2834505012035875,
+        "standard_deviation": 0.02200926274133855,
+        "max_fitness": 1.3220147129896735
+    },
+    {
+        "mutation_rate": 0.2,
+        "survivor_rate": 0.3,
+        "tournament_size": 3,
+        "fitness": 1.2744983587712564,
+        "standard_deviation": 0.020046540804417437,
+        "max_fitness": 1.3036727882599581
+    },
+    {
+        "mutation_rate": 0.2,
+        "survivor_rate": 0.3,
+        "tournament_size": 5,
+        "fitness": 1.2740389096442661,
+        "standard_deviation": 0.011353132800067134,
+        "max_fitness": 1.2896754071778764
+    },
+    {
+        "mutation_rate": 0.2,
+        "survivor_rate": 0.3,
+        "tournament_size": 8,
+        "fitness": 1.2808867897019265,
+        "standard_deviation": 0.029780399250954423,
+        "max_fitness": 1.3358416771488468
+    },
+    {
+        "mutation_rate": 0.2,
+        "survivor_rate": 0.4,
+        "tournament_size": 2,
+        "fitness": 1.2950391306264906,
+        "standard_deviation": 0.023431048527473325,
+        "max_fitness": 1.3338821773302478
+    },
+    {
+        "mutation_rate": 0.2,
+        "survivor_rate": 0.4,
+        "tournament_size": 3,
+        "fitness": 1.2722883605770385,
+        "standard_deviation": 0.01778629825556398,
+        "max_fitness": 1.2828810647368312
+    },
+    {
+        "mutation_rate": 0.2,
+        "survivor_rate": 0.4,
+        "tournament_size": 5,
+        "fitness": 1.2627278887813493,
+        "standard_deviation": 0.019557005822979305,
+        "max_fitness": 1.2892419515866047
+    },
+    {
+        "mutation_rate": 0.2,
+        "survivor_rate": 0.4,
+        "tournament_size": 8,
+        "fitness": 1.2558460160961764,
+        "standard_deviation": 0.022590829352472617,
+        "max_fitness": 1.2824378025844556
+    },
+    {
+        "mutation_rate": 0.2,
+        "survivor_rate": 0.5,
+        "tournament_size": 2,
+        "fitness": 1.3134812097071802,
+        "standard_deviation": 0.013726877325679163,
+        "max_fitness": 1.3384540259740259
+    },
+    {
+        "mutation_rate": 0.2,
+        "survivor_rate": 0.5,
+        "tournament_size": 3,
+        "fitness": 1.2822974659152364,
+        "standard_deviation": 0.013704931156787784,
+        "max_fitness": 1.292329945437757
+    },
+    {
+        "mutation_rate": 0.2,
+        "survivor_rate": 0.5,
+        "tournament_size": 5,
+        "fitness": 1.273260700694061,
+        "standard_deviation": 0.018179179214318816,
+        "max_fitness": 1.2961393877764527
+    },
+    {
+        "mutation_rate": 0.2,
+        "survivor_rate": 0.5,
+        "tournament_size": 8,
+        "fitness": 1.262141432821629,
+        "standard_deviation": 0.011079729103150025,
+        "max_fitness": 1.2777841977179907
+    },
+    {
+        "mutation_rate": 0.2,
+        "survivor_rate": 0.7,
+        "tournament_size": 2,
+        "fitness": 1.2625790259898928,
+        "standard_deviation": 0.016039116676560564,
+        "max_fitness": 1.2919934928229666
+    },
+    {
+        "mutation_rate": 0.2,
+        "survivor_rate": 0.7,
+        "tournament_size": 3,
+        "fitness": 1.254034616035897,
+        "standard_deviation": 0.01974780450190076,
+        "max_fitness": 1.2824251225873762
+    },
+    {
+        "mutation_rate": 0.2,
+        "survivor_rate": 0.7,
+        "tournament_size": 5,
+        "fitness": 1.2553240109478327,
+        "standard_deviation": 0.026800646877372457,
+        "max_fitness": 1.3025600133311115
+    },
+    {
+        "mutation_rate": 0.2,
+        "survivor_rate": 0.7,
+        "tournament_size": 8,
+        "fitness": 1.2385389167357108,
+        "standard_deviation": 0.02477435672326665,
+        "max_fitness": 1.271347360043563
+    },
+    {
+        "mutation_rate": 0.3,
+        "survivor_rate": 0.05,
+        "tournament_size": 2,
+        "fitness": 1.2416285410958854,
+        "standard_deviation": 0.028094775459700714,
+        "max_fitness": 1.268262016348774
+    },
+    {
+        "mutation_rate": 0.3,
+        "survivor_rate": 0.05,
+        "tournament_size": 3,
+        "fitness": 1.2815817663657127,
+        "standard_deviation": 0.026141438202817325,
+        "max_fitness": 1.325497525807526
+    },
+    {
+        "mutation_rate": 0.3,
+        "survivor_rate": 0.05,
+        "tournament_size": 5,
+        "fitness": 1.2776337708711545,
+        "standard_deviation": 0.010752157421152356,
+        "max_fitness": 1.2976284968689131
+    },
+    {
+        "mutation_rate": 0.3,
+        "survivor_rate": 0.05,
+        "tournament_size": 8,
+        "fitness": 1.276164768435122,
+        "standard_deviation": 0.0199908904380529,
+        "max_fitness": 1.3025785381285382
+    },
+    {
+        "mutation_rate": 0.3,
+        "survivor_rate": 0.1,
+        "tournament_size": 2,
+        "fitness": 1.2702875673666418,
+        "standard_deviation": 0.026213514376519545,
+        "max_fitness": 1.3084565972439384
+    },
+    {
+        "mutation_rate": 0.3,
+        "survivor_rate": 0.1,
+        "tournament_size": 3,
+        "fitness": 1.2981815503744154,
+        "standard_deviation": 0.020679994538382443,
+        "max_fitness": 1.3168711111111113
+    },
+    {
+        "mutation_rate": 0.3,
+        "survivor_rate": 0.1,
+        "tournament_size": 5,
+        "fitness": 1.2710665650386623,
+        "standard_deviation": 0.02468093434515925,
+        "max_fitness": 1.308203730084737
+    },
+    {
+        "mutation_rate": 0.3,
+        "survivor_rate": 0.1,
+        "tournament_size": 8,
+        "fitness": 1.288754275960115,
+        "standard_deviation": 0.01698595843091296,
+        "max_fitness": 1.3092346469968388
+    },
+    {
+        "mutation_rate": 0.3,
+        "survivor_rate": 0.2,
+        "tournament_size": 2,
+        "fitness": 1.2408168764566907,
+        "standard_deviation": 0.01829405793684102,
+        "max_fitness": 1.2676315290493712
+    },
+    {
+        "mutation_rate": 0.3,
+        "survivor_rate": 0.2,
+        "tournament_size": 3,
+        "fitness": 1.2874244605460397,
+        "standard_deviation": 0.013947089412538754,
+        "max_fitness": 1.301240110297929
+    },
+    {
+        "mutation_rate": 0.3,
+        "survivor_rate": 0.2,
+        "tournament_size": 5,
+        "fitness": 1.266331895253296,
+        "standard_deviation": 0.030826272293709513,
+        "max_fitness": 1.3229812008281574
+    },
+    {
+        "mutation_rate": 0.3,
+        "survivor_rate": 0.2,
+        "tournament_size": 8,
+        "fitness": 1.2638962024568072,
+        "standard_deviation": 0.023546642116996412,
+        "max_fitness": 1.2861394549266247
+    },
+    {
+        "mutation_rate": 0.3,
+        "survivor_rate": 0.3,
+        "tournament_size": 2,
+        "fitness": 1.2764001769369933,
+        "standard_deviation": 0.01824181688700923,
+        "max_fitness": 1.3001519768497984
+    },
+    {
+        "mutation_rate": 0.3,
+        "survivor_rate": 0.3,
+        "tournament_size": 3,
+        "fitness": 1.2908638317718009,
+        "standard_deviation": 0.024500997400343373,
+        "max_fitness": 1.311472008757526
+    },
+    {
+        "mutation_rate": 0.3,
+        "survivor_rate": 0.3,
+        "tournament_size": 5,
+        "fitness": 1.2817933732810407,
+        "standard_deviation": 0.01480478591227619,
+        "max_fitness": 1.3004244863731658
+    },
+    {
+        "mutation_rate": 0.3,
+        "survivor_rate": 0.3,
+        "tournament_size": 8,
+        "fitness": 1.2561555671974198,
+        "standard_deviation": 0.016436210550225226,
+        "max_fitness": 1.2831686125991446
+    },
+    {
+        "mutation_rate": 0.3,
+        "survivor_rate": 0.4,
+        "tournament_size": 2,
+        "fitness": 1.2629931774694023,
+        "standard_deviation": 0.009890541288127492,
+        "max_fitness": 1.2768912995309547
+    },
+    {
+        "mutation_rate": 0.3,
+        "survivor_rate": 0.4,
+        "tournament_size": 3,
+        "fitness": 1.3019871038832473,
+        "standard_deviation": 0.01926705990048568,
+        "max_fitness": 1.3188329943502826
+    },
+    {
+        "mutation_rate": 0.3,
+        "survivor_rate": 0.4,
+        "tournament_size": 5,
+        "fitness": 1.250770110135853,
+        "standard_deviation": 0.019916521987694093,
+        "max_fitness": 1.2829489891279202
+    },
+    {
+        "mutation_rate": 0.3,
+        "survivor_rate": 0.4,
+        "tournament_size": 8,
+        "fitness": 1.2394811760940088,
+        "standard_deviation": 0.029390032193279673,
+        "max_fitness": 1.2929167247504652
+    },
+    {
+        "mutation_rate": 0.3,
+        "survivor_rate": 0.5,
+        "tournament_size": 2,
+        "fitness": 1.2794210941684323,
+        "standard_deviation": 0.01815920839723021,
+        "max_fitness": 1.2971754689146469
+    },
+    {
+        "mutation_rate": 0.3,
+        "survivor_rate": 0.5,
+        "tournament_size": 3,
+        "fitness": 1.2875280524757093,
+        "standard_deviation": 0.03718492071333535,
+        "max_fitness": 1.328849994783516
+    },
+    {
+        "mutation_rate": 0.3,
+        "survivor_rate": 0.5,
+        "tournament_size": 5,
+        "fitness": 1.2567208075336047,
+        "standard_deviation": 0.024800337111696807,
+        "max_fitness": 1.295642647979599
+    },
+    {
+        "mutation_rate": 0.3,
+        "survivor_rate": 0.5,
+        "tournament_size": 8,
+        "fitness": 1.2706104845219075,
+        "standard_deviation": 0.02271410787504343,
+        "max_fitness": 1.312337092507308
+    },
+    {
+        "mutation_rate": 0.3,
+        "survivor_rate": 0.7,
+        "tournament_size": 2,
+        "fitness": 1.2402001686292017,
+        "standard_deviation": 0.016296125899384714,
+        "max_fitness": 1.2682116561002656
+    },
+    {
+        "mutation_rate": 0.3,
+        "survivor_rate": 0.7,
+        "tournament_size": 3,
+        "fitness": 1.2626665006175186,
+        "standard_deviation": 0.0236609346651708,
+        "max_fitness": 1.2997531906752346
+    },
+    {
+        "mutation_rate": 0.3,
+        "survivor_rate": 0.7,
+        "tournament_size": 5,
+        "fitness": 1.2536827158760184,
+        "standard_deviation": 0.03298313483441209,
+        "max_fitness": 1.3003362816171244
+    },
+    {
+        "mutation_rate": 0.3,
+        "survivor_rate": 0.7,
+        "tournament_size": 8,
+        "fitness": 1.2495392108090286,
+        "standard_deviation": 0.027342209333524794,
+        "max_fitness": 1.2931645696400627
+    },
+    {
+        "mutation_rate": 0.4,
+        "survivor_rate": 0.05,
+        "tournament_size": 2,
+        "fitness": 1.2742281822345352,
+        "standard_deviation": 0.02201255921300444,
+        "max_fitness": 1.3088700609655626
+    },
+    {
+        "mutation_rate": 0.4,
+        "survivor_rate": 0.05,
+        "tournament_size": 3,
+        "fitness": 1.2931536961642565,
+        "standard_deviation": 0.03035763006617432,
+        "max_fitness": 1.322789274292743
+    },
+    {
+        "mutation_rate": 0.4,
+        "survivor_rate": 0.05,
+        "tournament_size": 5,
+        "fitness": 1.2924179183052338,
+        "standard_deviation": 0.020966107587242124,
+        "max_fitness": 1.321462811706987
+    },
+    {
+        "mutation_rate": 0.4,
+        "survivor_rate": 0.05,
+        "tournament_size": 8,
+        "fitness": 1.2582826681031922,
+        "standard_deviation": 0.017826013891836683,
+        "max_fitness": 1.2762125774225774
+    },
+    {
+        "mutation_rate": 0.4,
+        "survivor_rate": 0.1,
+        "tournament_size": 2,
+        "fitness": 1.254204363445599,
+        "standard_deviation": 0.027729080153570677,
+        "max_fitness": 1.2907622641509435
+    },
+    {
+        "mutation_rate": 0.4,
+        "survivor_rate": 0.1,
+        "tournament_size": 3,
+        "fitness": 1.2851151551473905,
+        "standard_deviation": 0.007215337713335982,
+        "max_fitness": 1.2966811603721948
+    },
+    {
+        "mutation_rate": 0.4,
+        "survivor_rate": 0.1,
+        "tournament_size": 5,
+        "fitness": 1.2831592918204229,
+        "standard_deviation": 0.023501906018236707,
+        "max_fitness": 1.3217570560962366
+    },
+    {
+        "mutation_rate": 0.4,
+        "survivor_rate": 0.1,
+        "tournament_size": 8,
+        "fitness": 1.2695514023489092,
+        "standard_deviation": 0.016238475180377097,
+        "max_fitness": 1.2965277922077922
+    },
+    {
+        "mutation_rate": 0.4,
+        "survivor_rate": 0.2,
+        "tournament_size": 2,
+        "fitness": 1.2370731876151777,
+        "standard_deviation": 0.01539206971769551,
+        "max_fitness": 1.2643535742971888
+    },
+    {
+        "mutation_rate": 0.4,
+        "survivor_rate": 0.2,
+        "tournament_size": 3,
+        "fitness": 1.2919779917978829,
+        "standard_deviation": 0.021110032270630914,
+        "max_fitness": 1.321910559006211
+    },
+    {
+        "mutation_rate": 0.4,
+        "survivor_rate": 0.2,
+        "tournament_size": 5,
+        "fitness": 1.2719169975388205,
+        "standard_deviation": 0.020678926476528914,
+        "max_fitness": 1.288072788259958
+    },
+    {
+        "mutation_rate": 0.4,
+        "survivor_rate": 0.2,
+        "tournament_size": 8,
+        "fitness": 1.2473409322767801,
+        "standard_deviation": 0.01917110640933528,
+        "max_fitness": 1.2683065547889862
+    },
+    {
+        "mutation_rate": 0.4,
+        "survivor_rate": 0.3,
+        "tournament_size": 2,
+        "fitness": 1.2263201988020946,
+        "standard_deviation": 0.015280793666522846,
+        "max_fitness": 1.2488544891536235
+    },
+    {
+        "mutation_rate": 0.4,
+        "survivor_rate": 0.3,
+        "tournament_size": 3,
+        "fitness": 1.3026070208104639,
+        "standard_deviation": 0.013023414861671405,
+        "max_fitness": 1.317234465408805
+    },
+    {
+        "mutation_rate": 0.4,
+        "survivor_rate": 0.3,
+        "tournament_size": 5,
+        "fitness": 1.2660191056887764,
+        "standard_deviation": 0.014728953303883166,
+        "max_fitness": 1.2845827665139247
+    },
+    {
+        "mutation_rate": 0.4,
+        "survivor_rate": 0.3,
+        "tournament_size": 8,
+        "fitness": 1.2753419479094772,
+        "standard_deviation": 0.012027120645778693,
+        "max_fitness": 1.290082798102981
+    },
+    {
+        "mutation_rate": 0.4,
+        "survivor_rate": 0.4,
+        "tournament_size": 2,
+        "fitness": 1.2336078684779692,
+        "standard_deviation": 0.01932666772223075,
+        "max_fitness": 1.2532697684487553
+    },
+    {
+        "mutation_rate": 0.4,
+        "survivor_rate": 0.4,
+        "tournament_size": 3,
+        "fitness": 1.2876709807873785,
+        "standard_deviation": 0.018996638334141534,
+        "max_fitness": 1.3146919477424572
+    },
+    {
+        "mutation_rate": 0.4,
+        "survivor_rate": 0.4,
+        "tournament_size": 5,
+        "fitness": 1.284377890988514,
+        "standard_deviation": 0.039920807237699564,
+        "max_fitness": 1.3293353846153846
+    },
+    {
+        "mutation_rate": 0.4,
+        "survivor_rate": 0.4,
+        "tournament_size": 8,
+        "fitness": 1.2774591422584622,
+        "standard_deviation": 0.030905824748592936,
+        "max_fitness": 1.3147772109575435
+    },
+    {
+        "mutation_rate": 0.4,
+        "survivor_rate": 0.5,
+        "tournament_size": 2,
+        "fitness": 1.24227332206549,
+        "standard_deviation": 0.012599527238945519,
+        "max_fitness": 1.2537956430221615
+    },
+    {
+        "mutation_rate": 0.4,
+        "survivor_rate": 0.5,
+        "tournament_size": 3,
+        "fitness": 1.2673987265740478,
+        "standard_deviation": 0.0314890132296984,
+        "max_fitness": 1.2930722338274232
+    },
+    {
+        "mutation_rate": 0.4,
+        "survivor_rate": 0.5,
+        "tournament_size": 5,
+        "fitness": 1.2706209493041873,
+        "standard_deviation": 0.033163705289874806,
+        "max_fitness": 1.30537239199157
+    },
+    {
+        "mutation_rate": 0.4,
+        "survivor_rate": 0.5,
+        "tournament_size": 8,
+        "fitness": 1.267835660152658,
+        "standard_deviation": 0.038437961056663146,
+        "max_fitness": 1.3096509175025761
+    },
+    {
+        "mutation_rate": 0.4,
+        "survivor_rate": 0.7,
+        "tournament_size": 2,
+        "fitness": 1.2558673674082788,
+        "standard_deviation": 0.012064761489414178,
+        "max_fitness": 1.278095925224201
+    },
+    {
+        "mutation_rate": 0.4,
+        "survivor_rate": 0.7,
+        "tournament_size": 3,
+        "fitness": 1.2386214408183567,
+        "standard_deviation": 0.032844275024858156,
+        "max_fitness": 1.2880627516509484
+    },
+    {
+        "mutation_rate": 0.4,
+        "survivor_rate": 0.7,
+        "tournament_size": 5,
+        "fitness": 1.2325354165088456,
+        "standard_deviation": 0.031027258227823932,
+        "max_fitness": 1.2817401344973058
+    },
+    {
+        "mutation_rate": 0.4,
+        "survivor_rate": 0.7,
+        "tournament_size": 8,
+        "fitness": 1.2726643563852094,
+        "standard_deviation": 0.032158322042987804,
+        "max_fitness": 1.304557778887779
+    },
+    {
+        "mutation_rate": 0.5,
+        "survivor_rate": 0.05,
+        "tournament_size": 2,
+        "fitness": 1.247062119765527,
+        "standard_deviation": 0.01773205168189243,
+        "max_fitness": 1.2745305313422832
+    },
+    {
+        "mutation_rate": 0.5,
+        "survivor_rate": 0.05,
+        "tournament_size": 3,
+        "fitness": 1.2857404003526935,
+        "standard_deviation": 0.015244767681049586,
+        "max_fitness": 1.3031946277176194
+    },
+    {
+        "mutation_rate": 0.5,
+        "survivor_rate": 0.05,
+        "tournament_size": 5,
+        "fitness": 1.2803162309895448,
+        "standard_deviation": 0.022983217565284556,
+        "max_fitness": 1.3132315301799848
+    },
+    {
+        "mutation_rate": 0.5,
+        "survivor_rate": 0.05,
+        "tournament_size": 8,
+        "fitness": 1.25622829004415,
+        "standard_deviation": 0.016139610382038292,
+        "max_fitness": 1.2730073207373465
+    },
+    {
+        "mutation_rate": 0.5,
+        "survivor_rate": 0.1,
+        "tournament_size": 2,
+        "fitness": 1.2286576755265242,
+        "standard_deviation": 0.0025617747943371314,
+        "max_fitness": 1.2323167295597484
+    },
+    {
+        "mutation_rate": 0.5,
+        "survivor_rate": 0.1,
+        "tournament_size": 3,
+        "fitness": 1.2758693449974503,
+        "standard_deviation": 0.012052147999252368,
+        "max_fitness": 1.2956389704065177
+    },
+    {
+        "mutation_rate": 0.5,
+        "survivor_rate": 0.1,
+        "tournament_size": 5,
+        "fitness": 1.3086442469512773,
+        "standard_deviation": 0.010752017128540393,
+        "max_fitness": 1.3226531412103746
+    },
+    {
+        "mutation_rate": 0.5,
+        "survivor_rate": 0.1,
+        "tournament_size": 8,
+        "fitness": 1.2734729368889863,
+        "standard_deviation": 0.013011731118135693,
+        "max_fitness": 1.296281555317225
+    },
+    {
+        "mutation_rate": 0.5,
+        "survivor_rate": 0.2,
+        "tournament_size": 2,
+        "fitness": 1.2111278429734327,
+        "standard_deviation": 0.018914370245269155,
+        "max_fitness": 1.2473291734417344
+    },
+    {
+        "mutation_rate": 0.5,
+        "survivor_rate": 0.2,
+        "tournament_size": 3,
+        "fitness": 1.2930800581230977,
+        "standard_deviation": 0.011374160806191864,
+        "max_fitness": 1.309152474827769
+    },
+    {
+        "mutation_rate": 0.5,
+        "survivor_rate": 0.2,
+        "tournament_size": 5,
+        "fitness": 1.2978461757535127,
+        "standard_deviation": 0.017597940300984546,
+        "max_fitness": 1.326348051948052
+    },
+    {
+        "mutation_rate": 0.5,
+        "survivor_rate": 0.2,
+        "tournament_size": 8,
+        "fitness": 1.2951897349419348,
+        "standard_deviation": 0.010562333915339206,
+        "max_fitness": 1.3079632961244199
+    },
+    {
+        "mutation_rate": 0.5,
+        "survivor_rate": 0.3,
+        "tournament_size": 2,
+        "fitness": 1.2298322412373204,
+        "standard_deviation": 0.018244342683292253,
+        "max_fitness": 1.2521411207949138
+    },
+    {
+        "mutation_rate": 0.5,
+        "survivor_rate": 0.3,
+        "tournament_size": 3,
+        "fitness": 1.3045659151531097,
+        "standard_deviation": 0.011668631383347838,
+        "max_fitness": 1.3263484465754003
+    },
+    {
+        "mutation_rate": 0.5,
+        "survivor_rate": 0.3,
+        "tournament_size": 5,
+        "fitness": 1.2695655130807513,
+        "standard_deviation": 0.025573937860190413,
+        "max_fitness": 1.2904096132757938
+    },
+    {
+        "mutation_rate": 0.5,
+        "survivor_rate": 0.3,
+        "tournament_size": 8,
+        "fitness": 1.272497955015545,
+        "standard_deviation": 0.012041219758209666,
+        "max_fitness": 1.293087329842932
+    },
+    {
+        "mutation_rate": 0.5,
+        "survivor_rate": 0.4,
+        "tournament_size": 2,
+        "fitness": 1.2220539444484408,
+        "standard_deviation": 0.011093808659314978,
+        "max_fitness": 1.235676492319492
+    },
+    {
+        "mutation_rate": 0.5,
+        "survivor_rate": 0.4,
+        "tournament_size": 3,
+        "fitness": 1.2740475532969782,
+        "standard_deviation": 0.02773391630205112,
+        "max_fitness": 1.3266967062122068
+    },
+    {
+        "mutation_rate": 0.5,
+        "survivor_rate": 0.4,
+        "tournament_size": 5,
+        "fitness": 1.3008268585967215,
+        "standard_deviation": 0.025897875039171524,
+        "max_fitness": 1.3411679065040651
+    },
+    {
+        "mutation_rate": 0.5,
+        "survivor_rate": 0.4,
+        "tournament_size": 8,
+        "fitness": 1.282057578309562,
+        "standard_deviation": 0.01170858834937287,
+        "max_fitness": 1.3023881293057764
+    },
+    {
+        "mutation_rate": 0.5,
+        "survivor_rate": 0.5,
+        "tournament_size": 2,
+        "fitness": 1.2426789892011727,
+        "standard_deviation": 0.019749687898529458,
+        "max_fitness": 1.275324387917329
+    },
+    {
+        "mutation_rate": 0.5,
+        "survivor_rate": 0.5,
+        "tournament_size": 3,
+        "fitness": 1.269906901161874,
+        "standard_deviation": 0.024488349787401213,
+        "max_fitness": 1.293801546961326
+    },
+    {
+        "mutation_rate": 0.5,
+        "survivor_rate": 0.5,
+        "tournament_size": 5,
+        "fitness": 1.2679502703598644,
+        "standard_deviation": 0.018573871648867528,
+        "max_fitness": 1.2887844863731657
+    },
+    {
+        "mutation_rate": 0.5,
+        "survivor_rate": 0.5,
+        "tournament_size": 8,
+        "fitness": 1.2575183712953526,
+        "standard_deviation": 0.010302487208147694,
+        "max_fitness": 1.2702933333333335
+    },
+    {
+        "mutation_rate": 0.5,
+        "survivor_rate": 0.7,
+        "tournament_size": 2,
+        "fitness": 1.2545515381668675,
+        "standard_deviation": 0.020731405059301992,
+        "max_fitness": 1.2847866548776894
+    },
+    {
+        "mutation_rate": 0.5,
+        "survivor_rate": 0.7,
+        "tournament_size": 3,
+        "fitness": 1.2727743597696115,
+        "standard_deviation": 0.02174428015043169,
+        "max_fitness": 1.31241392033543
+    },
+    {
+        "mutation_rate": 0.5,
+        "survivor_rate": 0.7,
+        "tournament_size": 5,
+        "fitness": 1.2611116151567372,
+        "standard_deviation": 0.024021160251091862,
+        "max_fitness": 1.3031183623752327
+    },
+    {
+        "mutation_rate": 0.5,
+        "survivor_rate": 0.7,
+        "tournament_size": 8,
+        "fitness": 1.2448692895978177,
+        "standard_deviation": 0.020914559546751883,
+        "max_fitness": 1.2765200625978093
+    }
+]
