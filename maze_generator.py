@@ -169,4 +169,5 @@ class MazeGenerator:
         analyzer.plot_fitness_convergence()
         analyzer.plot_diversity()
 
+
         return analyzer.get_fittest_maze()

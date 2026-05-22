@@ -43,7 +43,7 @@ class Umgebung:
 
             for action, (nx,ny) in (moves.items()):
                 if 0<= ny < len(self.maze) and 0<= nx < len(self.maze[0]):  #ist das feld im labyrinth
-                    if self.maze[ny][nx] != 1: #ist es keine Wand
+                    if self.maze[ny][nx] != maze.Maze.VALUE_WALL: #ist es keine Wand
                         legal.append(action)
             return legal
 
