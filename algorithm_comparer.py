@@ -1,90 +1,74 @@
-import maze_generator
+from maze_generator import MazeGenerator as mg
 import fitness_evaluator
 import matplotlib.pyplot as plt
+import multiprocessing
+import os
+
+
+def _evaluate_worker_batch(run, algorithm, batch_size, maze_size, compare_function):
+    generator = mg()
+    fe = fitness_evaluator.FitnessEvaluator()
+
+    results = [
+        fe.calcFitness(generator.generateMaze(maze_size, algorithm), compare_function)
+        for _ in range(batch_size)
+    ]
+
+    return {"algorithm": algorithm, "run": run, "fitness": max(results)}
 
 class AlgorithmComparer:
 
+    DEFAULT_COMPARE_SET = [mg.MODE_RANDOM, mg.MODE_RANDOM_DFS, mg.MODE_GENETIC_ALGORITHM]
+    DEFAULT_COMPARE_FUNCTION = fitness_evaluator.FitnessEvaluator().FUNCTION_IMPROVED
     DEFAULT_EXPERIMENT_RUNS = 30
-    DEFAULT_SAMPLE_SIZE = 100
 
-    DEFAULT_COMPARE_SET = [maze_generator.MazeGenerator().MODE_RANDOM,maze_generator.MazeGenerator().MODE_RANDOM_DFS]
+    # Kosten pro einzelnem Algorithmus-Aufruf
+    EVALUATION_COSTS = {
+            mg.MODE_RANDOM: 1,
+            mg.MODE_RANDOM_DFS: 1,
+            mg.MODE_GENETIC_ALGORITHM: None,  # wird aus generations * population_size berechnet
+    }
 
-    DEFAULT_COMPARE_FUNCTION="IMPROVED"
+    def __init__(self, maze_size, generations, population_size, compare_set=None, compare_function=None):
+            self.maze_size = maze_size
+            self.evaluation_budget = generations * population_size
 
-    def __init__(self,experiment_runs=DEFAULT_EXPERIMENT_RUNS,sample_size=DEFAULT_SAMPLE_SIZE,compare_set=None,compare_function=DEFAULT_COMPARE_FUNCTION):
-        self.experiment_runs = experiment_runs
-        self.sample_size = sample_size
+            self.evaluation_costs = self.EVALUATION_COSTS.copy()
+            self.evaluation_costs[mg.MODE_GENETIC_ALGORITHM] = self.evaluation_budget
 
-        if compare_set is None:
-            self.compare_set = self.DEFAULT_COMPARE_SET.copy()
-        else:
-            self.compare_set=compare_set.copy()
+            self.compare_set = compare_set or self.DEFAULT_COMPARE_SET.copy()
+            self.compare_function = compare_function or self.DEFAULT_COMPARE_FUNCTION
 
-        self.compare_function = compare_function
-        self.maze_generator = maze_generator.MazeGenerator()
-        self.fitness_evaluator = fitness_evaluator.FitnessEvaluator()
+    def build_tasks(self, experiment_runs=DEFAULT_EXPERIMENT_RUNS):
+            tasks = []
+            for algorithm in self.compare_set:
+                cost = self.evaluation_costs[algorithm]
+                batch_size = self.evaluation_budget // cost
+                for run in range(experiment_runs):
+                    tasks.append((run, algorithm, batch_size, self.maze_size, self.compare_function))
+            return tasks
 
-        self.DEFAULT_COMPARE_FUNCTION=self.fitness_evaluator.FUNCTION_IMPROVED
-
-    #Vergleicht Algorithmen im compare_set, wobei experiment_runs Durchläufe mit jeweils sample_size generierten Mazes durchgeführt werden. Das Ergebnis sind die besten erreichten fitness Werte
-    def compareSet(self):
-        compare_data={}
-
-        for algorithm in self.compare_set:
-            compare_data[algorithm]=[]
-
-        for _ in range(self.experiment_runs):
-            run_result=self.doRun()
-
-            for i in range(len(run_result)):
-                algorithm_result=run_result[i]
-                algorithm=algorithm_result[0]
-                fitness=algorithm_result[1]
-
-                compare_data[algorithm].append(fitness)
-
+    def aggregate_results(self, raw_results):
+        compare_data = {alg: [] for alg in self.compare_set}
+        for res in raw_results:
+            compare_data[res["algorithm"]].append(res["fitness"])
         return compare_data
 
-    #Führt einen Durchlauf in jeder Algorithmus Kategorie durch
-    def doRun(self):
-        print("RUN")
-        run_results = []
-        for algorithm in self.compare_set:
-                if algorithm==self.maze_generator.MODE_GENETIC_ALGORITHM:
-                    best_maze = self.maze_generator.generateMaze(self.maze_generator.DEFAULT_SIZE,algorithm)
-                    fitness = self.fitness_evaluator.calcFitness(best_maze,self.compare_function)
-                    run_results.append((algorithm,fitness))
-                else:
-                    run_results.append((algorithm, self.evaluateSample(algorithm, self.sample_size)))
-
-
-        return run_results
-
-
-    #Wertet die beste Fitness von sample_size generierten Labyrinthen
-    def evaluateSample(self,algorithm,sample_size):
-        sample_fitness = []
-        for i in range(sample_size):
-            sample_fitness.append(self.evaluateOne(algorithm))
-
-        return max(sample_fitness)
-
-    #Wertet die Fitness eines mit algorithm generierten Labyrinth aus
-    def evaluateOne(self,algorithm):
-           maze = self.maze_generator.generateMaze(self.maze_generator.DEFAULT_SIZE,algorithm)
-
-           fitness = self.fitness_evaluator.calcFitness(maze,self.compare_function)
-
-           return fitness
-
-    def plot_compare_results(self,compare_data):
-        data = list(compare_data.values())
-        labels = list(compare_data.keys())
-
-        plt.boxplot(data, tick_labels=labels)
-
+    def plot_results(self, compare_data):
+        plt.boxplot(list(compare_data.values()), tick_labels=list(compare_data.keys()))
         plt.ylabel("Fitness")
         plt.xlabel("Algorithm")
         plt.title("Algorithm Comparison")
-
         plt.show()
+
+
+
+if __name__ == "__main__":
+    comparer = AlgorithmComparer(maze_size=25, generations=200, population_size=100)
+    tasks = comparer.build_tasks()
+
+    with multiprocessing.Pool(processes=max(1, os.cpu_count() - 1)) as pool:
+        raw_results = pool.starmap(_evaluate_worker_batch, tasks)
+
+    compare_data = comparer.aggregate_results(raw_results)
+    comparer.plot_results(compare_data)

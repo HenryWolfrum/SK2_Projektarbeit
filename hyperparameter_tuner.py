@@ -33,44 +33,43 @@ if __name__ == '__main__':
     # Alle Kerne bis auf einen aktivieren
     cores_to_use = max(1, os.cpu_count() - 1)
 
-    # Deine Suchräume für das 5x5x5 Grid (Beispielwerte, pass die gerne an!)
+    #Suchräume
     mutation_space = [0.02, 0.08, 0.1, 0.2, 0.3, 0.4, 0.5]
     survivor_space = [0.05, 0.10, 0.20, 0.30, 0.40, 0.50, 0.7]
     tournament_space = [2, 3, 5, 8]
-    runs = range(5)  # Die 5 Durchläufe pro Tripel packen wir direkt ins Grid
+    runs = range(5)
 
-    # Erzeugt alle 625 Einzelaufgaben (125 Kombinationen x 5 Runs)
+    # Erzeugt Kreuzprodukt über Suchräume
     task_packages = list(itertools.product(mutation_space, survivor_space, tournament_space, runs))
 
-    print(f"Starte Grid Search mit {len(task_packages)} Läufen auf {cores_to_use} Kernen...")
 
-    # Parallelisierung zünden
+    # Parallelisierung
     with multiprocessing.Pool(processes=cores_to_use) as pool:
         raw_results = pool.map(evaluate_single_run, task_packages)
 
-    print("Berechnung fertig. Daten werden zusammengefasst...")
 
-    # Statistiken berechnen (Mean und Std aus den 5 Runs ziehen)
+    # Statistiken berechnen
     aggregated_data = {}
     for res in raw_results:
+        #Schlüssel ist eindeutiges Hyperparameter Tupel
         key = (res["mutation_rate"], res["survivor_rate"], res["tournament_size"])
         if key not in aggregated_data:
             aggregated_data[key] = []
         aggregated_data[key].append(res["fitness"])
 
-    # Finale Liste für das JSON bauen
+    # Ergebnisliste für JSON
     final_grid_results = []
-    for (mut, surv, tourn), fitness_list in aggregated_data.items():
+    for (mutation_rate, survivor_rate, tournament_size), fitness_list in aggregated_data.items():
         final_grid_results.append({
-            "mutation_rate": mut,
-            "survivor_rate": surv,
-            "tournament_size": tourn,
+            "mutation_rate": mutation_rate,
+            "survivor_rate": survivor_rate,
+            "tournament_size": tournament_size,
             "fitness": float(np.mean(fitness_list)),
             "standard_deviation": float(np.std(fitness_list)),
             "max_fitness": float(np.max(fitness_list))
         })
 
-    # Ergebnisse als JSON einfrieren
+    # Ergebnisse als JSON speichern
     with open("hyperparameter_tuning_results.json", "w") as f:
         json.dump(final_grid_results, f, indent=4)
 
