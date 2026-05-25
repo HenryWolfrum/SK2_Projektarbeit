@@ -32,7 +32,10 @@ class PopulationManager:
                              "survivor_rate":DEFAULT_SURVIVOR_RATE,
                              "tournament_size":DEFAULT_TOURNAMENT_SIZE}
 
-    def __init__(self,size_maze,generating_mode=DEFAULT_GENERATING_MODE,size_pop=DEFAULT_POPULATION_SIZE,fitness_function=None,hyperparameters=None):
+    LOG_MODE_REDUCED = "REDUCED"
+    LOG_MODE_FULL = "FULL"
+
+    def __init__(self,size_maze,generating_mode=DEFAULT_GENERATING_MODE,size_pop=DEFAULT_POPULATION_SIZE,fitness_function=None,hyperparameters=None,log_info=False,log_mode=LOG_MODE_REDUCED):
         self.size_pop = size_pop
         self.size_maze = size_maze
         self.generating_mode = generating_mode
@@ -49,6 +52,8 @@ class PopulationManager:
         else:
             self.hyperparameters = hyperparameters.copy()
 
+        self.log_info = log_info
+        self.log_mode = log_mode
 
         self.population = []
         self.observers = []
@@ -222,6 +227,12 @@ class PopulationManager:
 
         #Daten an Observer geben
         package=generation_data.GenerationData(generation,max_fitness,average_fitness,min_fitness,fittest_maze,weakest_maze,unique_ratio)
+
+        if self.log_info:
+            if self.log_mode == self.LOG_MODE_REDUCED:
+                package.printReducedData()
+            else:
+                package.printFullData()
 
 
         self.notifyObservers(package)

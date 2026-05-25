@@ -7,7 +7,36 @@ class MazeDataStorage:
     DATA_SEPARATOR = ","
     MATRIX_SEPARATOR = "|"
 
+    def list_data_names(self):
+        with open(self.FILE_NAME, "r") as file:
+            lines = file.readlines()
+
+            for line in lines:
+                parts = line.strip().split(self.DATA_SEPARATOR)
+                print("\n NAME: "+parts[0])
+
+    def alreadySaved(self, maze_id):
+        try:
+            with open(self.FILE_NAME, "r") as file:
+                for line in file:
+                    if line.strip().split(self.DATA_SEPARATOR)[0] == maze_id:
+                        return True
+        except FileNotFoundError:
+            return False
+        return False
+
     def save_maze_data(self, maze_obj, maze_id):
+
+        if self.alreadySaved(maze_id):
+            print("Es existiert bereits ein Labyrinth unter diesem Name!")
+            response = input("Überschreiben (j/n)? : ").lower().strip()
+            while response not in ["j", "n"]:
+                response = input("Überschreiben (j/n)? : ").lower().strip()
+
+            if response == "n":
+                print("Speichervorgang abgebrochen!")
+                return
+
 
         start_x, start_y = maze_obj.start
         end_x, end_y = maze_obj.end
@@ -63,6 +92,9 @@ class MazeDataStorage:
 
 
     def delete_maze_data(self, maze_id):
+
+        if not self.alreadySaved(maze_id):
+            return False
 
         try:
             with open(self.FILE_NAME, "r") as file:

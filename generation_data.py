@@ -12,20 +12,37 @@ class GenerationData:
         self.weakest_maze=weakest_maze
         self.unique_ratio = unique_ratio
 
+    def printFullData(self):
+        # ANSI Color Codes
+        BOLD = "\033[1m"
+        GREEN = "\033[92m"
+        RED = "\033[91m"
+        RESET = "\033[0m"
 
-    def printData(self):
-        print("Generation:",self.generation)
-        print("Max fitness:",self.max_fitness)
-        print("Average fitness:",self.average_fitness)
-        print("Min fitness:",self.min_fitness)
+        print(f"\n📊 {BOLD}Generation {self.generation}{RESET}")
+        print(f"📈 Max: {self.max_fitness}  |  Avg: {self.average_fitness}  |  Min: {self.min_fitness}")
+        print("━" * 40)
 
         renderer = maze_renderer.MazeRenderer()
         pathfinder = path_finder.PathFinder()
-        print("Strongest Maze:")
+
+        print(f"{GREEN}{BOLD}✦ Strongest Maze{RESET}")
         strongest_path = pathfinder.generatePath(self.fittest_maze)
-        renderer.renderPathInMaze(self.fittest_maze,strongest_path)
-        print("")
-        print("Weakest Maze:")
+        renderer.renderPathInMaze(self.fittest_maze, strongest_path)
+
+        print(f"\n{RED}{BOLD}✦ Weakest Maze{RESET}")
         weakest_path = pathfinder.generatePath(self.weakest_maze)
-        renderer.renderPathInMaze(self.weakest_maze,weakest_path)
+        renderer.renderPathInMaze(self.weakest_maze, weakest_path)
+        print("\n")
+
+    def printReducedData(self):
+        # ANSI Color Codes
+        BOLD = "\033[1m"
+        GREEN = "\033[92m"
+        RED = "\033[91m"
+        RESET = "\033[0m"
+
+        print(f"\n📊 {BOLD}Generation {self.generation}{RESET}")
+        print(f"📈 Max: {self.max_fitness}  |  Avg: {self.average_fitness}  |  Min: {self.min_fitness}")
+        print("━" * 40)
 

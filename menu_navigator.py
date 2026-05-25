@@ -28,7 +28,12 @@ class MenuNavigator:
                 self.main_menu()
             elif self.current_state == self.MAZE_GENERATOR_STATE:
                 self.generator_menu()
-            # TIPP: Hier kannst du später weitere Menüs einbauen
+            elif self.current_state == self.POPULATION_CREATOR_STATE:
+                self.population_menu()
+            elif self.current_state == self.TUNING_ANALYSIS_STATE:
+                self.tuning_analysis_menu()
+            elif self.current_state == self.LOAD_STATE:
+                self.loading_menu()
 
             else:
                 print(f"\n[FEHLER] Illegaler Menü Zustand: {self.current_state}")
@@ -97,22 +102,139 @@ class MenuNavigator:
         selection = value_state_dict[query]
 
         if selection == "EXECUTE_RANDOM":
-            print("\n[INFO] Starte Random Generation...")
-            input("\nDrücke ENTER um fortzufahren...")
+            print("\n[INFO] Starte Random Generierung...")
+            self.tester.createRandomMaze()
+            input("\n[INFO] Drücke ENTER um zurückzukehren ...")
+
             # Wir bleiben im MAZE_GENERATOR_STATE, damit das Menü offen bleibt
             self.current_state = self.MAZE_GENERATOR_STATE
 
         elif selection == "EXECUTE_DFS":
-            print("\n[INFO] Starte DFS Generation...")
-            # self.tester.test_dfs_generation() # falls vorhanden
-            input("\nDrücke ENTER um fortzufahren...")
+            print("\n[INFO] Starte DFS Generierung...")
+            self.tester.createRandomDFSMaze()
+            input("\n[INFO] Drücke ENTER um zurückzukehren ...")
+
             self.current_state = self.MAZE_GENERATOR_STATE
 
         elif selection == "EXECUTE_GA":
-            print("\n[INFO] Starte GA Generation...")
-            input("\nDrücke ENTER um fortzufahren...")
+            print("\n[INFO] Starte GA Generierung...")
+            self.tester.createGAMaze()
+            input("\n[INFO] Drücke ENTER um zurückzukehren ...")
+
             self.current_state = self.MAZE_GENERATOR_STATE
 
         else:
             # Falls 'b' oder 'q' gewählt wurde, weisen wir den Zustand direkt zu
+            self.current_state = selection
+
+
+
+    def population_menu(self):
+        print("\n" + "=" * 50)
+        print("      Population Simulationsumgebung       ")
+        print("=" * 50)
+
+        print(" [1] Population simulieren und auswerten")
+        print("")
+        print(" [B] Zurück zum Hauptmenü (back)")
+        print(" [Q] Programm beenden (quit)")
+        print("=" * 50)
+
+        value_state_dict = {
+            "1": "EXECUTE_POPULATION",
+            "b": self.MAIN_MENU_STATE,
+            "q": self.END_STATE
+        }
+
+        query = input("▸ Populationsaktion wählen: ").strip().lower()
+        while query not in value_state_dict:
+            query = input("▸ Populationsaktion wählen: ").strip().lower()
+
+        selection = value_state_dict[query]
+
+        if selection == "EXECUTE_POPULATION":
+            print("\n[INFO] Starte Populationsumgebung...")
+            self.tester.createPopulation()
+            print("\n[INFO] Drücke ENTER um zurückzukehren...")
+        else:
+            self.current_state = selection
+
+    def loading_menu(self):
+        print("\n" + "=" * 50)
+        print("      Labyrinth-Speicher       ")
+        print("=" * 50)
+        print(" [1] Labyrinth mit Namen laden")
+        print(" [2] Gespeicherte Namen anzeigen")
+        print(" [3] Labyrinth mit Namen löschen: " )
+        print("")
+        print(" [B] Zurück zum Hauptmenü (back)")
+        print(" [Q] Programm beenden (quit)")
+        print("=" * 50)
+
+        value_state_dict = {
+            "1": "EXECUTE_LOAD",
+            "2": "EXECUTE_LIST",
+            "3": "EXECUTE_DELETE",
+            "b": self.MAIN_MENU_STATE,
+            "q": self.END_STATE
+        }
+
+        query = input("▸ Speicheroperation auswählen: ").strip().lower()
+        while query not in value_state_dict:
+            query = input("▸ Speicheroperation auswählen: ").strip().lower()
+
+        selection = value_state_dict[query]
+
+        if selection == "EXECUTE_LOAD":
+            print("\n[INFO] Starte Ladevorgang...")
+            self.tester.load_maze()
+            input("\n[INFO] Drücke ENTER um zurückzukehren ...")
+            self.current_state = self.LOAD_STATE
+        elif selection == "EXECUTE_LIST":
+            print("\n[INFO] Starte Speicherauswertung...")
+            self.tester.list_maze_storage()
+            input("\n[INFO] Drücke ENTER um zurückzukehren ...")
+            self.current_state = self.LOAD_STATE
+        elif selection == "EXECUTE_DELETE":
+            self.tester.delete_maze()
+            input("\n[INFO] Drücke ENTER um zurückzukehren ...")
+            self.current_state = self.LOAD_STATE
+        else:
+            self.current_state = selection
+
+    def tuning_analysis_menu(self):
+        print("\n" + "=" * 50)
+        print("      Tuning und Analyseumgebung       ")
+        print("=" * 50)
+
+        print(" [1] Algorithmen vergleichen")
+        print(" [2] Hyperparameteroptimierung Ergebnisse laden ")
+        print(" [3] Hyperparameteroptimierung durchführen")
+
+        print("")
+        print(" [B] Zurück zum Hauptmenü (back)")
+        print(" [Q] Programm beenden (quit)")
+        print("=" * 50)
+
+        value_state_dict = {
+            "1": "EXECUTE_COMPARSION",
+            "2": "EXECUTE_TUNING_PLOTTING",
+            "3": "EXECUTE_TUNING",
+            "b": self.MAIN_MENU_STATE,
+            "q": self.END_STATE
+        }
+
+        query = input("▸ Analysefunktion auswählen: ").strip().lower()
+        while query not in value_state_dict:
+            query = input("▸ Analysefunktion auswählen: ").strip().lower()
+
+        selection = value_state_dict[query]
+
+        if selection == "EXECUTE_COMPARSION":
+            pass
+        elif selection == "EXECUTE_TUNING_PLOTTING":
+            pass
+        elif selection == "EXECUTE_TUNING":
+            pass
+        else:
             self.current_state = selection

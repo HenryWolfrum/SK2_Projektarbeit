@@ -157,8 +157,8 @@ class MazeGenerator:
         return maze.Maze(matrix, start, end)
 
     #Generiert ein Labyrinth mithilfe des genetischen Algorithmus
-    def geneticAlgorithmMaze(self,maze_size=DEFAULT_SIZE,generating_mode="RANDOM",size_pop=100,fitness_function="IMPROVED",hyperparameters=None,generations=200):
-        pop = population_manager.PopulationManager(maze_size,generating_mode,size_pop,fitness_function,hyperparameters)
+    def geneticAlgorithmMaze(self,maze_size=DEFAULT_SIZE,generating_mode="RANDOM",size_pop=100,fitness_function="IMPROVED",hyperparameters=None,generations=200,log_info=False,log_mode="REDUCED"):
+        pop = population_manager.PopulationManager(maze_size,generating_mode,size_pop,fitness_function,hyperparameters,log_info,log_mode)
 
         analyzer = population_analyzer.PopulationAnalyzer()
 
