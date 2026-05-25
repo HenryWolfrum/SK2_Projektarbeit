@@ -233,10 +233,15 @@ class MenuNavigator:
         if selection == "EXECUTE_COMPARSION":
             self.tester.compare_algorithms()
             input("\n[INFO] Drücke ENTER um zurückzukehren ...")
-            self.current_state = self.TUNING_ANALYSIS_STATE  # Menü bleibt offen
+            self.current_state = self.TUNING_ANALYSIS_STATE
         elif selection == "EXECUTE_TUNING_PLOTTING":
-            pass
+            self.tester.plot_tuning_results()
+            input("\n[INFO] Drücke ENTER um zurückzukehren ...")
+            self.current_state = self.TUNING_ANALYSIS_STATE
         elif selection == "EXECUTE_TUNING":
-            pass
+            self.tester.hyperparameter_tuning()
+            input("\n[INFO] Drücke ENTER um zurückzukehren ...")
+            self.current_state = self.TUNING_ANALYSIS_STATE
+
         else:
             self.current_state = selection

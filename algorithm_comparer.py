@@ -2,59 +2,103 @@ from maze_generator import MazeGenerator as mg
 import fitness_evaluator
 import matplotlib.pyplot as plt
 
-def _evaluate_worker_batch(run, algorithm, batch_size, maze_size, compare_function):
+
+def _evaluate_worker_batch(run, algorithm, batch_size, compare_function):
     generator = mg()
     fe = fitness_evaluator.FitnessEvaluator()
 
-    results = [
-        fe.calcFitness(generator.generateMaze(maze_size, algorithm), compare_function)
-        for _ in range(batch_size)
-    ]
+    results = []
 
-    return {"algorithm": algorithm, "run": run, "fitness": max(results)}
+    if algorithm[0] == "G":
+        for _ in range(batch_size):
+            maze_obj = generator.geneticAlgorithmMaze(
+                25,
+                "RANDOM",
+                algorithm[1],
+                compare_function,
+                algorithm[2],
+                algorithm[3]
+            )
+            # Generator kann None zurückgeben (z.B. kein Pfad gefunden)
+            if maze_obj is None:
+                continue
+            results.append(fe.calcFitness(maze_obj, compare_function))
+
+    else:
+        mode_map = {"R": mg.MODE_RANDOM, "D": mg.MODE_RANDOM_DFS}
+        mode = mode_map[algorithm[0]]
+        for _ in range(batch_size):
+            maze_obj = generator.generateMaze(25, mode)
+            if maze_obj is None:
+                continue
+            results.append(fe.calcFitness(maze_obj, compare_function))
+
+
+    return {"algorithm": algorithm, "run": run, "fitness": max(results, default=0)}
+
 
 class AlgorithmComparer:
 
-    DEFAULT_COMPARE_SET = [mg.MODE_RANDOM, mg.MODE_RANDOM_DFS, mg.MODE_GENETIC_ALGORITHM]
+    DEFAULT_COMPARE_SET = [
+        mg.MODE_RANDOM,
+        mg.MODE_RANDOM_DFS,
+        mg.MODE_GENETIC_ALGORITHM
+    ]
     DEFAULT_COMPARE_FUNCTION = fitness_evaluator.FitnessEvaluator().FUNCTION_IMPROVED
     DEFAULT_EXPERIMENT_RUNS = 30
 
-    # Kosten pro einzelnem Algorithmus-Aufruf
-    EVALUATION_COSTS = {
-            mg.MODE_RANDOM: 1,
-            mg.MODE_RANDOM_DFS: 1,
-            mg.MODE_GENETIC_ALGORITHM: None,  # wird aus generations * population_size berechnet
-    }
+    def __init__(self, compare_set=None, compare_function=None):
 
-    def __init__(self, generations, population_size, compare_set=None, compare_function=None):
+        if not compare_set:
+            compare_set = self.DEFAULT_COMPARE_SET
 
-            self.evaluation_budget = generations * population_size
+        max_budget = 1
+        for algo in compare_set:
+            if algo[0] == "G":
+                evals = algo[4]
+                if evals > max_budget:
+                    max_budget = evals
 
-            self.evaluation_costs = self.EVALUATION_COSTS.copy()
-            self.evaluation_costs[mg.MODE_GENETIC_ALGORITHM] = self.evaluation_budget
+        self.evaluation_budget = max_budget
+        self.compare_set = compare_set
+        self.compare_function = compare_function or self.DEFAULT_COMPARE_FUNCTION
 
-            self.compare_set = compare_set or self.DEFAULT_COMPARE_SET.copy()
-            self.compare_function = compare_function or self.DEFAULT_COMPARE_FUNCTION
+    def _algo_label(self, algo):
+        """Lesbare Bezeichnung für Achsenbeschriftung und Logging."""
+        if algo[0] == "R":
+            return "RANDOM"
+        if algo[0] == "D":
+            return "RANDOM_DFS"
+        hp = algo[2]
+        return (
+            f"GENETIC_ALGORITHM\n"
+            f"pop={algo[1]}  gen={algo[3]}\n"
+            f"mut={hp['mutation_rate']}  "
+            f"surv={hp['survivor_rate']}  "
+            f"tour={hp['tournament_size']}"
+        )
 
     def build_tasks(self, experiment_runs=DEFAULT_EXPERIMENT_RUNS):
-            tasks = []
-            for algorithm in self.compare_set:
-                cost = self.evaluation_costs[algorithm]
-                batch_size = self.evaluation_budget // cost
-                for run in range(experiment_runs):
-                    tasks.append((run, algorithm, batch_size, self.compare_function))
-            return tasks
+        tasks = []
+        for algorithm in self.compare_set:
+
+            cost = int(algorithm[len(algorithm) - 1])
+            batch_size = self.evaluation_budget // cost
+            for run in range(experiment_runs):
+                tasks.append((run, algorithm, batch_size, self.compare_function))
+        return tasks
 
     def aggregate_results(self, raw_results):
-        compare_data = {alg: [] for alg in self.compare_set}
+        # Use string labels as keys instead of raw tuples (tuples with dicts are unhashable)
+        compare_data = {self._algo_label(alg): [] for alg in self.compare_set}
         for res in raw_results:
-            compare_data[res["algorithm"]].append(res["fitness"])
+            compare_data[self._algo_label(res["algorithm"])].append(res["fitness"])
         return compare_data
 
     def plot_results(self, compare_data):
-        plt.boxplot(list(compare_data.values()), tick_labels=list(compare_data.keys()))
+        labels = list(compare_data.keys())  # already strings
+        plt.boxplot(list(compare_data.values()), tick_labels=labels)
         plt.ylabel("Fitness")
-        plt.xlabel("Algorithm")
-        plt.title("Algorithm Comparison")
+        plt.xlabel("Algorithmus")
+        plt.title("Algorithmenvergleich")
         plt.show()
-

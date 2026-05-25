@@ -7,7 +7,12 @@ import maze_data_storage
 import time
 import algorithm_comparer as ac
 import multiprocessing
+import itertools
 import os
+import hyperparameter_result_plotter
+import hyperparameter_tuner
+import numpy as np
+import json
 
 class Tester:
 
@@ -17,6 +22,11 @@ class Tester:
         self.fitness_evaluator = fitness_evaluator.FitnessEvaluator()
         self.maze_data_storage = maze_data_storage.MazeDataStorage()
 
+    def _ask_yes_no(self, prompt):
+        answer = input(prompt).strip().lower()
+        while answer not in ["j", "n"]:
+            answer = input(prompt).strip().lower()
+        return answer
 
     def createRandomMaze(self):
         start=time.time()
@@ -43,7 +53,6 @@ class Tester:
 
         print("\n\nFitness:", fitness)
 
-
         self.ask_for_save(maze_obj)
 
     def createGAMaze(self):
@@ -57,15 +66,7 @@ class Tester:
                        "survivor_rate":survivor_rate,
                        "tournament_size":tournament_size}
 
-        log_info = input("Fortschritt anzeigen? (j/n): ").strip().lower()
-
-        while log_info !="j" and log_info != "n":
-            log_info = input("Fortschritt anzeigen? (j/n): ").strip().lower()
-
-        if log_info == "j":
-            log_info=True
-        else:
-            log_info=False
+        log_info = self._ask_yes_no("Fortschritt anzeigen? (j/n): ") == "j"
 
         maze_obj = self.maze_generator.geneticAlgorithmMaze(25,"RANDOM",pop_size,"IMPROVED",hyperparams,generations,log_info,"REDUCED")
 
@@ -76,7 +77,6 @@ class Tester:
         print("\n\nFitness:", fitness)
 
         self.ask_for_save(maze_obj)
-
 
 
     #Ertellt eine Beispiel Population und wertet die Daten aus
@@ -95,15 +95,7 @@ class Tester:
                        "survivor_rate": survivor_rate,
                        "tournament_size": tournament_size}
 
-        log_info = input("Fortschritt anzeigen? (j/n): ").strip().lower()
-
-        while log_info != "j" and log_info != "n":
-            log_info = input("Fortschritt anzeigen? (j/n): ").strip().lower()
-
-        if log_info == "j":
-            log_info = True
-        else:
-            log_info = False
+        log_info = self._ask_yes_no("Fortschritt anzeigen? (j/n): ") == "j"
 
         #Eine Population erstellen
         pop = population_manager.PopulationManager(25,"RANDOM",pop_size,"IMPROVED",hyperparams,log_info,"FULL")
@@ -135,20 +127,60 @@ class Tester:
 
     def compare_algorithms(self):
         print("\n=== Algorithmen vergleichen ===")
-        print("\n[INFO] Starte Algorithmusauswahl...")
+        print("\n[INFO] Starte Algorithmenauswahl...")
 
-        compare_set = []
+        compare_set = self.choose_compare_set()
 
+        if len(compare_set) == 0:
+            return
 
-        comparer = ac.AlgorithmComparer(200,100)
+        comparer = ac.AlgorithmComparer(compare_set)
 
+        experiment_runs = int(input("\nAnzahl unabhängiger Durchläufe: "))
 
-        tasks = comparer.build_tasks(experiment_runs=30)
+        tasks = comparer.build_tasks(experiment_runs=experiment_runs)
 
-        print(f"\n[INFO] Starte {len(tasks)} Tasks auf {max(1, os.cpu_count() - 1)} Kernen...")
-        print("[INFO] Geschätzte Zeit")
-        with multiprocessing.Pool(processes=max(1, os.cpu_count() - 1)) as pool:
-            raw_results = pool.starmap(ac._evaluate_worker_batch, tasks)
+        budget = comparer.evaluation_budget
+        per_gen_estimate = 0.33
+        per_random_estimate = 0.008
+        per_random_dfs_estimate = 0.004
+        total = 0
+
+        for algo in compare_set:
+            if algo[0] == "R":
+                total += budget * per_random_estimate
+
+            elif algo[0] == "D":
+                total += budget * per_random_dfs_estimate
+
+            else:
+                total += (
+                        (budget // algo[len(algo) - 1]) *
+                        (algo[3] * per_gen_estimate)
+                )
+
+        total *= experiment_runs
+
+        cores = max(1, os.cpu_count() - 1)
+
+        print(f"\n[INFO] Geschätzte Zeit für Berechnung auf {cores} Kernen:")
+        print(f"\n {total / cores:.2f} Sekunden")
+
+        if self._ask_yes_no("Vergleichsberechnung durchführen? (j/n): ") == "n":
+            return
+
+        print(
+            f"\n[INFO] Starte {len(tasks)} Tasks auf "
+            f"{max(1, os.cpu_count() - 1)} Kernen..."
+        )
+
+        with multiprocessing.Pool(
+                processes=max(1, os.cpu_count() - 1)
+        ) as pool:
+            raw_results = pool.starmap(
+                ac._evaluate_worker_batch,
+                tasks
+            )
 
         compare_data = comparer.aggregate_results(raw_results)
         comparer.plot_results(compare_data)
@@ -185,20 +217,168 @@ class Tester:
             print("\n[INFO] Labyrinth wurde nicht gefunden!")
         print("=" * 25 + "\n")
 
-
-    def ask_for_save(self,maze_obj):
-        save_ask = input("\nLabyrinth Speichern? (j/n): ").strip().lower()
-        if save_ask == "j":
-            maze_id = input("\nSpeichername eingeben:")
-
+    def ask_for_save(self, maze_obj):
+        if self._ask_yes_no("\nLabyrinth Speichern? (j/n): ") == "j":
+            maze_id = input("\nSpeichername eingeben: ")
             self.maze_data_storage.save_maze_data(maze_obj, maze_id)
 
-    def choose_comparsion_set(self):
-        compare_set = set()
-        query = input("\n Wähle einen Algorithmustyp zum hinzufügen: [RANDOM] (R), [RANDOM_DFS] (D), [GENETIC_ALGORITHM] (G)").strip().upper()
+    def choose_compare_set(self):
+        compare_set = []
+
+        query = input(
+            "\n Wähle einen Algorithmustyp zum hinzufügen: "
+            "[RANDOM] (R), [RANDOM_DFS] (D), "
+            "[GENETIC_ALGORITHM] (G): "
+        ).strip().upper()
 
         while query not in ["R", "D", "G"]:
             query = input(
-                "\n Wähle einen Algorithmustyp zum hinzufügen: [RANDOM] (R), [RANDOM_DFS] (D), [GENETIC_ALGORITHM] (G)").strip().upper()
+                "\n Ungültige Eingabe! Wähle: "
+                "[RANDOM] (R), [RANDOM_DFS] (D), "
+                "[GENETIC_ALGORITHM] (G): "
+            ).strip().upper()
 
-        compare_set.add(query)
+        if query == "G":
+            tupel = self._addGA()
+        else:
+            tupel = (query, 1)
+
+        if tupel not in compare_set:
+            compare_set.append(tupel)
+
+        answer = self._ask_yes_no("\nWeiteren Algorithmus hinzufügen? (j/n): ")
+
+        while answer == "j":
+
+            query = input(
+                "\n Wähle einen Algorithmustyp zum hinzufügen: "
+                "[RANDOM] (R), [RANDOM_DFS] (D), "
+                "[GENETIC_ALGORITHM] (G): "
+            ).strip().upper()
+
+            # BUG FIX: Duplizier-Prompt zeigte keine Optionen mehr und
+            # fragte nur nach Duplikat-Fehler → jetzt differenzierte Meldungen.
+            while query not in ["R", "D", "G"] or any(
+                    x[0] == query for x in compare_set
+            ):
+                if query not in ["R", "D", "G"]:
+                    query = input(
+                        "\n Ungültige Eingabe! Wähle: "
+                        "[RANDOM] (R), [RANDOM_DFS] (D), "
+                        "[GENETIC_ALGORITHM] (G): "
+                    ).strip().upper()
+                else:
+                    query = input(
+                        f"\n [{query}] ist bereits im Vergleichsset! "
+                        "Wähle einen anderen: "
+                        "[RANDOM] (R), [RANDOM_DFS] (D), "
+                        "[GENETIC_ALGORITHM] (G): "
+                    ).strip().upper()
+
+            if query == "G":
+                tupel = self._addGA()
+            else:
+                tupel = (query, 1)
+
+            if tupel not in compare_set:
+                compare_set.append(tupel)
+
+            answer = self._ask_yes_no("\nWeiteren Algorithmus hinzufügen? (j/n): ")
+
+        print("\n[INFO] Alle Algorithmen erfolgreich aufgenommen!")
+
+        return compare_set
+
+    def _addGA(self):
+        popSize = int(input("Populationsgröße: "))
+        mutation_rate = float(input("Mutations Rate: "))
+        survivor_rate = float(input("Überlebenden Rate: "))
+        tournament_size = int(input("Turniergröße: "))
+        generations = int(input("Generationen: "))
+
+        hyperparams = {
+            "mutation_rate": mutation_rate,
+            "survivor_rate": survivor_rate,
+            "tournament_size": tournament_size
+        }
+
+        return "G", popSize, hyperparams, generations, (popSize * generations)
+
+
+    def plot_tuning_results(self):
+        print("\n[INFO] Ergebnisse der Hyperoptimierung werden geladen...")
+        hyperparameter_result_plotter.plot_tuning_results()
+
+
+    def hyperparameter_tuning(self):
+
+        print("\n [WARNUNG] Bei der Durchführung werden alte Ergebnisse überschrieben!")
+        if self._ask_yes_no("\n Fortfahren? (j/n)") == "n":
+            return
+
+        print("\n[INFO] Suchräume definieren....")
+
+        mutation_space = []
+        survivor_space = []
+        tournament_space = []
+
+        len_mutation_space = int(input("Größe Mutationsraten-Suchraum:"))
+        for _ in range(len_mutation_space):
+            mutation_space.append(float(input("Mutations Rate " + str(_) + ": ")))
+
+        len_survivor_space = int(input("Größe Überlebendenraten-Suchraum:"))
+        for _ in range(len_survivor_space):
+            survivor_space.append(float(input("Überlebenden Rate " + str(_) + ": ")))
+
+        len_tournament_space = int(input("Größe Turniergrößen-Suchraum:"))
+        for _ in range(len_tournament_space):
+            tournament_space.append(int(input("Turniergröße " + str(_) + ": ")))  # FIX: int statt float
+
+        runs = range(int(input("Simulierte Durchläufe pro Suchraum-Tupel: ")))
+
+        # 0.33s pro Generation, 200 Generationen pro GA-Lauf
+        per_ga_estimate = 0.33 * 200
+
+        # Alle Kerne bis auf einen aktivieren
+        cores = max(1, os.cpu_count() - 1)
+
+        estimate_time = len(runs) * len_mutation_space * len_survivor_space * len_tournament_space * per_ga_estimate / cores
+
+        print(f"\n[INFO] Die Berechnungen werden geschätzt {estimate_time / 60:.2f}min benötigen!")  # FIX: /3600 für Stunden
+        if self._ask_yes_no("\n Fortfahren? (j/n)") == "n":
+            return
+
+        # Erzeugt Kreuzprodukt über Suchräume
+        task_packages = list(itertools.product(mutation_space, survivor_space, tournament_space, runs))
+
+        # Parallelisierung
+        with multiprocessing.Pool(processes=cores) as pool:
+            raw_results = pool.map(hyperparameter_tuner.evaluate_single_run, task_packages)
+
+        # Statistiken berechnen
+        aggregated_data = {}
+        for res in raw_results:
+            # Schlüssel ist eindeutiges Hyperparameter Tupel
+            key = (res["mutation_rate"], res["survivor_rate"], res["tournament_size"])
+            if key not in aggregated_data:
+                aggregated_data[key] = []
+            aggregated_data[key].append(res["fitness"])
+
+        # Ergebnisliste für JSON
+        final_grid_results = []
+        for (mutation_rate, survivor_rate, tournament_size), fitness_list in aggregated_data.items():
+            final_grid_results.append({
+                "mutation_rate": mutation_rate,
+                "survivor_rate": survivor_rate,
+                "tournament_size": tournament_size,
+                "fitness": float(np.mean(fitness_list)),
+                "standard_deviation": float(np.std(fitness_list)),
+                "max_fitness": float(np.max(fitness_list))
+            })
+
+        # Ergebnisse als JSON speichern
+        with open("hyperparameter_tuning_results.json", "w") as f:
+            json.dump(final_grid_results, f, indent=4)
+
+        print("\n[INFO] Alle Berechnungen erfolgreich durchgeführt und gespeichert!")
+        print("\n[INFO] Ergebnisse können jetzt geladen werden!")
