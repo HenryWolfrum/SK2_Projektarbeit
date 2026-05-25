@@ -4,6 +4,10 @@ import maze_renderer
 import population_manager
 import population_analyzer
 import maze_data_storage
+import time
+import algorithm_comparer as ac
+import multiprocessing
+import os
 
 class Tester:
 
@@ -15,7 +19,10 @@ class Tester:
 
 
     def createRandomMaze(self):
+        start=time.time()
         maze_obj = self.maze_generator.generateMaze(25,"RANDOM")
+        end=time.time()
+        print("\n"+str(end-start)+"\n")
 
         self.maze_renderer.renderPathInMaze(maze_obj,maze_obj.solution_path)
 
@@ -26,8 +33,10 @@ class Tester:
         self.ask_for_save(maze_obj)
 
     def createRandomDFSMaze(self):
+        start=time.time()
         maze_obj = self.maze_generator.generateMaze(25, "RANDOM_DFS")
-
+        end=time.time()
+        print("\n"+str(end-start)+"\n")
         self.maze_renderer.renderPathInMaze(maze_obj, maze_obj.solution_path)
 
         fitness = self.fitness_evaluator.calcFitness(maze_obj, "IMPROVED")
@@ -124,11 +133,25 @@ class Tester:
         analyzer.plot_diversity()
         print("=" * 30 + "\n")
 
-
-
     def compare_algorithms(self):
         print("\n=== Algorithmen vergleichen ===")
+        print("\n[INFO] Starte Algorithmusauswahl...")
 
+        compare_set = []
+
+
+        comparer = ac.AlgorithmComparer(200,100)
+
+
+        tasks = comparer.build_tasks(experiment_runs=30)
+
+        print(f"\n[INFO] Starte {len(tasks)} Tasks auf {max(1, os.cpu_count() - 1)} Kernen...")
+        print("[INFO] Geschätzte Zeit")
+        with multiprocessing.Pool(processes=max(1, os.cpu_count() - 1)) as pool:
+            raw_results = pool.starmap(ac._evaluate_worker_batch, tasks)
+
+        compare_data = comparer.aggregate_results(raw_results)
+        comparer.plot_results(compare_data)
 
     def load_maze(self):
         print("\n=== Labyrinth Laden ===")
@@ -169,3 +192,13 @@ class Tester:
             maze_id = input("\nSpeichername eingeben:")
 
             self.maze_data_storage.save_maze_data(maze_obj, maze_id)
+
+    def choose_comparsion_set(self):
+        compare_set = set()
+        query = input("\n Wähle einen Algorithmustyp zum hinzufügen: [RANDOM] (R), [RANDOM_DFS] (D), [GENETIC_ALGORITHM] (G)").strip().upper()
+
+        while query not in ["R", "D", "G"]:
+            query = input(
+                "\n Wähle einen Algorithmustyp zum hinzufügen: [RANDOM] (R), [RANDOM_DFS] (D), [GENETIC_ALGORITHM] (G)").strip().upper()
+
+        compare_set.add(query)

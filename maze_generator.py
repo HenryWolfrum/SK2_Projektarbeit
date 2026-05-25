@@ -44,18 +44,12 @@ class MazeGenerator:
         visited = set()
         frontier = [start]
 
-        counter=0
+
         end = (-1,-1)
 
         while frontier:
 
-            counter+=1
-
             current = frontier.pop()
-
-            if counter == (len(matrix)**2)//3:
-                end=(current[0],current[1])
-                matrix[end[0]][end[1]] = maze.Maze.VALUE_END
 
             visited.add(current)
 
@@ -80,6 +74,17 @@ class MazeGenerator:
 
                 frontier.append(current)
                 frontier.append(next_cell)
+
+
+        #Ziel wählen
+
+        randomRow = random.randint(0,size-1)
+        randomCol = random.randint(0,size-1)
+        while matrix[randomRow][randomCol] != maze.Maze.VALUE_EMPTY:
+            randomRow = random.randint(0, size - 1)
+            randomCol = random.randint(0, size - 1)
+
+        end=(randomRow,randomCol)
 
         #Start und Ziel als Werte setzen
         matrix[start[0]][start[1]] = maze.Maze.VALUE_START

@@ -1,9 +1,6 @@
 from maze_generator import MazeGenerator as mg
 import fitness_evaluator
 import matplotlib.pyplot as plt
-import multiprocessing
-import os
-
 
 def _evaluate_worker_batch(run, algorithm, batch_size, maze_size, compare_function):
     generator = mg()
@@ -29,8 +26,8 @@ class AlgorithmComparer:
             mg.MODE_GENETIC_ALGORITHM: None,  # wird aus generations * population_size berechnet
     }
 
-    def __init__(self, maze_size, generations, population_size, compare_set=None, compare_function=None):
-            self.maze_size = maze_size
+    def __init__(self, generations, population_size, compare_set=None, compare_function=None):
+
             self.evaluation_budget = generations * population_size
 
             self.evaluation_costs = self.EVALUATION_COSTS.copy()
@@ -45,7 +42,7 @@ class AlgorithmComparer:
                 cost = self.evaluation_costs[algorithm]
                 batch_size = self.evaluation_budget // cost
                 for run in range(experiment_runs):
-                    tasks.append((run, algorithm, batch_size, self.maze_size, self.compare_function))
+                    tasks.append((run, algorithm, batch_size, self.compare_function))
             return tasks
 
     def aggregate_results(self, raw_results):
@@ -61,14 +58,3 @@ class AlgorithmComparer:
         plt.title("Algorithm Comparison")
         plt.show()
 
-
-
-if __name__ == "__main__":
-    comparer = AlgorithmComparer(maze_size=25, generations=200, population_size=100)
-    tasks = comparer.build_tasks()
-
-    with multiprocessing.Pool(processes=max(1, os.cpu_count() - 1)) as pool:
-        raw_results = pool.starmap(_evaluate_worker_batch, tasks)
-
-    compare_data = comparer.aggregate_results(raw_results)
-    comparer.plot_results(compare_data)
