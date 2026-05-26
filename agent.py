@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 from collections import deque
+import heapq
+from collections import deque
 
 
 class Agent(ABC):
@@ -12,62 +14,45 @@ class Agent(ABC):
 class GreedyAgent(Agent):
 
     def __init__(self):
-        self.last_followed_path = deque()
+        self.goal       = None
+        self.visited    = set()
+        self.path_stack = []
 
     def selectAction(self, input, actions):
+        coins_pos           = input["coins_pos"]
+        agent_pos           = input["agent_pos"]
+        end_pos             = input["end_pos"]
+        maze                = input["maze"]
         collected_last_move = input["coin_collected_last_move"] == True
 
-        coins_pos = input["coins_pos"]
-        agent_pos = input["agent_pos"]
-        end_pos = input["end_pos"]
-        maze = input["maze"]
+        if collected_last_move or self.goal is None or agent_pos == self.goal:
+            targets         = list(coins_pos) if coins_pos else [end_pos]
+            self.goal       = self.nearest(agent_pos, targets)
+            self.visited    = set()
+            self.path_stack = [agent_pos]
 
-        # 1. Ziel: Exit
-        if len(coins_pos) == 0:
-            if collected_last_move or len(self.last_followed_path) == 0:
-                path = self.calcNewPath([end_pos], agent_pos, maze)
-                self.last_followed_path = deque(path)
+        self.visited.add(agent_pos)
 
-            return self.getNextAction()
+        neighbors = maze.checkForNeighbors(agent_pos, 1, maze.VALUE_WALL)
+        unvisited = [n for n in neighbors if n not in self.visited]
 
-        # 2. Ziel: Coins
-        if collected_last_move or len(self.last_followed_path) == 0:
-            path = self.calcNewPath(coins_pos, agent_pos, maze)
-            self.last_followed_path = deque(path)
+        if unvisited:
+            best = self.nearest(self.goal, unvisited)
+            self.path_stack.append(best)
+            return best
 
-        return self.getNextAction()
+        if len(self.path_stack) > 1:
+            self.path_stack.pop()
+            return self.path_stack[-1]
 
-    def calcNewPath(self, goals_pos, start_pos, maze):
-        visited = set()
-        frontier = deque([(start_pos, [start_pos])])
+        return None
 
-        while frontier:
-            current, path = frontier.popleft()
-
-            if current in goals_pos:
-                return path
-
-            if current in visited:
-                continue
-
-            visited.add(current)
-
-            neighbors = maze.checkForNeighbors(current, 1, maze.VALUE_WALL)
-
-            for neighbor in neighbors:
-                if neighbor not in visited:
-                    frontier.append((neighbor, path + [neighbor]))
-
-        return []
-
-    def getNextAction(self):
-        if not self.last_followed_path:
-            return None
-
-        # Aktuelle Position (Startposition) entfernen
-        self.last_followed_path.popleft()
-
-        if not self.last_followed_path:
-            return None
-
-        return self.last_followed_path[0]
+    def nearest(self, origin, positions):
+        best      = None
+        best_dist = float("inf")
+        for pos in positions:
+            dist = abs(pos[0] - origin[0]) + abs(pos[1] - origin[1])
+            if dist < best_dist:
+                best_dist = dist
+                best      = pos
+        return best

@@ -1,6 +1,6 @@
 import maze
 import random
-
+import maze_renderer
 
 class Environment:
 
@@ -13,6 +13,7 @@ class Environment:
 
         self.coin_count = 0
         self.coins_pos = []
+        self.coins_pos_clone = []
         self.path_history = []
 
         self.coin_collected_last_move = False
@@ -56,6 +57,7 @@ class Environment:
         count = min(count, len(reachable))
 
         self.coins_pos = random.sample(list(reachable), count)
+        self.coins_pos_clone=self.coins_pos.copy()
 
     # Agent macht Zug
     def do_move(self, agent):
@@ -118,3 +120,9 @@ class Environment:
         print("agent:", self.agent_pos, "end:", self.maze.end, "coins:", len(self.coins_pos))
         if len(self.coins_pos) == 0 and self.agent_pos == self.maze.end:
             self.solved = True
+
+    def drawGame(self):
+        maze_renderer.MazeRenderer().renderAgentPathAnimated(self.maze, self.path_history,self.coins_pos_clone)
+
+    def evaluateSolution(self):
+        pass

@@ -103,6 +103,11 @@ class MenuController:
         env.start(coin_count)
 
         print("\n[INFO] Spiel fertig simuliert!")
+
+        print("\n[INFO] Zeige Spielverlauf...")
+
+        env.drawGame()
+
         input("\n[INFO] Drücke ENTER um fortzufahren...")
 
 
