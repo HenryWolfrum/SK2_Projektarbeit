@@ -8,6 +8,8 @@ import time
 import algorithm_comparer as ac
 import multiprocessing
 import itertools
+import environment
+import agent
 import os
 import hyperparameter_result_plotter
 import hyperparameter_tuner
@@ -80,7 +82,28 @@ class MenuController:
 
 
     def agent_game(self):
-        pass
+        print("\n[INFO] Spielumgebung laden...")
+
+        name = input("Wähle Labyrinth auf dem gespielt werden soll: ")
+
+        maze_obj = self.maze_data_storage.load_maze_data(name)
+
+        if maze_obj is None:
+            print("\n[INFO] Labyrinth wurde nicht gefunden!")
+            input("\n Drücke ENTER um fortzufahren...")
+            return
+
+        coin_count = int(input("\n Wähle Anzahl an zu suchenden Münzen:"))
+
+        print("\n[INFO] Simuliere Spiel...")
+        ag = agent.GreedyAgent()
+        env = environment.Environment(maze_obj,ag)
+
+        #Spiel wird gestartet
+        env.start(coin_count)
+
+        print("\n[INFO] Spiel fertig simuliert lade Ergebnisse...")
+
 
     #Ertellt eine Beispiel Population und wertet die Daten aus
     def createPopulation(self):

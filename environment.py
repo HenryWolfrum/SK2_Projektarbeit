@@ -4,7 +4,7 @@ import random
 class Environment:
 
 
-    def __init__(self, maze, agent, n):
+    def __init__(self, maze, agent):
         self.maze = maze
         self.agent = agent
 
@@ -21,7 +21,7 @@ class Environment:
         self.solved = False
 
     #Spiel Hauptschleife
-    def start(self, maze, agent, coin_count):
+    def start(self, coin_count):
         #Münzen auf Maze verteilen
         self.distribute_coins(coin_count)
 
@@ -52,7 +52,7 @@ class Environment:
 
     #Agent macht Zug
     def do_move(self, agent):
-        action = agent.selectAction(self, self.setInput(), self.setActions())
+        action = agent.selectAction(self.setInput(), self.setActions())
 
         #Wenn Aktion legal war (Normalfall immer)
         if action in self.setActions():
@@ -97,8 +97,8 @@ class Environment:
         legal = []
 
         for nx, ny in moves:
-            if 0 <= ny < len(self.maze) and 0 <= nx < len(self.maze[0]):
-                if self.maze[ny][nx] != maze.Maze.VALUE_WALL:
+            if 0 <= ny < len(self.maze.matrix) and 0 <= nx < len(self.maze.matrix[0]):
+                if self.maze.matrix[ny][nx] != maze.Maze.VALUE_WALL:
                     legal.append((nx, ny))
 
         return legal
