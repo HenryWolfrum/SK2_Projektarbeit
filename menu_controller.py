@@ -79,6 +79,9 @@ class MenuController:
         self.ask_for_save(maze_obj)
 
 
+    def agent_game(self):
+        pass
+
     #Ertellt eine Beispiel Population und wertet die Daten aus
     def createPopulation(self):
         #Analyse-Beobachter erstellen

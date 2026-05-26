@@ -32,6 +32,8 @@ class MenuNavigator:
                 self.population_menu()
             elif self.current_state == self.TUNING_ANALYSIS_STATE:
                 self.tuning_analysis_menu()
+            elif self.current_state == self.AGENT_ENVIRONMENT_STATE:
+                self.agent_env_menu()
             elif self.current_state == self.LOAD_STATE:
                 self.loading_menu()
 
@@ -125,6 +127,37 @@ class MenuNavigator:
 
         else:
             # Falls 'b' oder 'q' gewählt wurde, weisen wir den Zustand direkt zu
+            self.current_state = selection
+
+
+
+    def agent_env_menu(self):
+        print("\n" + "=" * 50)
+        print("      Agenten Simulations Spiel       ")
+        print("=" * 50)
+
+        print(" [1] Greedy Agenten auf Maze spielen")
+        print("")
+        print(" [B] Zurück zum Hauptmenü (back)")
+        print(" [Q] Programm beenden (quit)")
+        print("=" * 50)
+
+        value_state_dict = {
+            "1": "EXECUTE_GAME",
+            "b": self.MAIN_MENU_STATE,
+            "q": self.END_STATE
+        }
+
+        query = input("▸ Simulationsaktion wählen: ").strip().lower()
+        while query not in value_state_dict:
+            query = input("▸ Simulationsaktion wählen: ").strip().lower()
+
+        selection = value_state_dict[query]
+
+        if selection == "EXECUTE_GAME":
+            self.m_c.agent_game()
+
+        else:
             self.current_state = selection
 
 
