@@ -4,7 +4,6 @@ import maze_renderer
 import population_manager
 import population_analyzer
 import maze_data_storage
-import time
 import algorithm_comparer as ac
 import multiprocessing
 import itertools
@@ -31,10 +30,8 @@ class MenuController:
         return answer
 
     def createRandomMaze(self):
-        start=time.time()
+
         maze_obj = self.maze_generator.generateMaze(25,"RANDOM")
-        end=time.time()
-        print("\n"+str(end-start)+"\n")
 
         self.maze_renderer.renderPathInMaze(maze_obj,maze_obj.solution_path)
 
@@ -45,10 +42,9 @@ class MenuController:
         self.ask_for_save(maze_obj)
 
     def createRandomDFSMaze(self):
-        start=time.time()
+
         maze_obj = self.maze_generator.generateMaze(25, "RANDOM_DFS")
-        end=time.time()
-        print("\n"+str(end-start)+"\n")
+
         self.maze_renderer.renderPathInMaze(maze_obj, maze_obj.solution_path)
 
         fitness = self.fitness_evaluator.calcFitness(maze_obj, "IMPROVED")
@@ -104,9 +100,8 @@ class MenuController:
 
         print("\n[INFO] Spiel fertig simuliert!")
 
-        print("\n[INFO] Zeige Spielverlauf...")
+        env.evaluateSolution()
 
-        env.drawGame()
 
         input("\n[INFO] Drücke ENTER um fortzufahren...")
 
@@ -206,7 +201,6 @@ class MenuController:
             f"{max(1, os.cpu_count() - 1)} Kernen..."
         )
 
-        start =time.time()
 
         with multiprocessing.Pool(
                 processes=max(1, os.cpu_count() - 1)
@@ -216,8 +210,6 @@ class MenuController:
                 tasks
             )
 
-        end=time.time()
-        print(end-start)
 
         compare_data = comparer.aggregate_results(raw_results)
         comparer.plot_results(compare_data)

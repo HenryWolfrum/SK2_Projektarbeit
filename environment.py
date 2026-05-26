@@ -1,6 +1,8 @@
+import fitness_evaluator
 import maze
 import random
 import maze_renderer
+import time
 
 class Environment:
 
@@ -18,6 +20,8 @@ class Environment:
 
         self.coin_collected_last_move = False
 
+        self.duration = 0
+
         self.solved = False
 
     # Spiel-Hauptschleife
@@ -26,16 +30,20 @@ class Environment:
         self.distribute_coins(coin_count)
 
         # Solange Spiel nicht gelöst
+        #Timer starten
+        start_time = time.time()
         while not self.solved:
             # Agent macht Zug
             self.do_move(self.agent)
             # Überprüfe ob Spiel gelöst
             self.checkSolved()
 
-    # Verteilt die Münzen am Anfang des Spiels
+        #Timer beenden
+        end_time = time.time()
+        self.duration = end_time - start_time
+
+    # Verteilt die Münzen am Anfang des Spiels (in nur erreichbare Teile)
     def distribute_coins(self, count):
-        # FIX: Nur erreichbare Felder per BFS vom Start aus verwenden,
-        # damit Coins nie in abgetrennten Maze-Bereichen landen.
         reachable = set()
         frontier = [self.maze.start]
         visited = {self.maze.start}
@@ -64,13 +72,11 @@ class Environment:
         legal = self.setActions()
         action = agent.selectAction(self.setInput(), legal)
 
-        # FIX: Wenn Aktion legal ist, Agent bewegen
         if action in legal:
             self.agent_pos = action
             self.path_history.append(action)
             self.checkForCoin(self.agent_pos)
         else:
-            # Pfad war ungültig → Agent-Pfad zurücksetzen, damit neu geplant wird
             print(f"[WARN] Ungültige Action {action} von Agent, legal wäre: {legal}")
             self.agent.last_followed_path.clear()
 
@@ -107,8 +113,6 @@ class Environment:
         legal = []
 
         for nx, ny in moves:
-            # FIX: nx ist Zeile → gegen Zeilenanzahl prüfen
-            #      ny ist Spalte → gegen Spaltenanzahl prüfen (war vorher vertauscht!)
             if 0 <= nx < len(self.maze.matrix) and 0 <= ny < len(self.maze.matrix[0]):
                 if self.maze.matrix[nx][ny] != maze.Maze.VALUE_WALL:
                     legal.append((nx, ny))
@@ -117,7 +121,6 @@ class Environment:
 
     # Überprüft ob das Spiel zu Ende ist
     def checkSolved(self):
-        print("agent:", self.agent_pos, "end:", self.maze.end, "coins:", len(self.coins_pos))
         if len(self.coins_pos) == 0 and self.agent_pos == self.maze.end:
             self.solved = True
 
@@ -125,4 +128,36 @@ class Environment:
         maze_renderer.MazeRenderer().renderAgentPathAnimated(self.maze, self.path_history,self.coins_pos_clone)
 
     def evaluateSolution(self):
-        pass
+
+        schritte = len(self.path_history)
+        rechenzeit = self.duration
+
+
+        maze_fitness =  fitness_evaluator.FitnessEvaluator().calcFitness(self.maze)
+
+
+        weight_time = 100.0
+
+
+        if schritte == 0:
+            agent_score = 0
+        else:
+
+            agent_score = (maze_fitness * 1000) / (schritte + (rechenzeit * weight_time))
+
+
+        print("\n" + "=" * 40)
+        print("         EVALUATION ERGEBNIS")
+        print("=" * 40)
+        print(f" Labyrinth-Schwierigkeit (Fitness): {maze_fitness:.2f}")
+        print(f" Benötigte Schritte:               {schritte}")
+        print(f" Reine Rechenzeit:                 {rechenzeit:.4f} Sekunden")
+        print("-" * 40)
+        print(f" FINALER AGENTEN-SCORE:            {agent_score:.2f}")
+        print("=" * 40 + "\n")
+
+        input("[INFO] Drücke ENTER um die Animation zu starten...")
+        self.drawGame()
+
+        return agent_score
+

@@ -13,7 +13,6 @@ class MazeRenderer:
     RENDER_AGENT            = "\033[46;1m◆ \033[0m"
     RENDER_PATH_ARROW       = "\033[45;1m{} \033[0m"
     RENDER_COIN             = "\033[103;1m● \033[0m"
-    RENDER_COIN_COLLECTED   = "\033[45m○ \033[0m"
 
     LEGEND = (
         " \033[41;1mST\033[0m Start   "
@@ -21,7 +20,6 @@ class MazeRenderer:
         "\033[46;1m◆ \033[0m Agent   "
         "\033[45;1m→ \033[0m Pfad   "
         "\033[103;1m● \033[0m Münze   "
-        "\033[45m○ \033[0m Eingesammelt   "
         "\033[40m  \033[0m Wand   "
         "\033[47m  \033[0m Frei"
     )
@@ -32,6 +30,8 @@ class MazeRenderer:
             print("")
             for i in range(len(matrix)):
                 print(self.getColorForValue(matrix[i][j]), end="")
+        print("")
+        print(self.LEGEND)
         print("")
 
     def renderPathInMaze(self, maze_obj, path):
@@ -46,6 +46,8 @@ class MazeRenderer:
                     print(self.RENDER_PATH_ARROW.format("·"), end="")
                 else:
                     print(self.getColorForValue(matrix[i][j]), end="")
+        print("")
+        print(self.LEGEND)
         print("")
 
     def renderAgentPathInMaze(self, maze_obj, path_history, coins_pos, collected_coins_pos=None):
@@ -84,27 +86,39 @@ class MazeRenderer:
             for i in range(len(matrix)):
                 pos = (i, j)
 
+                # 1. Höchste Priorität: Start und Ende fest verankern
                 if pos == maze_obj.start:
                     print(self.RENDER_START, end="")
                 elif pos == maze_obj.end:
                     print(self.RENDER_END, end="")
+
+                # 2. Zweite Priorität: Ist hier aktuell der Agent?
                 elif pos == last_pos:
+                    # Falls der Agent AUF einer eingesammelten Münze steht,
+                    # könnte man hier sogar ein spezielles Symbol nutzen, falls gewünscht.
                     print(self.RENDER_AGENT, end="")
+
+                # 3. Dritte Priorität: Wurde hier jemals eine Münze eingesammelt?
+                elif collected and pos in collected:
+                    print(self.RENDER_COIN_COLLECTED, end="")
+
+                # 4. Vierte Priorität: Ist der Agent hier einfach nur langgelaufen?
                 elif pos in path_set:
-                    if pos in collected:
-                        print(self.RENDER_COIN_COLLECTED, end="")
-                    else:
-                        arrow = directions.get(pos, "·")
-                        print(self.RENDER_PATH_ARROW.format(arrow), end="")
+                    arrow = directions.get(pos, "·")
+                    print(self.RENDER_PATH_ARROW.format(arrow), end="")
+
+                # 5. Fünfte Priorität: Liegt hier noch eine unberührte Münze?
                 elif pos in remaining:
                     print(self.RENDER_COIN, end="")
+
+                # 6. Letzte Priorität: Einfach nur Wand oder Boden
                 else:
                     print(self.getColorForValue(matrix[i][j]), end="")
 
         print("")
         print(self.LEGEND)
 
-    def renderAgentPathAnimated(self, maze_obj, path_history, coins_pos, collected_coins_pos=None, delay=0.15):
+    def renderAgentPathAnimated(self, maze_obj, path_history, coins_pos, collected_coins_pos=None, delay=0.075):
         matrix      = maze_obj.matrix
         maze_height = len(matrix)
 

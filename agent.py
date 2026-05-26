@@ -56,3 +56,4 @@ class GreedyAgent(Agent):
                 best_dist = dist
                 best      = pos
         return best
+
