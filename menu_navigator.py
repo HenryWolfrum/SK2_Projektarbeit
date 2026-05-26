@@ -1,4 +1,4 @@
-import tester
+import menu_controller as m_c
 import os
 import sys
 import maze_generator as m_g
@@ -15,7 +15,7 @@ class MenuNavigator:
 
     def __init__(self, start_state):
         self.current_state = start_state
-        self.tester = tester.Tester()
+        self.m_c = m_c.MenuController()
 
     def run_current_state(self):
         # Wir arbeiten direkt mit self.current_state, um die Kopier-Falle zu umgehen
@@ -103,7 +103,7 @@ class MenuNavigator:
 
         if selection == "EXECUTE_RANDOM":
             print("\n[INFO] Starte Random Generierung...")
-            self.tester.createRandomMaze()
+            self.m_c.createRandomMaze()
             input("\n[INFO] Drücke ENTER um zurückzukehren ...")
 
             # Wir bleiben im MAZE_GENERATOR_STATE, damit das Menü offen bleibt
@@ -111,14 +111,14 @@ class MenuNavigator:
 
         elif selection == "EXECUTE_DFS":
             print("\n[INFO] Starte DFS Generierung...")
-            self.tester.createRandomDFSMaze()
+            self.m_c.createRandomDFSMaze()
             input("\n[INFO] Drücke ENTER um zurückzukehren ...")
 
             self.current_state = self.MAZE_GENERATOR_STATE
 
         elif selection == "EXECUTE_GA":
             print("\n[INFO] Starte GA Generierung...")
-            self.tester.createGAMaze()
+            self.m_c.createGAMaze()
             input("\n[INFO] Drücke ENTER um zurückzukehren ...")
 
             self.current_state = self.MAZE_GENERATOR_STATE
@@ -154,7 +154,7 @@ class MenuNavigator:
 
         if selection == "EXECUTE_POPULATION":
             print("\n[INFO] Starte Populationsumgebung...")
-            self.tester.createPopulation()
+            self.m_c.createPopulation()
             print("\n[INFO] Drücke ENTER um zurückzukehren...")
         else:
             self.current_state = selection
@@ -187,16 +187,16 @@ class MenuNavigator:
 
         if selection == "EXECUTE_LOAD":
             print("\n[INFO] Starte Ladevorgang...")
-            self.tester.load_maze()
+            self.m_c.load_maze()
             input("\n[INFO] Drücke ENTER um zurückzukehren ...")
             self.current_state = self.LOAD_STATE
         elif selection == "EXECUTE_LIST":
             print("\n[INFO] Starte Speicherauswertung...")
-            self.tester.list_maze_storage()
+            self.m_c.list_maze_storage()
             input("\n[INFO] Drücke ENTER um zurückzukehren ...")
             self.current_state = self.LOAD_STATE
         elif selection == "EXECUTE_DELETE":
-            self.tester.delete_maze()
+            self.m_c.delete_maze()
             input("\n[INFO] Drücke ENTER um zurückzukehren ...")
             self.current_state = self.LOAD_STATE
         else:
@@ -231,15 +231,15 @@ class MenuNavigator:
         selection = value_state_dict[query]
 
         if selection == "EXECUTE_COMPARSION":
-            self.tester.compare_algorithms()
+            self.m_c.compare_algorithms()
             input("\n[INFO] Drücke ENTER um zurückzukehren ...")
             self.current_state = self.TUNING_ANALYSIS_STATE
         elif selection == "EXECUTE_TUNING_PLOTTING":
-            self.tester.plot_tuning_results()
+            self.m_c.plot_tuning_results()
             input("\n[INFO] Drücke ENTER um zurückzukehren ...")
             self.current_state = self.TUNING_ANALYSIS_STATE
         elif selection == "EXECUTE_TUNING":
-            self.tester.hyperparameter_tuning()
+            self.m_c.hyperparameter_tuning()
             input("\n[INFO] Drücke ENTER um zurückzukehren ...")
             self.current_state = self.TUNING_ANALYSIS_STATE
 

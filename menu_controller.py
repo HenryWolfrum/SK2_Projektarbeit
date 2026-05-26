@@ -14,7 +14,7 @@ import hyperparameter_tuner
 import numpy as np
 import json
 
-class Tester:
+class MenuController:
 
     def __init__(self):
         self.maze_generator = maze_generator.MazeGenerator()
@@ -142,8 +142,8 @@ class Tester:
 
         budget = comparer.evaluation_budget
         per_gen_estimate = 0.33
-        per_random_estimate = 0.008
-        per_random_dfs_estimate = 0.004
+        per_random_estimate = 0.0122
+        per_random_dfs_estimate = 0.0228
         total = 0
 
         for algo in compare_set:
@@ -174,6 +174,8 @@ class Tester:
             f"{max(1, os.cpu_count() - 1)} Kernen..."
         )
 
+        start =time.time()
+
         with multiprocessing.Pool(
                 processes=max(1, os.cpu_count() - 1)
         ) as pool:
@@ -181,6 +183,9 @@ class Tester:
                 ac._evaluate_worker_batch,
                 tasks
             )
+
+        end=time.time()
+        print(end-start)
 
         compare_data = comparer.aggregate_results(raw_results)
         comparer.plot_results(compare_data)
@@ -223,32 +228,10 @@ class Tester:
             self.maze_data_storage.save_maze_data(maze_obj, maze_id)
 
     def choose_compare_set(self):
+
         compare_set = []
 
-        query = input(
-            "\n Wähle einen Algorithmustyp zum hinzufügen: "
-            "[RANDOM] (R), [RANDOM_DFS] (D), "
-            "[GENETIC_ALGORITHM] (G): "
-        ).strip().upper()
-
-        while query not in ["R", "D", "G"]:
-            query = input(
-                "\n Ungültige Eingabe! Wähle: "
-                "[RANDOM] (R), [RANDOM_DFS] (D), "
-                "[GENETIC_ALGORITHM] (G): "
-            ).strip().upper()
-
-        if query == "G":
-            tupel = self._addGA()
-        else:
-            tupel = (query, 1)
-
-        if tupel not in compare_set:
-            compare_set.append(tupel)
-
-        answer = self._ask_yes_no("\nWeiteren Algorithmus hinzufügen? (j/n): ")
-
-        while answer == "j":
+        while True:
 
             query = input(
                 "\n Wähle einen Algorithmustyp zum hinzufügen: "
@@ -256,34 +239,56 @@ class Tester:
                 "[GENETIC_ALGORITHM] (G): "
             ).strip().upper()
 
-            # BUG FIX: Duplizier-Prompt zeigte keine Optionen mehr und
-            # fragte nur nach Duplikat-Fehler → jetzt differenzierte Meldungen.
-            while query not in ["R", "D", "G"] or any(
-                    x[0] == query for x in compare_set
-            ):
-                if query not in ["R", "D", "G"]:
-                    query = input(
-                        "\n Ungültige Eingabe! Wähle: "
-                        "[RANDOM] (R), [RANDOM_DFS] (D), "
-                        "[GENETIC_ALGORITHM] (G): "
-                    ).strip().upper()
-                else:
-                    query = input(
-                        f"\n [{query}] ist bereits im Vergleichsset! "
-                        "Wähle einen anderen: "
-                        "[RANDOM] (R), [RANDOM_DFS] (D), "
-                        "[GENETIC_ALGORITHM] (G): "
-                    ).strip().upper()
+            # Eingabe validieren
+            while query not in ["R", "D", "G"]:
+                query = input(
+                    "\n Ungültige Eingabe! Wähle: "
+                    "[RANDOM] (R), [RANDOM_DFS] (D), "
+                    "[GENETIC_ALGORITHM] (G): "
+                ).strip().upper()
 
-            if query == "G":
-                tupel = self._addGA()
+            # RANDOM
+            if query == "R":
+
+                if any(x[0] == "R" for x in compare_set):
+                    print("\n[INFO] RANDOM ist bereits im Vergleichsset!")
+                    continue
+
+                tupel = ("R", 1)
+
+            # RANDOM_DFS
+            elif query == "D":
+
+                if any(x[0] == "D" for x in compare_set):
+                    print("\n[INFO] RANDOM_DFS ist bereits im Vergleichsset!")
+                    continue
+
+                tupel = ("D", 1)
+
+            # GENETIC ALGORITHM
             else:
-                tupel = (query, 1)
 
-            if tupel not in compare_set:
-                compare_set.append(tupel)
+                tupel = self._addGA()
 
-            answer = self._ask_yes_no("\nWeiteren Algorithmus hinzufügen? (j/n): ")
+                if tupel in compare_set:
+                    print(
+                        "\n[INFO] Diese GA-Konfiguration "
+                        "existiert bereits!"
+                    )
+                    continue
+
+            # Hinzufügen
+            compare_set.append(tupel)
+
+            print("\n[INFO] Algorithmus erfolgreich hinzugefügt!")
+
+            # Abbrechen?
+            answer = self._ask_yes_no(
+                "\nWeiteren Algorithmus hinzufügen? (j/n): "
+            )
+
+            if answer == "n":
+                break
 
         print("\n[INFO] Alle Algorithmen erfolgreich aufgenommen!")
 
@@ -306,8 +311,14 @@ class Tester:
 
 
     def plot_tuning_results(self):
+        answer = self._ask_yes_no("Ergebnisse mit Standardabweichung darstellen (j/n)? : ")
         print("\n[INFO] Ergebnisse der Hyperoptimierung werden geladen...")
-        hyperparameter_result_plotter.plot_tuning_results()
+        if answer == "n":
+            hyperparameter_result_plotter.plot_tuning_results()
+        else:
+            hyperparameter_result_plotter.plot_tuning_results(True)
+
+
 
 
     def hyperparameter_tuning(self):
