@@ -102,7 +102,8 @@ class MenuController:
         #Spiel wird gestartet
         env.start(coin_count)
 
-        print("\n[INFO] Spiel fertig simuliert lade Ergebnisse...")
+        print("\n[INFO] Spiel fertig simuliert!")
+        input("\n[INFO] Drücke ENTER um fortzufahren...")
 
 
     #Ertellt eine Beispiel Population und wertet die Daten aus

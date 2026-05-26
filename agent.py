@@ -15,8 +15,6 @@ class GreedyAgent(Agent):
         self.last_followed_path = deque()
 
     def selectAction(self, input, actions):
-        # Greedy: Ziel wählen + BFS Pfad nutzen
-
         collected_last_move = input["coin_collected_last_move"] == True
 
         coins_pos = input["coins_pos"]
@@ -24,31 +22,26 @@ class GreedyAgent(Agent):
         end_pos = input["end_pos"]
         maze = input["maze"]
 
-        # 1. Wenn alle Münzen weg sind → Ziel ist Exit
+        # 1. Ziel: Exit
         if len(coins_pos) == 0:
-
-            # neuer Pfad nur wenn vorher etwas abgeschlossen wurde oder noch keiner existiert
             if collected_last_move or len(self.last_followed_path) == 0:
                 path = self.calcNewPath([end_pos], agent_pos, maze)
                 self.last_followed_path = deque(path)
 
-            return self.getNextAction(actions)
+            return self.getNextAction()
 
-        # 2. Wenn gerade eine Münze eingesammelt wurde → neues Ziel berechnen
+        # 2. Ziel: Coins
         if collected_last_move or len(self.last_followed_path) == 0:
             path = self.calcNewPath(coins_pos, agent_pos, maze)
             self.last_followed_path = deque(path)
 
-        # 3. Pfad weiter ablaufen
-        return self.getNextAction(actions)
+        return self.getNextAction()
 
     def calcNewPath(self, goals_pos, start_pos, maze):
-
         visited = set()
         frontier = deque([(start_pos, [start_pos])])
 
         while frontier:
-
             current, path = frontier.popleft()
 
             if current in goals_pos:
@@ -67,16 +60,14 @@ class GreedyAgent(Agent):
 
         return []
 
-    def getNextAction(self, actions):
+    def getNextAction(self):
+        if not self.last_followed_path:
+            return None
+
+        # Aktuelle Position (Startposition) entfernen
+        self.last_followed_path.popleft()
 
         if not self.last_followed_path:
             return None
 
-        next_pos = self.last_followed_path.popleft()
-
-        # Startposition nicht als Bewegung behandeln
-        if next_pos not in actions:
-            # falls inkonsistent → einfach ignorieren
-            return None
-
-        return next_pos
+        return self.last_followed_path[0]

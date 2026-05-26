@@ -12,8 +12,6 @@ class Maze:
 
     matrix=[]
 
-    startPos=(-1,-1)
-    endPos=(-1,-1)
 
     fitness=-1
 

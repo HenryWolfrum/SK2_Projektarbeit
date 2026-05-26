@@ -1,15 +1,15 @@
 import maze
 import random
 
-class Environment:
 
+class Environment:
 
     def __init__(self, maze, agent):
         self.maze = maze
         self.agent = agent
 
-        # einzige Positionsquelle
-        self.agent_pos = maze.startPos
+        # Einzige Positionsquelle
+        self.agent_pos = maze.start
 
         self.coin_count = 0
         self.coins_pos = []
@@ -17,54 +17,62 @@ class Environment:
 
         self.coin_collected_last_move = False
 
-
         self.solved = False
 
-    #Spiel Hauptschleife
+    # Spiel-Hauptschleife
     def start(self, coin_count):
-        #Münzen auf Maze verteilen
+        # Münzen auf Maze verteilen
         self.distribute_coins(coin_count)
 
-        #Solange Spiel nicht gelöst
+        # Solange Spiel nicht gelöst
         while not self.solved:
-            #Agent macht Zug
+            # Agent macht Zug
             self.do_move(self.agent)
-            #Überprüfe ob Spiel gelöst
+            # Überprüfe ob Spiel gelöst
             self.checkSolved()
 
-    #Verteilt die Münzen am Anfang des Spiels
+    # Verteilt die Münzen am Anfang des Spiels
     def distribute_coins(self, count):
+        # FIX: Nur erreichbare Felder per BFS vom Start aus verwenden,
+        # damit Coins nie in abgetrennten Maze-Bereichen landen.
+        reachable = set()
+        frontier = [self.maze.start]
+        visited = {self.maze.start}
 
-        free_space = set()
+        while frontier:
+            current = frontier.pop()
+            reachable.add(current)
+            neighbors = self.maze.checkForNeighbors(current, 1, self.maze.VALUE_WALL)
+            for nb in neighbors:
+                if nb not in visited:
+                    visited.add(nb)
+                    frontier.append(nb)
 
-        rows = len(self.maze.matrix)
-        cols = len(self.maze.matrix[0])
+        # Startposition und Endposition ausschließen
+        reachable.discard(self.maze.start)
+        reachable.discard(self.maze.end)
 
-        for i in range(rows):
-            for j in range(cols):
-                if self.maze.matrix[i][j] == maze.Maze.VALUE_EMPTY:
-                    free_space.add((i, j))
+        # Falls weniger erreichbare Felder als Coins existieren
+        count = min(count, len(reachable))
 
-        # Falls weniger freie Felder als coins existieren
-        count = min(count, len(free_space))
+        self.coins_pos = random.sample(list(reachable), count)
 
-        self.coins_pos = random.sample(list(free_space), count)
-
-    #Agent macht Zug
+    # Agent macht Zug
     def do_move(self, agent):
-        action = agent.selectAction(self.setInput(), self.setActions())
+        legal = self.setActions()
+        action = agent.selectAction(self.setInput(), legal)
 
-        #Wenn Aktion legal war (Normalfall immer)
-        if action in self.setActions():
-            #Agenten verschieben
+        # FIX: Wenn Aktion legal ist, Agent bewegen
+        if action in legal:
             self.agent_pos = action
             self.path_history.append(action)
-
-            #Überprüfen ob er auf einer Münze ist
             self.checkForCoin(self.agent_pos)
+        else:
+            # Pfad war ungültig → Agent-Pfad zurücksetzen, damit neu geplant wird
+            print(f"[WARN] Ungültige Action {action} von Agent, legal wäre: {legal}")
+            self.agent.last_followed_path.clear()
 
-
-    #Entfernt Münze wenn Agent auf einer steht und markiert den bool für nächsten Zug
+    # Entfernt Münze wenn Agent auf einer steht und setzt den Bool für nächsten Zug
     def checkForCoin(self, pos):
         if pos in self.coins_pos:
             self.coins_pos.remove(pos)
@@ -72,18 +80,18 @@ class Environment:
         else:
             self.coin_collected_last_move = False
 
-    #erzeugt den Input für den Agent
+    # Erzeugt den Input für den Agent
     def setInput(self):
         return {
             "agent_pos": self.agent_pos,
-            "end_pos": self.maze.endPos,
+            "end_pos": self.maze.end,
             "coins_pos": self.coins_pos,
             "coin_collected_last_move": self.coin_collected_last_move,
             "maze": self.maze,
             "path_history": self.path_history,
         }
 
-    #Erzeugt die Menge legaler Aktionen
+    # Erzeugt die Menge legaler Aktionen
     def setActions(self):
         x, y = self.agent_pos
 
@@ -97,13 +105,16 @@ class Environment:
         legal = []
 
         for nx, ny in moves:
-            if 0 <= ny < len(self.maze.matrix) and 0 <= nx < len(self.maze.matrix[0]):
-                if self.maze.matrix[ny][nx] != maze.Maze.VALUE_WALL:
+            # FIX: nx ist Zeile → gegen Zeilenanzahl prüfen
+            #      ny ist Spalte → gegen Spaltenanzahl prüfen (war vorher vertauscht!)
+            if 0 <= nx < len(self.maze.matrix) and 0 <= ny < len(self.maze.matrix[0]):
+                if self.maze.matrix[nx][ny] != maze.Maze.VALUE_WALL:
                     legal.append((nx, ny))
 
         return legal
 
-    #Überprüft ob das Spiel zu Ende ist
+    # Überprüft ob das Spiel zu Ende ist
     def checkSolved(self):
-        if len(self.coins_pos) == 0 and self.agent_pos == self.maze.endPos:
+        print("agent:", self.agent_pos, "end:", self.maze.end, "coins:", len(self.coins_pos))
+        if len(self.coins_pos) == 0 and self.agent_pos == self.maze.end:
             self.solved = True
