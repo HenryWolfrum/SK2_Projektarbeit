@@ -72,6 +72,7 @@ class Environment:
         legal = self.setActions()
         action = agent.selectAction(self.setInput(), legal)
 
+        #Wenn Zug legal (Normalfall!)
         if action in legal:
             self.agent_pos = action
             self.path_history.append(action)
@@ -124,6 +125,7 @@ class Environment:
         if len(self.coins_pos) == 0 and self.agent_pos == self.maze.end:
             self.solved = True
 
+    #Lässt den Spielverlauf animiert zeichnen
     def drawGame(self):
         maze_renderer.MazeRenderer().renderAgentPathAnimated(self.maze, self.path_history,self.coins_pos_clone)
 
@@ -142,7 +144,7 @@ class Environment:
         if schritte == 0:
             agent_score = 0
         else:
-
+            #Bewertungsmetrik (um so schneller desto besser , und umso härter desto besser)
             agent_score = (maze_fitness * 1000) / (schritte + (rechenzeit * weight_time))
 
 

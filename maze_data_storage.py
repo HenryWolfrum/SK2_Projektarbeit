@@ -15,7 +15,8 @@ class MazeDataStorage:
                 parts = line.strip().split(self.DATA_SEPARATOR)
                 print("\n NAME: "+parts[0])
 
-    def alreadySaved(self, maze_id):
+    #Hilfsfunktion um zu prüfen ob ein Maze unter diesem Namen schon gespeichert ist
+    def _alreadySaved(self, maze_id):
         try:
             with open(self.FILE_NAME, "r") as file:
                 for line in file:
@@ -27,7 +28,7 @@ class MazeDataStorage:
 
     def save_maze_data(self, maze_obj, maze_id):
 
-        if self.alreadySaved(maze_id):
+        if self._alreadySaved(maze_id):
             print("Es existiert bereits ein Labyrinth unter diesem Name!")
             response = input("Überschreiben (j/n)? : ").lower().strip()
             while response not in ["j", "n"]:
@@ -41,11 +42,13 @@ class MazeDataStorage:
         start_x, start_y = maze_obj.start
         end_x, end_y = maze_obj.end
 
+        #Matrix zerlegen
         matrix_data = []
         for row in maze_obj.matrix:
             for cell in row:
                 matrix_data.append(str(cell))
 
+        #Daten mit Separator getrennt aufschreiben
         line = self.DATA_SEPARATOR.join([
             maze_id,
             str(start_x),
@@ -93,7 +96,7 @@ class MazeDataStorage:
 
     def delete_maze_data(self, maze_id):
 
-        if not self.alreadySaved(maze_id):
+        if not self._alreadySaved(maze_id):
             return False
 
         try:
@@ -112,6 +115,7 @@ class MazeDataStorage:
 
                 new_lines.append(line)
 
+            #Überschreiben mit Leere
             with open(self.FILE_NAME, "w") as file:
                 file.writelines(new_lines)
 

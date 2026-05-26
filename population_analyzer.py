@@ -15,6 +15,7 @@ class PopulationAnalyzer:
         self.path_finder = path_finder.PathFinder()
         self.maze_renderer = maze_renderer.MazeRenderer()
 
+    #Nimmt ein neues Datenpacket auf
     def update(self,data):
         self.generation_data_packages.append(data)
 
@@ -27,6 +28,7 @@ class PopulationAnalyzer:
         return self.generation_data_packages[len(self.generation_data_packages)-1].fittest_maze
 
 
+    #Zeichnet die Fitnesskonvergenz basierend der gesammelten Daten
     def plot_fitness_convergence(self):
 
         plt.plot(self.max_fitnesses,label="Max Fitness")
@@ -38,6 +40,7 @@ class PopulationAnalyzer:
 
         plt.show()
 
+    #Zeichnet die Diversität
     def plot_diversity(self):
         plt.plot(self.unique_ratios,label="Diversity")
 
@@ -45,6 +48,7 @@ class PopulationAnalyzer:
         plt.ylabel("Diversity")
 
         plt.show()
+
 
     def render_fittest(self):
         path = self.path_finder.generatePath(self.get_fittest_maze())

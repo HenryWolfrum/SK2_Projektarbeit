@@ -17,6 +17,7 @@ class PathFinder:
         return self.BFS(maze)
 
 
+    #Führt BFS auf Maze aus
     def BFS(self,maze):
         start = maze.start
         end = maze.end

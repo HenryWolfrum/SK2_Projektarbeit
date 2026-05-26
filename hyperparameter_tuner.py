@@ -12,9 +12,10 @@ def evaluate_single_run(setting):
 
     m_g = maze_generator.MazeGenerator()
 
-    # Führt exakt einen Durchlauf aus (200 Gen)
+    # Führt exakt einen Durchlauf aus
     maze = m_g.geneticAlgorithmMaze(25, "RANDOM", 100, "IMPROVED", hyper_dict, 200)
 
+    #Ergbenis dictionary
     return {
         "mutation_rate": mutation_rate,
         "survivor_rate": survivor_rate,

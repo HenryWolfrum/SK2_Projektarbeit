@@ -237,6 +237,7 @@ class PopulationManager:
 
         self.notifyObservers(package)
 
+    #Berechnet den Anteil an ungleichen Mazes
     def calcUniqueMazeRatio(self):
 
         unique = set()
@@ -248,7 +249,3 @@ class PopulationManager:
 
         return len(unique) / self.size_pop
 
-
-    #Gibt die aktuelle Population zurück
-    def getPopulation(self):
-        return self.population

@@ -5,6 +5,8 @@ import maze_generator as m_g
 
 
 class MenuNavigator:
+
+    #Verschiedenen Zustände
     MAIN_MENU_STATE = "MAIN_MENU"
     MAZE_GENERATOR_STATE = "MAZE_GENERATION"
     AGENT_ENVIRONMENT_STATE = "AGENT_ENVIRONMENT"
@@ -18,12 +20,13 @@ class MenuNavigator:
         self.m_c = m_c.MenuController()
 
     def run_current_state(self):
-        # Wir arbeiten direkt mit self.current_state, um die Kopier-Falle zu umgehen
+        # Solange nicht im Endzustand
         while self.current_state != self.END_STATE:
 
-            # Bildschirm vor jedem neuen Zustand leeren für einen cleanen Look
+            # Bildschirm vor jedem Zustand cleanen
             os.system('cls' if os.name == 'nt' else 'clear')
 
+            #Menüauswahl
             if self.current_state == self.MAIN_MENU_STATE:
                 self.main_menu()
             elif self.current_state == self.MAZE_GENERATOR_STATE:
@@ -40,13 +43,14 @@ class MenuNavigator:
             else:
                 print(f"\n[FEHLER] Illegaler Menü Zustand: {self.current_state}")
                 print("-- Programm Abbruch ---")
-                sys.exit(1)  # Beendet das Programm sauber mit Fehlercode
+                sys.exit(1)
 
-        # Regulärer Programm-Abbruch nach Schleifenende
+        #Programm beenden
         os.system('cls' if os.name == 'nt' else 'clear')
         print("\n=========================================")
         print(" Programm wurde erfolgreich beendet!")
         print("=========================================")
+
 
     def main_menu(self):
         print("\n" + "=" * 50)

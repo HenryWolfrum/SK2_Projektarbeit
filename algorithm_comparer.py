@@ -64,7 +64,6 @@ class AlgorithmComparer:
         self.compare_function = compare_function or self.DEFAULT_COMPARE_FUNCTION
 
     def _algo_label(self, algo):
-        """Lesbare Bezeichnung für Achsenbeschriftung und Logging."""
         if algo[0] == "R":
             return "RANDOM"
         if algo[0] == "D":

@@ -38,13 +38,13 @@ def plot_tuning_results(show_std=False):
         for d in data
     }
 
-    # Min/Max für konsistente Farbskala
+    # Min/Max für Farbskala
     fitness_vals = list(lookup.values())
     vmin = min(fitness_vals)
     vmax = max(fitness_vals)
     mid = (vmin + vmax) / 2
 
-    # Figure mit 2x2 Subplots erzeugen
+    # Figure mit 2x2 Subplots erzeugen (falls 4 verschiedene Tournament Größen gewählt wurden)
     fig, axes = plt.subplots(
         2,
         2,

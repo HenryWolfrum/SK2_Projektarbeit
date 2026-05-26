@@ -23,12 +23,14 @@ class MenuController:
         self.fitness_evaluator = fitness_evaluator.FitnessEvaluator()
         self.maze_data_storage = maze_data_storage.MazeDataStorage()
 
-    def _ask_yes_no(self, prompt):
-        answer = input(prompt).strip().lower()
+    #Hilfsfunktion für ja/nein Fragen
+    def _ask_yes_no(self, message):
+        answer = input(message).strip().lower()
         while answer not in ["j", "n"]:
-            answer = input(prompt).strip().lower()
+            answer = input(message).strip().lower()
         return answer
 
+    #Generiert ein Random Maze
     def createRandomMaze(self):
 
         maze_obj = self.maze_generator.generateMaze(25,"RANDOM")
@@ -39,8 +41,9 @@ class MenuController:
 
         print("\n\nFitness:", fitness)
 
-        self.ask_for_save(maze_obj)
+        self._ask_for_save(maze_obj)
 
+    #Generiert ein RandomDFS Maze
     def createRandomDFSMaze(self):
 
         maze_obj = self.maze_generator.generateMaze(25, "RANDOM_DFS")
@@ -51,8 +54,9 @@ class MenuController:
 
         print("\n\nFitness:", fitness)
 
-        self.ask_for_save(maze_obj)
+        self._ask_for_save(maze_obj)
 
+    #Generiert ein Maze mithilfe eines GA
     def createGAMaze(self):
         pop_size = int(input("Populationsgröße:"))
         mutation_rate = float(input("Mutations Rate:"))
@@ -74,9 +78,10 @@ class MenuController:
 
         print("\n\nFitness:", fitness)
 
-        self.ask_for_save(maze_obj)
+        self._ask_for_save(maze_obj)
 
 
+    #Startet ein Agent-Labyrinth Spiel
     def agent_game(self):
         print("\n[INFO] Spielumgebung laden...")
 
@@ -142,7 +147,7 @@ class MenuController:
 
         print("\n\nFitness:", fitness)
 
-        self.ask_for_save(maze_obj)
+        self._ask_for_save(maze_obj)
 
         print("=" * 30 + "\n")
         print("\n [INFO] Lade Fitnesskonvergenz-Verlauf...")
@@ -152,11 +157,13 @@ class MenuController:
         analyzer.plot_diversity()
         print("=" * 30 + "\n")
 
+
+    #Vergleicht die Performance verschiedener Algorithmen in einem Setting
     def compare_algorithms(self):
         print("\n=== Algorithmen vergleichen ===")
         print("\n[INFO] Starte Algorithmenauswahl...")
 
-        compare_set = self.choose_compare_set()
+        compare_set = self._choose_compare_set()
 
         if len(compare_set) == 0:
             return
@@ -214,6 +221,7 @@ class MenuController:
         compare_data = comparer.aggregate_results(raw_results)
         comparer.plot_results(compare_data)
 
+    #Lädt ein Labyrinth aus dem Speicher
     def load_maze(self):
         print("\n=== Labyrinth Laden ===")
         name = input("Bitte den Namen des Labyrinths eingeben: ")
@@ -232,11 +240,13 @@ class MenuController:
         print(f"Fitness-Wert: {fitness}")
         print("=" * 30 + "\n")
 
+    #Listet alle Labyrinthe im Speicher auf mit Namen
     def list_maze_storage(self):
         print("\n=== Speicher Laden ===")
         self.maze_data_storage.list_data_names()
         print("=" * 25 + "\n")
 
+    #Löscht Labyrinth aus Speicher
     def delete_maze(self):
         print("\n=== Labyrinth Löschen ===")
         name = input("Name des zu löschenden Labyrinths: ")
@@ -246,12 +256,15 @@ class MenuController:
             print("\n[INFO] Labyrinth wurde nicht gefunden!")
         print("=" * 25 + "\n")
 
-    def ask_for_save(self, maze_obj):
+    #Hilfsfunktion um nach Speichern zu fragen
+    def _ask_for_save(self, maze_obj):
         if self._ask_yes_no("\nLabyrinth Speichern? (j/n): ") == "j":
             maze_id = input("\nSpeichername eingeben: ")
             self.maze_data_storage.save_maze_data(maze_obj, maze_id)
 
-    def choose_compare_set(self):
+
+    #Hilfsfunktion um  Algorithmus Vergleichsset zu erstellen
+    def _choose_compare_set(self):
 
         compare_set = []
 
@@ -318,6 +331,7 @@ class MenuController:
 
         return compare_set
 
+    #Hilfsfunktion um einen GA ins Vergleichsset aufzunehmen
     def _addGA(self):
         popSize = int(input("Populationsgröße: "))
         mutation_rate = float(input("Mutations Rate: "))
@@ -334,6 +348,7 @@ class MenuController:
         return "G", popSize, hyperparams, generations, (popSize * generations)
 
 
+    #Gibt die hyperparameter result json aus als Heatmap
     def plot_tuning_results(self):
         answer = self._ask_yes_no("Ergebnisse mit Standardabweichung darstellen (j/n)? : ")
         print("\n[INFO] Ergebnisse der Hyperoptimierung werden geladen...")
@@ -344,7 +359,7 @@ class MenuController:
 
 
 
-
+    #Führt Hyperparameteroptimierung mittels Gridsearch durch
     def hyperparameter_tuning(self):
 
         print("\n [WARNUNG] Bei der Durchführung werden alte Ergebnisse überschrieben!")
@@ -371,7 +386,7 @@ class MenuController:
 
         runs = range(int(input("Simulierte Durchläufe pro Suchraum-Tupel: ")))
 
-        # 0.33s pro Generation, 200 Generationen pro GA-Lauf
+
         per_ga_estimate = 0.33 * 200
 
         # Alle Kerne bis auf einen aktivieren

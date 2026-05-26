@@ -14,7 +14,7 @@ class MetricAnalyzer:
     def calcDensityMetric(self,maze):
 
         # Gemeinsame Hilfsfunktion vermeidet doppelten Loop mit calcConnectivityMetric
-        wallCount = self.countWalls(maze)
+        wallCount = self._countWalls(maze)
 
 
         return 1-math.fabs(1-(wallCount /(len(maze.matrix)**2) ))
@@ -92,7 +92,7 @@ class MetricAnalyzer:
         totalCells = len(matrix) ** 2
 
         # Gemeinsame Hilfsfunktion vermeidet doppelten Loop mit calcDensityMetric
-        wallCells = self.countWalls(maze)
+        wallCells = self._countWalls(maze)
 
         visited = set()
         frontier = deque([start])
@@ -116,7 +116,7 @@ class MetricAnalyzer:
         return reachableCells,totalCells,wallCells
 
     # Hilfsfunktion: vermeidet doppelten Wall-Loop in calcDensityMetric und compareReachableSpace
-    def countWalls(self,maze):
+    def _countWalls(self,maze):
         wallCount = 0
 
         matrix = maze.matrix

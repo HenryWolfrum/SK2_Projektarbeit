@@ -24,6 +24,7 @@ class MazeRenderer:
         "\033[47m  \033[0m Frei"
     )
 
+    #Zeichnet das Maze mit (0,0) unten links
     def renderMaze(self, maze_obj):
         matrix = maze_obj.matrix
         for j in range(len(matrix) - 1, -1, -1):
@@ -34,6 +35,7 @@ class MazeRenderer:
         print(self.LEGEND)
         print("")
 
+    #Zeichnet Maze mit Pfad
     def renderPathInMaze(self, maze_obj, path):
         matrix   = maze_obj.matrix
         path_set = set(path)
@@ -61,6 +63,7 @@ class MazeRenderer:
         remaining = set(coins_pos) if coins_pos else set()
         collected = set(collected_coins_pos) if collected_coins_pos else set()
 
+        #Bewegungsrichtung berechnen
         directions = {}
         for idx in range(len(path_history) - 1):
             cur = path_history[idx]
@@ -118,6 +121,7 @@ class MazeRenderer:
         print("")
         print(self.LEGEND)
 
+    #Zeichnet immer nur einen Teil des Verlaufs für Animationseffekt
     def renderAgentPathAnimated(self, maze_obj, path_history, coins_pos, collected_coins_pos=None, delay=0.075):
         matrix      = maze_obj.matrix
         maze_height = len(matrix)
@@ -131,6 +135,7 @@ class MazeRenderer:
             self.renderAgentPathInMaze(maze_obj, path_history[:step], coins_pos, collected_coins_pos)
             time.sleep(delay)
 
+    #Übersetzt die Werte in festgelegte Farben
     def getColorForValue(self, value):
         if   value == maze.Maze.VALUE_START: return self.RENDER_START
         elif value == maze.Maze.VALUE_END:   return self.RENDER_END
