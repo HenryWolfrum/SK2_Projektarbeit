@@ -51,7 +51,7 @@ class GreedyAgent(Agent):
         best      = None
         best_dist = float("inf")
         for pos in positions:
-            dist = abs(pos[0] - origin[0]) + abs(pos[1] - origin[1])
+            dist = ((pos[0]+origin[0])^2+(pos[1]+origin[1])) ** 0.5
             if dist < best_dist:
                 best_dist = dist
                 best      = pos
