@@ -48,12 +48,15 @@ class GreedyAgent(Agent):
         return None
 
     def nearest(self, origin, positions):
-        best      = None
+        best = None
         best_dist = float("inf")
+
         for pos in positions:
-            dist = ((pos[0]+origin[0])^2+(pos[1]+origin[1])) ** 0.5
+            dist = ((pos[0] - origin[0]) ** 2 +
+                    (pos[1] - origin[1]) ** 2) ** 0.5
+
             if dist < best_dist:
                 best_dist = dist
-                best      = pos
-        return best
+                best = pos
 
+        return best
