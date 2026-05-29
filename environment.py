@@ -96,8 +96,6 @@ class Environment:
             "end_pos": self.maze.end,
             "coins_pos": self.coins_pos,
             "coin_collected_last_move": self.coin_collected_last_move,
-            "maze": self.maze,
-            "path_history": self.path_history,
         }
 
     # Erzeugt die Menge legaler Aktionen
@@ -140,12 +138,15 @@ class Environment:
 
         weight_time = 100.0
 
+        weight_fitness = 1000
+
+        weight_steps=1
 
         if schritte == 0:
             agent_score = 0
         else:
             #Bewertungsmetrik (um so schneller desto besser , und umso härter desto besser)
-            agent_score = (maze_fitness * 1000) / (schritte + (rechenzeit * weight_time))
+            agent_score = (maze_fitness * weight_fitness) / ((schritte*weight_steps) + (rechenzeit * weight_time))
 
 
         print("\n" + "=" * 40)

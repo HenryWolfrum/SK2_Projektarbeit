@@ -22,7 +22,6 @@ class GreedyAgent(Agent):
         coins_pos           = input["coins_pos"]
         agent_pos           = input["agent_pos"]
         end_pos             = input["end_pos"]
-        maze                = input["maze"]
         collected_last_move = input["coin_collected_last_move"] == True
 
         if collected_last_move or self.goal is None or agent_pos == self.goal:
