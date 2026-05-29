@@ -96,6 +96,7 @@ class Environment:
             "end_pos": self.maze.end,
             "coins_pos": self.coins_pos,
             "coin_collected_last_move": self.coin_collected_last_move,
+            "maze":self.maze
         }
 
     # Erzeugt die Menge legaler Aktionen
