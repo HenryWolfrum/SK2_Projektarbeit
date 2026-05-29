@@ -1,7 +1,4 @@
 import matplotlib.pyplot as plt
-import maze_renderer
-import path_finder
-
 
 class PopulationAnalyzer:
 
@@ -12,8 +9,6 @@ class PopulationAnalyzer:
         self.min_fitnesses = []
         self.unique_ratios =[]
 
-        self.path_finder = path_finder.PathFinder()
-        self.maze_renderer = maze_renderer.MazeRenderer()
 
     #Nimmt ein neues Datenpacket auf
     def update(self,data):
@@ -24,6 +19,7 @@ class PopulationAnalyzer:
         self.min_fitnesses.append(data.min_fitness)
         self.unique_ratios.append(data.unique_ratio)
 
+    #Gibt das fitteste Labyrinth zurück
     def get_fittest_maze(self):
         return self.generation_data_packages[len(self.generation_data_packages)-1].fittest_maze
 
@@ -48,8 +44,3 @@ class PopulationAnalyzer:
         plt.ylabel("Diversity")
 
         plt.show()
-
-
-    def render_fittest(self):
-        path = self.path_finder.generatePath(self.get_fittest_maze())
-        self.maze_renderer.renderPathInMaze(self.get_fittest_maze(), path)
