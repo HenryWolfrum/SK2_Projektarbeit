@@ -15,7 +15,7 @@ class PopulationManager:
 
     DEFAULT_MAX_GENERATION=200
 
-    DEFAULT_MUTATION_RATE = 0.2
+    DEFAULT_MUTATION_RATE = 0.4
 
     #Maximale Anzahl an Zellmutationen pro Mutation
     DEFAULT_MUTATION_CELLS_MAX=0.06
@@ -23,10 +23,10 @@ class PopulationManager:
     DEFAULT_MUTATION_CELLS_MIN=0.08
 
     #Anteil der Population der selektiert wird für die nächste Generation
-    DEFAULT_SURVIVOR_RATE = 0.5
+    DEFAULT_SURVIVOR_RATE = 0.3
 
     #Größenanteil einer Teilmenge bei Turnierselektion
-    DEFAULT_TOURNAMENT_SIZE = 2
+    DEFAULT_TOURNAMENT_SIZE = 3
 
     DEFAULT_HYPERPARAMETERS={"mutation_rate":DEFAULT_MUTATION_RATE,
                              "survivor_rate":DEFAULT_SURVIVOR_RATE,
