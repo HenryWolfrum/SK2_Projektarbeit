@@ -112,6 +112,7 @@ class Environment:
 
         legal = []
 
+        #Prüfe ob der Zug innerhalb des Labyrinths ist und auf einer Freifläche endet
         for nx, ny in moves:
             if 0 <= nx < len(self.maze.matrix) and 0 <= ny < len(self.maze.matrix[0]):
                 if self.maze.matrix[nx][ny] != maze.Maze.VALUE_WALL:
@@ -128,6 +129,8 @@ class Environment:
     def drawGame(self):
         maze_renderer.MazeRenderer().renderAgentPathAnimated(self.maze, self.path_history,self.coins_pos_clone)
 
+
+    #Bewertungsfunktion für den Agenten
     def evaluateSolution(self):
 
         schritte = len(self.path_history)
@@ -146,10 +149,10 @@ class Environment:
         if schritte == 0:
             agent_score = 0
         else:
-            #Bewertungsmetrik (um so schneller desto besser , und umso härter desto besser)
+            #Bewertungsmetrik (um so schneller desto besser , und umso schwieriger desto besser)
             agent_score = (maze_fitness * weight_fitness) / ((schritte*weight_steps) + (rechenzeit * weight_time))
 
-
+        #UI-Feedback
         print("\n" + "=" * 40)
         print("         EVALUATION ERGEBNIS")
         print("=" * 40)

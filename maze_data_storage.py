@@ -7,6 +7,7 @@ class MazeDataStorage:
     DATA_SEPARATOR = ","
     MATRIX_SEPARATOR = "|"
 
+    #Listet alle gespeicherten Mazes auf
     def list_data_names(self):
         with open(self.FILE_NAME, "r") as file:
             lines = file.readlines()
@@ -26,6 +27,7 @@ class MazeDataStorage:
             return False
         return False
 
+    #Speichert ein Maze unter (eindeutigen) Namen
     def save_maze_data(self, maze_obj, maze_id):
 
         if self._alreadySaved(maze_id):
@@ -62,6 +64,7 @@ class MazeDataStorage:
             file.write(line + "\n")
 
 
+    #Lädt die Daten des Mazes wenn vorhanden
     def load_maze_data(self, maze_id):
 
         try:
@@ -94,6 +97,7 @@ class MazeDataStorage:
         return None
 
 
+    #Löscht ein Maze mit maze_id aus dem Speicher, vorausgesetzt es existiert
     def delete_maze_data(self, maze_id):
 
         if not self._alreadySaved(maze_id):

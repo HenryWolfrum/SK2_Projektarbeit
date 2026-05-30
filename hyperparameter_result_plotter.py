@@ -8,7 +8,7 @@ def plot_tuning_results(show_std=False):
     with open("hyperparameter_tuning_results.json") as f:
         data = json.load(f)
 
-    # Alle einzigartigen Hyperparameter sammeln
+    # Alle Hyperparameter sammeln
     mutation_rates = sorted(set(d["mutation_rate"] for d in data))
     survivor_rates = sorted(
         set(d["survivor_rate"] for d in data),
