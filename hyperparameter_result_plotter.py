@@ -46,7 +46,7 @@ def plot_tuning_results(show_std=False):
                 # Fitness-Wert
                 ax.text(x,y - 0.12 if show_std else y,f"{val:.3f}",ha="center",va="center",fontsize=9,fontweight="bold",color=text_color)
 
-                # Optional: Standardabweichung anzeigen
+                # ggf. Standardabweichung anzeigen
                 if show_std:
 
                     std_val = std_lookup.get((mutation_rates[x],survivor_rates[y],t_size),0.0)
@@ -64,7 +64,7 @@ def plot_tuning_results(show_std=False):
         ax.set_yticks(range(len(survivor_rates)))
         ax.set_yticklabels([f"{s:.0%}" for s in survivor_rates])
 
-        # Achsenlabels
+        # Achsen hier beschriften
         ax.tick_params(labelbottom=True)
 
         ax.set_xlabel("Mutation Rate")
