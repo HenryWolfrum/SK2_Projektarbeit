@@ -140,7 +140,7 @@ class Environment:
         maze_fitness =  fitness_evaluator.FitnessEvaluator().calcFitness(self.maze)
 
 
-        weight_time = 100.0
+        weight_time = 1000.0
 
         weight_fitness = 1000
 
