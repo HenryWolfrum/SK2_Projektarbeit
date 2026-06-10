@@ -84,7 +84,6 @@ class MenuNavigator:
         print("\n" + "=" * 50)
         print("      Labyrinth Generierung und Visualisierung       ")
         print("=" * 50)
-        # Sehr gut gelöst!
         print(" [1] Labyrinth Typ: " + m_g.MazeGenerator().MODE_RANDOM)
         print(" [2] Labyrinth Typ: " + m_g.MazeGenerator().MODE_RANDOM_DFS)
         print(" [3] Labyrinth Typ: " + m_g.MazeGenerator().MODE_GENETIC_ALGORITHM)
@@ -112,7 +111,6 @@ class MenuNavigator:
             self.m_c.createRandomMaze()
             input("\n[INFO] Drücke ENTER um zurückzukehren ...")
 
-            # Wir bleiben im MAZE_GENERATOR_STATE, damit das Menü offen bleibt
             self.current_state = self.MAZE_GENERATOR_STATE
 
         elif selection == "EXECUTE_DFS":
@@ -130,7 +128,6 @@ class MenuNavigator:
             self.current_state = self.MAZE_GENERATOR_STATE
 
         else:
-            # Falls 'b' oder 'q' gewählt wurde, weisen wir den Zustand direkt zu
             self.current_state = selection
 
 

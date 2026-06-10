@@ -12,6 +12,8 @@ class GenerationData:
         self.weakest_maze=weakest_maze
         self.unique_ratio = unique_ratio
 
+
+    #Gibt das volle Datenpaket auf dem Bildschirm aus
     def printFullData(self):
         # ANSI Color Codes
         BOLD = "\033[1m"
@@ -35,6 +37,7 @@ class GenerationData:
         renderer.renderPathInMaze(self.weakest_maze, weakest_path)
         print("\n")
 
+    #Gibt einen übersichtlichen Teil des Datenpakets auf dem Bildschirm aus
     def printReducedData(self):
         # ANSI Color Codes
         BOLD = "\033[1m"

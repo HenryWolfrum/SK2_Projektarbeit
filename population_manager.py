@@ -15,7 +15,7 @@ class PopulationManager:
 
     DEFAULT_MAX_GENERATION=200
 
-    DEFAULT_MUTATION_RATE = 0.2
+    DEFAULT_MUTATION_RATE = 0.4
 
     #Maximale Anzahl an Zellmutationen pro Mutation
     DEFAULT_MUTATION_CELLS_MAX=0.06
@@ -23,10 +23,10 @@ class PopulationManager:
     DEFAULT_MUTATION_CELLS_MIN=0.08
 
     #Anteil der Population der selektiert wird für die nächste Generation
-    DEFAULT_SURVIVOR_RATE = 0.5
+    DEFAULT_SURVIVOR_RATE = 0.3
 
     #Größenanteil einer Teilmenge bei Turnierselektion
-    DEFAULT_TOURNAMENT_SIZE = 2
+    DEFAULT_TOURNAMENT_SIZE = 3
 
     DEFAULT_HYPERPARAMETERS={"mutation_rate":DEFAULT_MUTATION_RATE,
                              "survivor_rate":DEFAULT_SURVIVOR_RATE,
@@ -102,7 +102,7 @@ class PopulationManager:
             generation += 1
 
 
-
+    #Bewertung der Population anhand einer Fitness-Funktion
     def gradePopulation(self):
         fitness_ev = fitness_evaluator.FitnessEvaluator()
 
@@ -112,12 +112,13 @@ class PopulationManager:
 
             self.population[i].setFitness(fitness)
 
-
+    #Selektion der nächsten Generation
     def selectNextPopulation(self,mode=DEFAULT_SELECTION_MODE):
 
+        #Turnierselekton
         tournament_selection = self.tournamentSelection()
 
-        #Fittestes Individuum immer übernehmen
+        #Fittestes Individuum immer übernehmen (Elite)
         fittest_individual=self.population[0]
         for i in range(self.size_pop):
             if self.population[i].fitness > fittest_individual.fitness:
@@ -228,6 +229,7 @@ class PopulationManager:
         #Daten an Observer geben
         package=generation_data.GenerationData(generation,max_fitness,average_fitness,min_fitness,fittest_maze,weakest_maze,unique_ratio)
 
+        #Log Ausgabe falls erwünscht
         if self.log_info:
             if self.log_mode == self.LOG_MODE_REDUCED:
                 package.printReducedData()

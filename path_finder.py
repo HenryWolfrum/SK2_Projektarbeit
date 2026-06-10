@@ -9,7 +9,7 @@ class PathFinder:
     def __init__(self, mode=DEFAULT_MODE):
          self.mode = mode
 
-
+    #Überklasse zur Pfadgenerierung
     def generatePath(self, maze,mode=DEFAULT_MODE):
         if mode == self.MODE_BFS:
             return self.BFS(maze)

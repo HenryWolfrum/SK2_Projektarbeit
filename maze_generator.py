@@ -17,17 +17,19 @@ class MazeGenerator:
     def __init__(self,mode=DEFAULT_MODE):
         self.mode = mode
 
-
+    #Überklasse zur Generierung eines Labyrinths
     def generateMaze(self,size=DEFAULT_SIZE,mode=DEFAULT_MODE):
 
-        if(mode==self.MODE_RANDOM_DFS):
+        if mode==self.MODE_RANDOM_DFS:
             return self.randomizedDFSMaze(size)
 
-        elif(mode==self.MODE_RANDOM):
+        elif mode==self.MODE_RANDOM:
             return self.randomizedMaze(size)
 
-        elif(mode==self.MODE_GENETIC_ALGORITHM):
+        elif mode==self.MODE_GENETIC_ALGORITHM:
             return self.geneticAlgorithmMaze()
+
+        return self.randomizedMaze(size)
 
 
 
@@ -171,5 +173,5 @@ class MazeGenerator:
 
         pop.runPopulation(generations)
 
-
+        #Gib fittestes Individuum zurück
         return analyzer.get_fittest_maze()

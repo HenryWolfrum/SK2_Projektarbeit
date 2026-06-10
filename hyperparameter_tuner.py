@@ -1,6 +1,7 @@
 import maze_generator
 
 # Die Arbeitsfunktion für den einzelnen Kern
+#Evaluiert exakt eine Konfiguration
 def evaluate_single_run(setting):
     mutation_rate, survivor_rate, tournament_size, run_idx = setting
 

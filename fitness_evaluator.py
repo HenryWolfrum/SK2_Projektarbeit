@@ -19,6 +19,7 @@ class FitnessEvaluator:
     def __init__(self):
         self.metric_analyzer = metric_analyzer.MetricAnalyzer()
 
+    #Allgemeine Fitnessfunktion, gibt weiter an spezifische Funktion
     def calcFitness(self,maze,function=DEFAULT_FUNCTION):
 
         if function==self.FUNCTION_BASE:

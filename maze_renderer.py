@@ -52,6 +52,7 @@ class MazeRenderer:
         print(self.LEGEND)
         print("")
 
+    #Hauptmehtode zum Zeichnen des Spielverlaufs
     def renderAgentPathInMaze(self, maze_obj, path_history, coins_pos, collected_coins_pos=None):
         if not path_history:
             self.renderMaze(maze_obj)
@@ -89,32 +90,30 @@ class MazeRenderer:
             for i in range(len(matrix)):
                 pos = (i, j)
 
-                # 1. Höchste Priorität: Start und Ende fest verankern
+                # 1. Start und Ende fest verankern
                 if pos == maze_obj.start:
                     print(self.RENDER_START, end="")
                 elif pos == maze_obj.end:
                     print(self.RENDER_END, end="")
 
-                # 2. Zweite Priorität: Ist hier aktuell der Agent?
+                # 2. Ist hier Agent?
                 elif pos == last_pos:
-                    # Falls der Agent AUF einer eingesammelten Münze steht,
-                    # könnte man hier sogar ein spezielles Symbol nutzen, falls gewünscht.
                     print(self.RENDER_AGENT, end="")
 
-                # 3. Dritte Priorität: Wurde hier jemals eine Münze eingesammelt?
+                # 3. Eingesammelte Münze?
                 elif collected and pos in collected:
                     print(self.RENDER_COIN_COLLECTED, end="")
 
-                # 4. Vierte Priorität: Ist der Agent hier einfach nur langgelaufen?
+                # 4. Pfad?
                 elif pos in path_set:
                     arrow = directions.get(pos, "·")
                     print(self.RENDER_PATH_ARROW.format(arrow), end="")
 
-                # 5. Fünfte Priorität: Liegt hier noch eine unberührte Münze?
+                # 5. Münze?
                 elif pos in remaining:
                     print(self.RENDER_COIN, end="")
 
-                # 6. Letzte Priorität: Einfach nur Wand oder Boden
+                # 6. Wand oder Boden
                 else:
                     print(self.getColorForValue(matrix[i][j]), end="")
 

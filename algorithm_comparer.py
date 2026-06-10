@@ -63,6 +63,7 @@ class AlgorithmComparer:
         self.compare_set = compare_set
         self.compare_function = compare_function or self.DEFAULT_COMPARE_FUNCTION
 
+    #Zur Beschriftung
     def _algo_label(self, algo):
         if algo[0] == "R":
             return "RANDOM"
@@ -88,7 +89,7 @@ class AlgorithmComparer:
         return tasks
 
     def aggregate_results(self, raw_results):
-        # Use string labels as keys instead of raw tuples (tuples with dicts are unhashable)
+
         compare_data = {self._algo_label(alg): [] for alg in self.compare_set}
         for res in raw_results:
             compare_data[self._algo_label(res["algorithm"])].append(res["fitness"])

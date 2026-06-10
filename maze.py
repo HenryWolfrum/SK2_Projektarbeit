@@ -3,13 +3,13 @@ import path_finder
 
 class Maze:
 
-
+    #Labyrinth Werte als Konstanten
     VALUE_EMPTY = "0"
     VALUE_WALL = "1"
     VALUE_START = "2"
     VALUE_END = "3"
 
-
+    #Wertematrix
     matrix=[]
 
 
@@ -66,6 +66,7 @@ class Maze:
             if (row, col) in self.solution_path or len(self.solution_path) == 0:
                 self.solution_path = path_finder.PathFinder().generatePath(self)
 
+    #Setzt die Fitness des Individuums
     def setFitness(self,fitness_value):
 
         if fitness_value ==None:
